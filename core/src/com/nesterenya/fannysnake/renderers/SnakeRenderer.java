@@ -13,4 +13,6 @@ public class SnakeRenderer {
 	public static void render(Snake snake) {
 		//do something
 	}
+	
+	
 }

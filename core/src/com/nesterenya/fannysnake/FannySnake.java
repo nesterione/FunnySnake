@@ -14,6 +14,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Snake;
+import com.nesterenya.fannysnake.feeds.AppleFeed;
+import com.nesterenya.fannysnake.feeds.Feed;
 import com.nesterenya.fannysnake.renderers.SnakeRenderer;
 
 public class FannySnake extends ApplicationAdapter {
@@ -25,6 +27,8 @@ public class FannySnake extends ApplicationAdapter {
 	
 	List<Texture> grasses = new ArrayList<Texture>();
 	List<Point> posOfGrasses = new ArrayList<Point>();
+	Feed feed;
+	
 	
 	@Override
 	public void create () {
@@ -39,6 +43,7 @@ public class FannySnake extends ApplicationAdapter {
 		grasses.add(new Texture("grass01.png"));
 		grasses.add(new Texture("grass02.png"));
 		grasses.add(new Texture("grass03.png"));
+		feed = new AppleFeed(new Texture("feed01.png"));
 		
 		sprite = new Sprite(img);
 		snake = new Snake(new Point(0, 0));
@@ -54,6 +59,8 @@ public class FannySnake extends ApplicationAdapter {
 
 	//TODO плохо
 	Point lastPos = new Point(0,0);
+	int posX=0;
+	int posY=0;
 	
 	@Override
 	public void render () {
@@ -110,6 +117,30 @@ public class FannySnake extends ApplicationAdapter {
 		SnakeRenderer.render(snake);
 		
 		
+		
+		//Render Feed
+		GameContext.getInstance().time +=Gdx.graphics.getDeltaTime();
+		
+		
+		
+		Texture tx = feed.getTexture();
+		
+		if(GameContext.getInstance().time> GameContext.getInstance().nextStep) {
+			GameContext.getInstance().time = 0;
+			Random rand = new Random();
+			posX = rand.nextInt(Gdx.graphics.getWidth()-(int)tx.getWidth());
+			posY = rand.nextInt(Gdx.graphics.getHeight()-(int)tx.getHeight());
+		}
+		
+		batch.begin();
+		
+		if(!(posX==0&&posY==0)) {
+			
+			batch.draw(tx, posX, posY);
+			
+		}
+		
+		batch.end();
 		
 		//batch.draw(headSnake, nodes.get(jj).x, nodes.get(jj).y);
 		//lastX = (int) nodes.get(jj).x;

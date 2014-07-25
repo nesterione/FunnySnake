@@ -11,5 +11,6 @@ public class GameContext {
 	}
 	
 	public float speed = 80.0f;
-	
+	public float time = 5;
+	public float nextStep = 5;	
 }
