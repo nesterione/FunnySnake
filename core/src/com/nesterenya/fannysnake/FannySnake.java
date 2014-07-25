@@ -1,6 +1,11 @@
 package com.nesterenya.fannysnake;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
@@ -18,12 +23,33 @@ public class FannySnake extends ApplicationAdapter {
 	private Snake snake;
 	Sprite sprite;
 	
+	List<Texture> grasses = new ArrayList<Texture>();
+	List<Point> posOfGrasses = new ArrayList<Point>();
+	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("head.png");
+		
+		// Grass Load
+		// TODO переделать все в одну картинку
+		grasses.add(new Texture("grass01.png"));
+		grasses.add(new Texture("grass02.png"));
+		grasses.add(new Texture("grass03.png"));
+		grasses.add(new Texture("grass01.png"));
+		grasses.add(new Texture("grass02.png"));
+		grasses.add(new Texture("grass03.png"));
+		
 		sprite = new Sprite(img);
 		snake = new Snake(new Point(0, 0));
+		
+		Random rand = new Random();
+		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
+		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
+		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
+		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
+		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
+		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
 	}
 
 	//TODO плохо
@@ -67,12 +93,22 @@ public class FannySnake extends ApplicationAdapter {
 		sprite.setPosition(xc, yc);
 		
 		batch.begin();
+		
+		//Grass Drawing
+		for(int i = 0; i < grasses.size(); i++ ) {
+			batch.draw(grasses.get(i), posOfGrasses.get(i).getX() , posOfGrasses.get(i).getY());
+		}
+		
 		sprite.setRotation(snake.getHead().getDirection());
 		sprite.draw(batch);
+		
+		
+		
 		batch.end();
 		
 		
 		SnakeRenderer.render(snake);
+		
 		
 		
 		//batch.draw(headSnake, nodes.get(jj).x, nodes.get(jj).y);
