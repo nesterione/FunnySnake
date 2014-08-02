@@ -10,7 +10,9 @@ public class GameContext {
 		return instance;
 	}
 	
-	public float speed = 80.0f;
+	public float speed = 180.0f;
 	public float time = 5;
-	public float nextStep = 5;	
+	public float nextStep = 5;
+	
+	public int score = 0;
 }

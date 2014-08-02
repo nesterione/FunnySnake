@@ -8,11 +8,12 @@ public class SnakeRenderer {
 		//Don't use this constructor
 	}
 	
-	
-	
 	public static void render(Snake snake) {
 		//do something
 	}
 	
+	private static void renderEndOfTail() {
+		//Drawing end of tail
+	}
 	
 }

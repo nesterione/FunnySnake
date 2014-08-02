@@ -3,6 +3,7 @@ package com.nesterenya.fannysnake.core;
 public class Snake {
 	
 	private Head head;
+	private Tail tail;
 	
 	public void defineHeadDerection(Point currentPositon, Point lastPostion) {
 		
@@ -22,10 +23,14 @@ public class Snake {
 	
 	public Snake(Point initHeadPosition) {
 		head = new Head(initHeadPosition, 0);
+		tail = new Tail(1);
 	}
 	
 	public Head getHead() {
 		return head;
 	}
-	
+
+	public Tail getTail() {
+		return tail;
+	}
 }
