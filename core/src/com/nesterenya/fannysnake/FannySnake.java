@@ -176,19 +176,30 @@ public class FannySnake extends ApplicationAdapter {
 		
 		
 		batch.begin();
-		//for(int i = 0; i < snake.getTail().getPoints().length; i++) {
-			//if(snake.getTail().getPoints()[i])
-		//re.begin(ShapeType.Filled);
-		//re.setColor(new Color(0,1,0,1));
-		for(int i = 0;i < snake.getTail().getIndexesBigBalls().size();i++) {
+		for(int i = 0;i < snake.getTail().getIndexesBigBalls().size()-2;i++) {
 			int idx = snake.getTail().getIndexesBigBalls().get(i);
 			int c_idx = snake.getTail().getPoints().length - idx;
-			
-			//re.circle(snake.getTail().getPoints()[c_idx].getX(), snake.getTail().getPoints()[c_idx].getY(), 25);
 			batch.draw(ball, snake.getTail().getPoints()[c_idx].getX(), snake.getTail().getPoints()[c_idx].getY());
 		}
-		//re.end();
-
+		
+		//Draw two last balls
+		if(snake.getTail().getIndexesBigBalls().size()>=2) {
+		int ii = snake.getTail().getIndexesBigBalls().size()-2;
+		int idx = snake.getTail().getIndexesBigBalls().get(ii);
+		int c_idx = snake.getTail().getPoints().length - idx;
+		batch.draw(ball, 
+				snake.getTail().getPoints()[c_idx].getX(), 
+				snake.getTail().getPoints()[c_idx].getY(),
+				ball.getWidth()*0.8f,ball.getHeight()*0.8f);
+		ii++;
+		idx = snake.getTail().getIndexesBigBalls().get(ii);
+		c_idx = snake.getTail().getPoints().length - idx;
+		batch.draw(ball, 
+				snake.getTail().getPoints()[c_idx].getX(), 
+				snake.getTail().getPoints()[c_idx].getY(),
+				ball.getWidth()*0.7f,ball.getHeight()*0.7f);
+		
+		}
 		batch.end();
 		
 		
