@@ -29,7 +29,7 @@ public class Snake {
 	public Head getHead() {
 		return head;
 	}
-
+		
 	public Tail getTail() {
 		return tail;
 	}

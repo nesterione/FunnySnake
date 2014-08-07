@@ -1,68 +1,63 @@
 package com.nesterenya.fannysnake;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-import sun.dc.pr.PathStroker;
-
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.nesterenya.fannysnake.core.Point;
+import com.nesterenya.fannysnake.core.Size;
 import com.nesterenya.fannysnake.core.Snake;
 import com.nesterenya.fannysnake.feeds.AppleFeed;
 import com.nesterenya.fannysnake.feeds.Feed;
+import com.nesterenya.fannysnake.renderers.DecorationRenderer;
 import com.nesterenya.fannysnake.renderers.SnakeRenderer;
-import com.sun.org.apache.bcel.internal.generic.GETSTATIC;
 
 public class FannySnake extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
+	SpriteBatch batch;	
 	TextureRegionDrawable imgBtn;
 	private Snake snake;
-	Sprite sprite;
-	
-	List<Texture> grasses = new ArrayList<Texture>();
-	List<Point> posOfGrasses = new ArrayList<Point>();
 	Feed feed;
 	private BitmapFont font;
 	private ImageButton pause_btn;
 	
 	TextureRegion tr;
-	
-	
-	Texture ball;
-	
 	Stage stage;
-	
-	private ShapeRenderer re;
-	
+	Texture block;
+	Sprite wallLeft;
+	Sprite wallTop;
+	Sprite wallDown;
+	Sprite wallRight;
 	boolean isPaused = false;
 	
 	@Override
 	public void create () {
+		block = new Texture("block.png");
+		block.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
+		wallLeft = new Sprite(block,0,0,25, 440);
+		wallDown = new Sprite(block,0,0,640, 25);
+		wallTop = new Sprite(block,0,0,640, 25);
+		wallTop.setPosition(0, 415);
+		wallRight = new Sprite(block,0,0,25, 440);
+		wallRight.setPosition(615, 0);
 		
-		ball = new Texture("ball2.png");
-		re = new ShapeRenderer();
-		 stage = new Stage();
-		   Gdx.input.setInputProcessor(stage);
+		
+		stage = new Stage();
+		Gdx.input.setInputProcessor(stage);
 		tr = new TextureRegion(new Texture("ui/pause-icon.png"));
 		imgBtn = new TextureRegionDrawable(tr);
 		
@@ -82,35 +77,14 @@ public class FannySnake extends ApplicationAdapter {
 		});
 	    stage.addActor(pause_btn);
 		//Gdx.input.setInputProcessor(processor);
-		
 		batch = new SpriteBatch();
-		img = new Texture("head.png");
 		
 		//font load 
 		font = new BitmapFont();
 	    font.setColor(Color.RED);
 		
-		// Grass Load
-		// TODO переделать все в одну картинку
-		grasses.add(new Texture("grass01.png"));
-		grasses.add(new Texture("grass02.png"));
-		grasses.add(new Texture("grass03.png"));
-		grasses.add(new Texture("grass01.png"));
-		grasses.add(new Texture("grass02.png"));
-		grasses.add(new Texture("grass03.png"));
 		feed = new AppleFeed(new Texture("feed01.png"));
-		
-		sprite = new Sprite(img);
-		snake = new Snake(new Point(0, 0));
-		
-		Random rand = new Random();
-		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
-		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
-		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
-		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
-		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
-		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
-	
+		snake = new Snake(new Point(200, 200));
 	}
 
 	//TODO плохо
@@ -120,7 +94,7 @@ public class FannySnake extends ApplicationAdapter {
 	
 	@Override
 	public void render () {
-		
+
 		//Move tail
 		snake.getTail().moveTail(new Point( snake.getHead().getPosition().getX(), snake.getHead().getPosition().getY() ));
 		
@@ -150,55 +124,43 @@ public class FannySnake extends ApplicationAdapter {
 		
 		//Event handling
 		float delta = Gdx.graphics.getDeltaTime() * GameContext.getInstance().speed;
+		
 		if(Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) { 
 			//TODO warn
-		    snake.getHead().moveHeadX(-delta); 
+			if((snake.getHead().getPosition().getX()-delta) > 25) {
+				snake.getHead().moveHeadX(-delta); 
+			}
 		}
 		
 		if(Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
-			snake.getHead().moveHeadX(delta); ;
+			
+			if((snake.getHead().getPosition().getX()+delta) < (Gdx.graphics.getWidth()-75)) {
+				snake.getHead().moveHeadX(delta); ;
+			}
 		}
 		
 		if(Gdx.input.isKeyPressed(Keys.DPAD_UP)) {
-			 snake.getHead().moveHeadY(delta); 
+			if((snake.getHead().getPosition().getY()+delta) <(Gdx.graphics.getHeight()- 110)) {
+				snake.getHead().moveHeadY(delta); 
+			}
 		}		
 			
 		if(Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
-			 snake.getHead().moveHeadY(-delta); 
+			if((snake.getHead().getPosition().getY()-delta) >25) {
+				snake.getHead().moveHeadY(-delta); 
+			}
 		}
-		
-		
 		
 		
 		
 		batch.begin();
-		for(int i = 0;i < snake.getTail().getIndexesBigBalls().size()-2;i++) {
-			int idx = snake.getTail().getIndexesBigBalls().get(i);
-			int c_idx = snake.getTail().getPoints().length - idx;
-			batch.draw(ball, snake.getTail().getPoints()[c_idx].getX(), snake.getTail().getPoints()[c_idx].getY());
-		}
+		//batch.draw(block,0,0,50, 400);
 		
-		//Draw two last balls
-		if(snake.getTail().getIndexesBigBalls().size()>=2) {
-		int ii = snake.getTail().getIndexesBigBalls().size()-2;
-		int idx = snake.getTail().getIndexesBigBalls().get(ii);
-		int c_idx = snake.getTail().getPoints().length - idx;
-		batch.draw(ball, 
-				snake.getTail().getPoints()[c_idx].getX(), 
-				snake.getTail().getPoints()[c_idx].getY(),
-				ball.getWidth()*0.8f,ball.getHeight()*0.8f);
-		ii++;
-		idx = snake.getTail().getIndexesBigBalls().get(ii);
-		c_idx = snake.getTail().getPoints().length - idx;
-		batch.draw(ball, 
-				snake.getTail().getPoints()[c_idx].getX(), 
-				snake.getTail().getPoints()[c_idx].getY(),
-				ball.getWidth()*0.7f,ball.getHeight()*0.7f);
-		
-		}
+		wallLeft.draw(batch);
+		wallRight.draw(batch);
+		wallTop.draw(batch);
+		wallDown.draw(batch);
 		batch.end();
-		
-		
 		
 		//Direction calculation
 		Point headPos = snake.getHead().getPosition();
@@ -206,32 +168,16 @@ public class FannySnake extends ApplicationAdapter {
 		
 		float xc = headPos.getX();
 		float yc = headPos.getY();
-		
+		snake.getHead().setPostion(new Point(xc, yc));
 		snake.defineHeadDerection(headPos, lastPos);
 		
-		sprite.setPosition(xc, yc);
 		
-		batch.begin();
-		
-		//Grass Drawing
-		for(int i = 0; i < grasses.size(); i++ ) {
-			
-			batch.draw(grasses.get(i), posOfGrasses.get(i).getX() , posOfGrasses.get(i).getY());
-		}
-		
-		sprite.setRotation(snake.getHead().getDirection());
-		sprite.draw(batch);
-		batch.end();
-		
-		
-		
-		SnakeRenderer.render(snake);
-		
-		
+	
+		DecorationRenderer.grassRender(batch);
+		SnakeRenderer.render(batch, snake);
 		
 		//Render Feed
 		GameContext.getInstance().time +=Gdx.graphics.getDeltaTime();
-
 		Texture tx = feed.getTexture();
 		
 		if(GameContext.getInstance().time> GameContext.getInstance().nextStep) {
@@ -251,7 +197,8 @@ public class FannySnake extends ApplicationAdapter {
 		
 		//Feed eating
 		Point hd = snake.getHead().getPosition();
-		if( ((hd.getX()+img.getWidth())>posX&&((hd.getX())<posX+img.getWidth()))&& ((hd.getY()+img.getHeight())>posY&&((hd.getY())<posY+img.getHeight()))) {
+		Size siz = snake.getHead().getSize();
+		if( ((hd.getX()+siz.getWidth())>posX&&((hd.getX())<posX+siz.getWidth()))&& ((hd.getY()+siz.getHeight())>posY&&((hd.getY())<posY+siz.getHeight()))) {
 			
 			GameContext.getInstance().score++;
 			
@@ -263,8 +210,6 @@ public class FannySnake extends ApplicationAdapter {
 			posY = 0;
 		}
 		}
-
-		
 	}
 	
 	@Override  
