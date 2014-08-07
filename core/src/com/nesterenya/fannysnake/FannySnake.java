@@ -27,7 +27,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Snake;
-import com.nesterenya.fannysnake.debug.PathShower;
 import com.nesterenya.fannysnake.feeds.AppleFeed;
 import com.nesterenya.fannysnake.feeds.Feed;
 import com.nesterenya.fannysnake.renderers.SnakeRenderer;
@@ -48,7 +47,6 @@ public class FannySnake extends ApplicationAdapter {
 	
 	TextureRegion tr;
 	
-	PathShower ps;
 	
 	Texture ball;
 	
@@ -113,7 +111,6 @@ public class FannySnake extends ApplicationAdapter {
 		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
 		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
 	
-		ps = new PathShower(GameContext.getInstance().snakePath);
 	}
 
 	//TODO плохо
@@ -133,7 +130,6 @@ public class FannySnake extends ApplicationAdapter {
 		if(GameContext.getInstance().timeOfRef> GameContext.getInstance().nextRefTime) {
 			GameContext.getInstance().timeOfRef = 0;
 			Point nP = snake.getHead().getPosition();
-			GameContext.getInstance().snakePath.add(new Point(nP.getX(), nP.getY())); 
 		}
 		
 		//Scene init
@@ -267,47 +263,7 @@ public class FannySnake extends ApplicationAdapter {
 			posY = 0;
 		}
 		}
-		
-		
-		
-		//Drawing snake's tail
-		
-		
-		//int snakeSeg = 0;
-		
-		
-		
-		/*while(snakeSeg<snake.getTail().getSize()) {
-			
-			Point tp = GameContext.getInstance().snakePath.getPoingBack(snakeSeg, GameContext.getInstance().disBetweenBalls, snake.getHead().getPosition());
-			
-			batch.begin();
-			batch.draw(ball, tp.getX() , tp.getY());
-			batch.end();
-			
-			snakeSeg++;
-		}*/
-		
-		//drawing end of tail
-		//batch.begin();
-		//Point tp = GameContext.getInstance().snakePath.getPoingBack(snakeSeg++,GameContext.getInstance().disBetweenBalls, snake.getHead().getPosition());
-		//batch.draw(ball, tp.getX() , tp.getY(), ball.getWidth()/1.3f, ball.getHeight()/1.3f);
-		//tp = GameContext.getInstance().snakePath.getPoingBack(snakeSeg,GameContext.getInstance().disBetweenBalls, snake.getHead().getPosition());
-		//batch.draw(ball, tp.getX() , tp.getY(), ball.getWidth()/1.6f, ball.getHeight()/1.6f);
-		
-		//batch.end();
-		
-		//ps.draw();
-		
 
-
-		
-		
-		
-		
-		
-		
-		
 		
 	}
 	
@@ -315,6 +271,5 @@ public class FannySnake extends ApplicationAdapter {
 	public void dispose() {
 		batch.dispose();
         font.dispose();
-        ps.dispose();
 	}
 }

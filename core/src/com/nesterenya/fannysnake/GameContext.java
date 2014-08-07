@@ -21,6 +21,4 @@ public class GameContext {
 	public float disBetweenBalls = 30;
 	
 	public int score = 0;
-	
-	public SnakePath snakePath = new SnakePath();
 }

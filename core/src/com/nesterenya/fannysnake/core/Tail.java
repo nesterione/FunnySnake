@@ -6,39 +6,32 @@ import java.util.Deque;
 import java.util.List;
 
 public class Tail {
-	//private int size;
-	
-	//List<Point> tailPoints = new ArrayList<Point>();
-	//List<Point> offSidePoints;
-	
-	Deque<Point> tailPoints = new ArrayDeque<Point>();
-
-	List<Integer> indexesBigBalls = new ArrayList<Integer>();
-	
-	public Tail(/*int initSize*/) {
-		//this.size = initSize;
-		//offSidePoints = new ArrayList<Point>();	
-	}
-	
+	 
+    private Deque<Point> tailPoints = new ArrayDeque<Point>();
+	private List<Integer> indexesBigBalls = new ArrayList<Integer>();
+	// Start size of tail 2 balls
 	int addingPoints = 2;
-	
-	public void increase() {
-		//float dis = 30;
-		//tailPoints.addLast(newHeadPoint);
-		addingPoints++;
-		
-	}
-	
-	public Point[] getPoints() {
-		
-		Point[] f = tailPoints.toArray(new Point[tailPoints.size()]);
-		return f;
-	}
 	
 	float newLen = 0;
 	float borderLen = 10;
 	
 	float del = 0.1f;
+	
+	public Tail() {
+	}
+	
+	/**
+	 * Add ball to tail
+	 */
+	public void increase() {
+		addingPoints++;
+	}
+	
+	
+	public Point[] getPoints() {	
+		Point[] f = tailPoints.toArray(new Point[tailPoints.size()]);
+		return f;
+	}
 	
 	public void moveTail(Point nextPos) {
 		
@@ -88,9 +81,5 @@ public class Tail {
 	
 	public List<Integer> getIndexesBigBalls() {
 		return indexesBigBalls;
-	}
-	
-	public int getSize() {
-		return tailPoints.size();
 	}
 }
