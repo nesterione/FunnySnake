@@ -20,5 +20,9 @@ public class GameContext {
 	
 	public float disBetweenBalls = 30;
 	
+	public float blinkRate = 5f;
+	public float durationRate = 0.3f;
+	public float blickTime = 0;
+	
 	public int score = 0;
 }

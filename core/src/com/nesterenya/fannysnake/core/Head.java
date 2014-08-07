@@ -5,6 +5,15 @@ public class Head {
 	private Point position;
 	private float direction;
 	private Size size;
+	private boolean isCloseEyes = false;
+	
+	public boolean getIsCloseEyes() {
+		return isCloseEyes;
+	}
+	
+	public void setIsCloseEyes(boolean isCl) {
+		isCloseEyes = isCl;
+	}
 	
 	public Head(Point positon, float direction) {
 		this.position = positon;

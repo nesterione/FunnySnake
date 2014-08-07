@@ -98,13 +98,6 @@ public class FannySnake extends ApplicationAdapter {
 		//Move tail
 		snake.getTail().moveTail(new Point( snake.getHead().getPosition().getX(), snake.getHead().getPosition().getY() ));
 		
-		//Add new point to path of snake
-		GameContext.getInstance().timeOfRef +=Gdx.graphics.getDeltaTime();
-		
-		if(GameContext.getInstance().timeOfRef> GameContext.getInstance().nextRefTime) {
-			GameContext.getInstance().timeOfRef = 0;
-			Point nP = snake.getHead().getPosition();
-		}
 		
 		//Scene init
 		Gdx.gl.glClearColor(0.8f, 1, 0.3f, 1);
@@ -175,6 +168,20 @@ public class FannySnake extends ApplicationAdapter {
 	
 		DecorationRenderer.grassRender(batch);
 		SnakeRenderer.render(batch, snake);
+		
+		GameContext.getInstance().blickTime +=Gdx.graphics.getDeltaTime();
+		
+		if(snake.getHead().getIsCloseEyes()) {
+			if(GameContext.getInstance().blickTime>GameContext.getInstance().durationRate) {
+				snake.getHead().setIsCloseEyes(false);
+				GameContext.getInstance().blickTime = 0;
+			}
+		} else {
+			if(GameContext.getInstance().blickTime>GameContext.getInstance().blinkRate) {
+				snake.getHead().setIsCloseEyes(true);
+				GameContext.getInstance().blickTime = 0;
+			}
+		}
 		
 		//Render Feed
 		GameContext.getInstance().time +=Gdx.graphics.getDeltaTime();

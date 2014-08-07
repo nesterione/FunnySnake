@@ -3,6 +3,7 @@ package com.nesterenya.fannysnake.renderers;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.nesterenya.fannysnake.core.Head;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Snake;
 import com.nesterenya.fannysnake.core.Tail;
@@ -10,12 +11,14 @@ import com.nesterenya.fannysnake.core.Tail;
 public class SnakeRenderer {
 	
 	private static Sprite sprite;
-	private static Texture headTx;
+	private static Sprite closeEyes;
 	private static Texture ball;
 	
 	static {
-		headTx = new Texture("head.png");
+		Texture headTx = new Texture("head.png");
 		sprite = new Sprite(headTx);
+		Texture closeEyesTx = new Texture("headClose.png");
+		closeEyes = new Sprite(closeEyesTx);
 		ball = new Texture("ball2.png");
 	}
 	
@@ -24,18 +27,27 @@ public class SnakeRenderer {
 	}
 	
 	public static void render(SpriteBatch batch, Snake snake) {
-		Point pos = snake.getHead().getPosition();
-		float dir = snake.getHead().getDirection();
-		drawHead(batch, pos, dir);
+		drawHead(batch, snake.getHead());
 		drawTail(batch, snake.getTail());
 	}
 	
-	private static void drawHead(SpriteBatch batch,Point position, float direction) {
-		sprite.setPosition(position.getX(), position.getY());
-		batch.begin();
-		sprite.setRotation(direction);
-		sprite.draw(batch);
-		batch.end();
+	private static void drawHead(SpriteBatch batch,Head head) {
+		
+		if(head.getIsCloseEyes()) {
+			closeEyes.setPosition(head.getPosition().getX(), head.getPosition().getY());
+			batch.begin();
+			closeEyes.setRotation(head.getDirection());
+			closeEyes.draw(batch);
+			batch.end();
+		} else {
+			sprite.setPosition(head.getPosition().getX(), head.getPosition().getY());
+			batch.begin();
+			sprite.setRotation(head.getDirection());
+			sprite.draw(batch);
+			batch.end();
+		}
+		
+		
 	}
 	
 	private static void drawTail(SpriteBatch batch, Tail tail) {
