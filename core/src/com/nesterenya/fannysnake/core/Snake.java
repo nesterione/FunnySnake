@@ -23,7 +23,7 @@ public class Snake {
 	
 	public Snake(Point initHeadPosition) {
 		head = new Head(initHeadPosition, 0);
-		tail = new Tail(1);
+		tail = new Tail();
 	}
 	
 	public Head getHead() {
