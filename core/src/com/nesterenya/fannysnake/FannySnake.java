@@ -87,8 +87,7 @@ public class FannySnake extends ApplicationAdapter {
 		snake = new Snake(new Point(200, 200));
 	}
 
-	//TODO плохо
-	Point lastPos = new Point(0,0);
+
 	int posX=0;
 	int posY=0;
 	
@@ -113,7 +112,7 @@ public class FannySnake extends ApplicationAdapter {
     	//pause_btn.draw(batch, 1.0f);
     	batch.end();
     	
-		lastPos = new Point(snake.getHead().getPosition().getX(),snake.getHead().getPosition().getY());
+		
 		
 		//Event handling
 		float delta = Gdx.graphics.getDeltaTime() * GameContext.getInstance().speed;
@@ -157,15 +156,12 @@ public class FannySnake extends ApplicationAdapter {
 		
 		//Direction calculation
 		Point headPos = snake.getHead().getPosition();
+		//float xc = headPos.getX();
+		//float yc = headPos.getY();
+		//snake.getHead().setPostion(new Point(xc, yc));
 		
+		snake.defineHeadDerection(headPos, snake.getTail().getLastPoint());
 		
-		float xc = headPos.getX();
-		float yc = headPos.getY();
-		snake.getHead().setPostion(new Point(xc, yc));
-		snake.defineHeadDerection(headPos, lastPos);
-		
-		
-	
 		DecorationRenderer.grassRender(batch);
 		SnakeRenderer.render(batch, snake);
 		

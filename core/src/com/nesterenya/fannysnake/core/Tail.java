@@ -79,6 +79,19 @@ public class Tail {
 		}
 	}
 	
+	public Point getLastPoint() {
+		//TODO если пустая будет ошибка
+		//TODO оптимизировать
+		if(tailPoints.size()>=2) {
+			Point p = tailPoints.pollLast();
+			Point preLast = tailPoints.getLast();
+			tailPoints.addLast(p);
+			return preLast;
+		} else {
+			return tailPoints.getLast();
+		}	
+	}
+	
 	public List<Integer> getIndexesBigBalls() {
 		return indexesBigBalls;
 	}

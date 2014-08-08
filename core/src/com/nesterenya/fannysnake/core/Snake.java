@@ -5,8 +5,8 @@ public class Snake {
 	private Head head;
 	private Tail tail;
 	
-	public void defineHeadDerection(Point currentPositon, Point lastPostion) {
 		
+	public void defineHeadDerection(Point currentPositon, Point lastPostion) {
 		float xc = currentPositon.getX();
 		float yc = currentPositon.getY();
 		
@@ -29,7 +29,8 @@ public class Snake {
 	public Head getHead() {
 		return head;
 	}
-		
+	
+	
 	public Tail getTail() {
 		return tail;
 	}
