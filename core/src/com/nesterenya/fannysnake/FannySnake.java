@@ -91,9 +91,16 @@ public class FannySnake extends ApplicationAdapter {
 	int posX=0;
 	int posY=0;
 	
+	
+	int lastKey;
+	
 	@Override
 	public void render () {
 
+		
+		
+		
+		
 		//Move tail
 		snake.getTail().moveTail(new Point( snake.getHead().getPosition().getX(), snake.getHead().getPosition().getY() ));
 		
@@ -120,30 +127,40 @@ public class FannySnake extends ApplicationAdapter {
 		if(Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) { 
 			//TODO warn
 			if((snake.getHead().getPosition().getX()-delta) > 25) {
-				snake.getHead().moveHeadX(-delta); 
+				if(lastKey != Keys.DPAD_RIGHT) {
+					snake.getHead().moveHeadX(-delta); 
+					lastKey = Keys.DPAD_LEFT;
+				}
 			}
 		}
 		
 		if(Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
 			
 			if((snake.getHead().getPosition().getX()+delta) < (Gdx.graphics.getWidth()-75)) {
-				snake.getHead().moveHeadX(delta); ;
+				if(lastKey != Keys.DPAD_LEFT) {
+					snake.getHead().moveHeadX(delta); ;
+					lastKey = Keys.DPAD_RIGHT;
+				}
 			}
 		}
 		
 		if(Gdx.input.isKeyPressed(Keys.DPAD_UP)) {
 			if((snake.getHead().getPosition().getY()+delta) <(Gdx.graphics.getHeight()- 110)) {
-				snake.getHead().moveHeadY(delta); 
+				if(lastKey != Keys.DPAD_DOWN) {
+					snake.getHead().moveHeadY(delta); 
+					lastKey = Keys.DPAD_UP;
+				}
 			}
 		}		
 			
 		if(Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
 			if((snake.getHead().getPosition().getY()-delta) >25) {
-				snake.getHead().moveHeadY(-delta); 
+				if(lastKey != Keys.DPAD_UP) {
+					snake.getHead().moveHeadY(-delta); 
+					lastKey = Keys.DPAD_DOWN;
+				}
 			}
 		}
-		
-		
 		
 		batch.begin();
 		//batch.draw(block,0,0,50, 400);
