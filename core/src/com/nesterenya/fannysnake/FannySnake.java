@@ -1,10 +1,12 @@
 package com.nesterenya.fannysnake;
 
+import java.util.List;
 import java.util.Random;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -43,9 +45,13 @@ public class FannySnake extends ApplicationAdapter {
 	Sprite wallDown;
 	Sprite wallRight;
 	boolean isPaused = false;
+	Sound biteSound;
 	
 	@Override
 	public void create () {
+		
+		biteSound = Gdx.audio.newSound(Gdx.files.internal("sounds/slime3r.wav"));
+		
 		block = new Texture("block.png");
 		block.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 		wallLeft = new Sprite(block,0,0,25, 440);
@@ -54,7 +60,6 @@ public class FannySnake extends ApplicationAdapter {
 		wallTop.setPosition(0, 415);
 		wallRight = new Sprite(block,0,0,25, 440);
 		wallRight.setPosition(615, 0);
-		
 		
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
@@ -220,21 +225,56 @@ public class FannySnake extends ApplicationAdapter {
 		Size siz = snake.getHead().getSize();
 		if( ((hd.getX()+siz.getWidth())>posX&&((hd.getX())<posX+siz.getWidth()))&& ((hd.getY()+siz.getHeight())>posY&&((hd.getY())<posY+siz.getHeight()))) {
 			
+			biteSound.play();
 			GameContext.getInstance().score++;
 			
 			//Growing snake
 			snake.getTail().increase();
-			
+		
 			//Hide feed
 			posX = 0;
 			posY = 0;
 		}
 		}
+		
+		if(isEatHimself(snake)) {
+			GameContext.getInstance().score = -50;
+		}
+		
+	}
+	
+	//TODO сделать проверку не на каждом шаге
+	private static boolean isEatHimself(Snake snake) {
+		boolean isFound = false;
+		/*
+		Point[] points = snake.getTail().getPoints();
+		Point hd = snake.getHead().getPosition();
+		Size siz = snake.getHead().getSize();
+		List<Integer> idxs = snake.getTail().getIndexesBigBalls();
+		
+		
+		
+		for(int i = 1; i < idxs.size()-1&&!isFound; i++) {
+			
+			int idx = snake.getTail().getIndexesBigBalls().get(i);
+			int c_idx = snake.getTail().getPoints().length - idx;
+			
+			float posX = points[c_idx].getX();
+			float posY = points[c_idx].getY();
+			//System.out.println(posX + " " + posY  );
+			if( ((hd.getX()+siz.getWidth())>posX&&((hd.getX())<posX+siz.getWidth()))&& ((hd.getY()+siz.getHeight())>posY&&((hd.getY())<posY+siz.getHeight()))) {
+				isFound=true;
+			}
+			
+		}*/
+		
+		return isFound;
 	}
 	
 	@Override  
 	public void dispose() {
 		batch.dispose();
         font.dispose();
+        biteSound.dispose();
 	}
 }

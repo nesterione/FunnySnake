@@ -27,8 +27,8 @@ public class SnakeRenderer {
 	}
 	
 	public static void render(SpriteBatch batch, Snake snake) {
-		drawHead(batch, snake.getHead());
 		drawTail(batch, snake.getTail());
+		drawHead(batch, snake.getHead());
 	}
 	
 	private static void drawHead(SpriteBatch batch,Head head) {
