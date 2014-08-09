@@ -52,7 +52,8 @@ public class FannySnake extends ApplicationAdapter {
 	Sound bomSound;
 	Sound urg;
 	Music mp3Music;
-	
+	Sprite background;
+	Texture backgr;
 	ShapeRenderer sr;
 	
 	@Override
@@ -73,6 +74,10 @@ public class FannySnake extends ApplicationAdapter {
 		wallTop.setPosition(0, 415);
 		wallRight = new Sprite(block,0,0,25, 440);
 		wallRight.setPosition(615, 0);
+		
+		backgr = new Texture("grassbg.jpg");
+		backgr.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
+		background = new Sprite(backgr,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 		
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
@@ -127,12 +132,14 @@ public class FannySnake extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0.8f, 1, 0.3f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
+		
 		stage.draw();
 		
 		if(!isPaused) {
 		
 		//Score render
 		batch.begin();
+		background.draw(batch);
     	font.draw(batch, "score: " + Integer.toString(GameContext.getInstance().score) , 50, Gdx.graphics.getHeight()-20);
     	//pause_btn.draw(batch, 1.0f);
     	batch.end();
