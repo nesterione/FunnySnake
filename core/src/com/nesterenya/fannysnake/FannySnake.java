@@ -6,6 +6,7 @@ import java.util.Random;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -46,9 +47,14 @@ public class FannySnake extends ApplicationAdapter {
 	Sprite wallRight;
 	boolean isPaused = false;
 	Sound biteSound;
+	Music mp3Music;
 	
 	@Override
 	public void create () {
+		
+		mp3Music = Gdx.audio.newMusic(Gdx.files.internal("music/gametheme.mp3"));
+		mp3Music.play();
+		
 		
 		biteSound = Gdx.audio.newSound(Gdx.files.internal("sounds/slime3r.wav"));
 		
@@ -276,5 +282,6 @@ public class FannySnake extends ApplicationAdapter {
 		batch.dispose();
         font.dispose();
         biteSound.dispose();
+        mp3Music.dispose();
 	}
 }
