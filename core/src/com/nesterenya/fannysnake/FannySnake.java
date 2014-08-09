@@ -16,6 +16,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -47,17 +49,22 @@ public class FannySnake extends ApplicationAdapter {
 	Sprite wallRight;
 	boolean isPaused = false;
 	Sound biteSound;
+	Sound bomSound;
+	Sound urg;
 	Music mp3Music;
+	
+	ShapeRenderer sr;
 	
 	@Override
 	public void create () {
 		
 		mp3Music = Gdx.audio.newMusic(Gdx.files.internal("music/gametheme.mp3"));
 		mp3Music.play();
-		
+		sr = new ShapeRenderer();
 		
 		biteSound = Gdx.audio.newSound(Gdx.files.internal("sounds/slime3r.wav"));
-		
+		bomSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bom.wav"));
+		urg = Gdx.audio.newSound(Gdx.files.internal("sounds/pain.mp3")); 
 		block = new Texture("block.png");
 		block.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 		wallLeft = new Sprite(block,0,0,25, 440);
@@ -130,8 +137,6 @@ public class FannySnake extends ApplicationAdapter {
     	//pause_btn.draw(batch, 1.0f);
     	batch.end();
     	
-		
-		
 		//Event handling
 		float delta = Gdx.graphics.getDeltaTime() * GameContext.getInstance().speed;
 		
@@ -141,7 +146,10 @@ public class FannySnake extends ApplicationAdapter {
 				if(lastKey != Keys.DPAD_RIGHT) {
 					snake.getHead().moveHeadX(-delta); 
 					lastKey = Keys.DPAD_LEFT;
-				}
+				} 
+			} else {
+				bomSound.play();
+				urg.play();
 			}
 		}
 		
@@ -152,6 +160,8 @@ public class FannySnake extends ApplicationAdapter {
 					snake.getHead().moveHeadX(delta); ;
 					lastKey = Keys.DPAD_RIGHT;
 				}
+			} else {
+				bomSound.play();
 			}
 		}
 		
@@ -161,6 +171,8 @@ public class FannySnake extends ApplicationAdapter {
 					snake.getHead().moveHeadY(delta); 
 					lastKey = Keys.DPAD_UP;
 				}
+			} else {
+				bomSound.play();
 			}
 		}		
 			
@@ -169,7 +181,9 @@ public class FannySnake extends ApplicationAdapter {
 				if(lastKey != Keys.DPAD_UP) {
 					snake.getHead().moveHeadY(-delta); 
 					lastKey = Keys.DPAD_DOWN;
-				}
+				} 
+			} else {
+				bomSound.play();
 			}
 		}
 		
@@ -250,9 +264,9 @@ public class FannySnake extends ApplicationAdapter {
 	}
 	
 	//TODO сделать проверку не на каждом шаге
-	private static boolean isEatHimself(Snake snake) {
+	private boolean isEatHimself(Snake snake) {
 		boolean isFound = false;
-		/*
+		
 		Point[] points = snake.getTail().getPoints();
 		Point hd = snake.getHead().getPosition();
 		Size siz = snake.getHead().getSize();
@@ -260,7 +274,7 @@ public class FannySnake extends ApplicationAdapter {
 		
 		
 		
-		for(int i = 1; i < idxs.size()-1&&!isFound; i++) {
+		for(int i = 2; i < idxs.size()-1&&!isFound; i++) {
 			
 			int idx = snake.getTail().getIndexesBigBalls().get(i);
 			int c_idx = snake.getTail().getPoints().length - idx;
@@ -268,11 +282,17 @@ public class FannySnake extends ApplicationAdapter {
 			float posX = points[c_idx].getX();
 			float posY = points[c_idx].getY();
 			//System.out.println(posX + " " + posY  );
-			if( ((hd.getX()+siz.getWidth())>posX&&((hd.getX())<posX+siz.getWidth()))&& ((hd.getY()+siz.getHeight())>posY&&((hd.getY())<posY+siz.getHeight()))) {
+			if( ((hd.getX()+siz.getWidth()/4)>posX&&((hd.getX())<posX+siz.getWidth()/4))&& ((hd.getY()+siz.getHeight()/4)>posY&&((hd.getY())<posY+siz.getHeight()/4))) {
 				isFound=true;
+				urg.play();
 			}
 			
-		}*/
+			/*sr.begin(ShapeType.Filled);
+			sr.setColor(new Color(1, 0, 0, 1));
+			sr.rect(posX+siz.getWidth()/4, posY+siz.getWidth()/4, siz.getWidth()/4, siz.getHeight()/4);
+			sr.end();*/
+			
+		}
 		
 		return isFound;
 	}
@@ -283,5 +303,6 @@ public class FannySnake extends ApplicationAdapter {
         font.dispose();
         biteSound.dispose();
         mp3Music.dispose();
+        bomSound.dispose();
 	}
 }

@@ -64,16 +64,16 @@ public class SnakeRenderer {
 		int idx = tail.getIndexesBigBalls().get(ii);
 		int c_idx = tail.getPoints().length - idx;
 		batch.draw(ball, 
-				tail.getPoints()[c_idx].getX(), 
-				tail.getPoints()[c_idx].getY(),
-				ball.getWidth()*0.8f,ball.getHeight()*0.8f);
+				tail.getPoints()[c_idx].getX()+ball.getWidth()/6, 
+				tail.getPoints()[c_idx].getY()+ball.getHeight()/6,
+				ball.getWidth()/1.4f,ball.getHeight()/1.4f);
 		ii++;
 		idx = tail.getIndexesBigBalls().get(ii);
 		c_idx = tail.getPoints().length - idx;
 		batch.draw(ball, 
-				tail.getPoints()[c_idx].getX(), 
-				tail.getPoints()[c_idx].getY(),
-				ball.getWidth()*0.7f,ball.getHeight()*0.7f);
+				tail.getPoints()[c_idx].getX()+ball.getWidth()/4, 
+				tail.getPoints()[c_idx].getY()+ball.getHeight()/4,
+				ball.getWidth()/2,ball.getHeight()/2);
 		
 		}
 		batch.end();
