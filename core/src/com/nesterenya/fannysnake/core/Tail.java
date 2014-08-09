@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
+
 public class Tail {
 	 
     private Deque<Point> tailPoints = new ArrayDeque<Point>();
@@ -13,9 +15,9 @@ public class Tail {
 	int addingPoints = 2;
 	
 	float newLen = 0;
-	float borderLen = 10;
+	float borderLen = 20;
 	
-	float del = 0.1f;
+	float del = 2f;
 	
 	public Tail() {
 	}
@@ -26,7 +28,6 @@ public class Tail {
 	public void increase() {
 		addingPoints++;
 	}
-	
 	
 	public Point[] getPoints() {	
 		Point[] f = tailPoints.toArray(new Point[tailPoints.size()]);
@@ -49,15 +50,12 @@ public class Tail {
 			if(tailPoints.size()==0) {
 				tailPoints.addLast(nextPos);
 			} else {
-				
-				
-				
+							
 				Point last = tailPoints.getLast();
 				tailPoints.addLast(nextPos);
 				
 				float a = last.getX() - nextPos.getX();
 				float b = last.getY() - nextPos.getY();
-				
 				float c = (float)Math.sqrt(a*a+b*b);
 				
 				newLen+= c;
@@ -73,8 +71,29 @@ public class Tail {
 			
 		} else {
 			if(tailPoints.size()!=0) {
-				tailPoints.removeFirst();
-				tailPoints.addLast(nextPos);
+				
+				Point p1 = tailPoints.getLast();
+				Point p2 = nextPos;
+				float a = p1.getX() - p2.getX();
+				float b = p1.getY() - p2.getY();
+				float L = (float)Math.sqrt(a*a + b*b);
+				
+				int border = (int) Math.ceil(L/del);
+				float stepX = (p2.getX() - p1.getX())/border;
+				float stepY = (p2.getY() - p1.getY())/border;
+				
+				//System.out.println(Math.ceil(L/2));
+				
+				for(int i = 0; i < border; i++ ) {
+					
+					Point pp = tailPoints.getLast();
+					Point newP = new Point(pp.getX() + stepX, pp.getY() + stepY);
+					
+					tailPoints.removeFirst();
+					tailPoints.addLast(newP);
+				}
+				
+				
 			}
 		}
 	}

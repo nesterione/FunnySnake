@@ -194,6 +194,20 @@ public class FannySnake extends ApplicationAdapter {
 			}
 		}
 		
+		
+		/*
+    	float mX = Gdx.input.getAccelerometerY()* GameContext.getInstance().speed;
+    	float mY = Gdx.input.getAccelerometerX()* GameContext.getInstance().speed;
+    	snake.getHead().moveHeadX(mX);
+		snake.getHead().moveHeadY(-mY); 
+					*/
+
+    	
+		//head.x += (int)Gdx.input.getAccelerometerY()*sp;
+		//head.y += -(int)Gdx.input.getAccelerometerX()*sp;
+		
+		
+		
 		batch.begin();
 		//batch.draw(block,0,0,50, 400);
 		
