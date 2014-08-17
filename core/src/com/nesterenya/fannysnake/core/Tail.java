@@ -92,7 +92,32 @@ public class Tail {
 		}	
 	}
 	
-	public List<Integer> getIndexesBigBalls() {
-		return indexesBigBalls;
+	public int getSize() {
+		return indexesBigBalls.size();
+	}
+	
+	public int getIndexOfBall(int numberOfBall) {
+		return indexesBigBalls.get(numberOfBall);
+	}
+	
+	//REFAX
+	public boolean isPointCrossTail(Point hd, Size siz) {
+		boolean isFound = false;	
+		Point[] points = getPoints();
+	
+		for(int i = 2; i < getSize()-1&&!isFound; i++) {
+			
+			int idx = getIndexOfBall(i);
+			int c_idx = getPoints().length - idx;
+			
+			float posX = points[c_idx].getX();
+			float posY = points[c_idx].getY();
+			if( ((hd.getX()+siz.getWidth()/4)>posX&&((hd.getX())<posX+siz.getWidth()/4))&& ((hd.getY()+siz.getHeight()/4)>posY&&((hd.getY())<posY+siz.getHeight()/4))) {
+				isFound=true;
+				
+			}
+		}
+		
+		return isFound;
 	}
 }

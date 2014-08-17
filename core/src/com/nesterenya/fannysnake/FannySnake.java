@@ -1,13 +1,11 @@
 package com.nesterenya.fannysnake;
 
-import java.util.List;
 import java.util.Random;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,8 +15,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -48,24 +44,25 @@ public class FannySnake extends ApplicationAdapter {
 	Sprite wallDown;
 	Sprite wallRight;
 	boolean isPaused = false;
-	Sound biteSound;
-	Sound bomSound;
-	Sound urg;
+	
 	Music mp3Music;
 	Sprite background;
 	Texture backgr;
 	ShapeRenderer sr;
 	
+	SnakeRenderer snakeRenderer;
+	SoundsPlayer soundsPlayer;
+	
 	@Override
 	public void create () {
+		
+		soundsPlayer = new SoundsPlayer();
 		
 		mp3Music = Gdx.audio.newMusic(Gdx.files.internal("music/gametheme.mp3"));
 		mp3Music.play();
 		sr = new ShapeRenderer();
 		
-		biteSound = Gdx.audio.newSound(Gdx.files.internal("sounds/slime3r.wav"));
-		bomSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bom.wav"));
-		urg = Gdx.audio.newSound(Gdx.files.internal("sounds/pain.mp3")); 
+		
 		block = new Texture("block.png");
 		block.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 		wallLeft = new Sprite(block,0,0,25, 440);
@@ -108,6 +105,8 @@ public class FannySnake extends ApplicationAdapter {
 		
 		feed = new AppleFeed(new Texture("feed01.png"));
 		snake = new Snake(new Point(200, 200));
+		
+		snakeRenderer = new SnakeRenderer(batch,snake);
 	}
 
 
@@ -120,10 +119,6 @@ public class FannySnake extends ApplicationAdapter {
 	@Override
 	public void render () {
 
-		
-		
-		
-		
 		//Move tail
 		snake.getTail().moveTail(new Point( snake.getHead().getPosition().getX(), snake.getHead().getPosition().getY() ));
 		
@@ -155,8 +150,8 @@ public class FannySnake extends ApplicationAdapter {
 					lastKey = Keys.DPAD_LEFT;
 				} 
 			} else {
-				bomSound.play();
-				urg.play();
+				soundsPlayer.play(SOUNDS.BOOM);
+				soundsPlayer.play(SOUNDS.OU);
 			}
 		}
 		
@@ -168,7 +163,7 @@ public class FannySnake extends ApplicationAdapter {
 					lastKey = Keys.DPAD_RIGHT;
 				}
 			} else {
-				bomSound.play();
+				soundsPlayer.play(SOUNDS.BOOM);
 			}
 		}
 		
@@ -179,7 +174,7 @@ public class FannySnake extends ApplicationAdapter {
 					lastKey = Keys.DPAD_UP;
 				}
 			} else {
-				bomSound.play();
+				soundsPlayer.play(SOUNDS.BOOM);
 			}
 		}		
 			
@@ -190,7 +185,7 @@ public class FannySnake extends ApplicationAdapter {
 					lastKey = Keys.DPAD_DOWN;
 				} 
 			} else {
-				bomSound.play();
+				soundsPlayer.play(SOUNDS.BOOM);
 			}
 		}
 		
@@ -212,7 +207,8 @@ public class FannySnake extends ApplicationAdapter {
 		snake.defineHeadDerection(headPos, snake.getTail().getLastPoint());
 		
 		DecorationRenderer.grassRender(batch);
-		SnakeRenderer.render(batch, snake);
+		
+		snakeRenderer.render();
 		
 		GameContext.getInstance().blickTime +=Gdx.graphics.getDeltaTime();
 		
@@ -252,7 +248,7 @@ public class FannySnake extends ApplicationAdapter {
 		Size siz = snake.getHead().getSize();
 		if( ((hd.getX()+siz.getWidth())>posX&&((hd.getX())<posX+siz.getWidth()))&& ((hd.getY()+siz.getHeight())>posY&&((hd.getY())<posY+siz.getHeight()))) {
 			
-			biteSound.play();
+			soundsPlayer.play(SOUNDS.BITE);
 			GameContext.getInstance().score++;
 			
 			//Growing snake
@@ -264,52 +260,16 @@ public class FannySnake extends ApplicationAdapter {
 		}
 		}
 		
-		if(isEatHimself(snake)) {
+		if(snake.getTail().isPointCrossTail(snake.getHead().getPosition(), snake.getHead().getSize())) {
 			GameContext.getInstance().score = -50;
+			soundsPlayer.play(SOUNDS.OU);
 		}
 		
-	}
-	
-	//TODO сделать проверку не на каждом шаге
-	private boolean isEatHimself(Snake snake) {
-		boolean isFound = false;
-		
-		Point[] points = snake.getTail().getPoints();
-		Point hd = snake.getHead().getPosition();
-		Size siz = snake.getHead().getSize();
-		List<Integer> idxs = snake.getTail().getIndexesBigBalls();
-		
-		
-		
-		for(int i = 2; i < idxs.size()-1&&!isFound; i++) {
-			
-			int idx = snake.getTail().getIndexesBigBalls().get(i);
-			int c_idx = snake.getTail().getPoints().length - idx;
-			
-			float posX = points[c_idx].getX();
-			float posY = points[c_idx].getY();
-			//System.out.println(posX + " " + posY  );
-			if( ((hd.getX()+siz.getWidth()/4)>posX&&((hd.getX())<posX+siz.getWidth()/4))&& ((hd.getY()+siz.getHeight()/4)>posY&&((hd.getY())<posY+siz.getHeight()/4))) {
-				isFound=true;
-				urg.play();
-			}
-			
-			/*sr.begin(ShapeType.Filled);
-			sr.setColor(new Color(1, 0, 0, 1));
-			sr.rect(posX+siz.getWidth()/4, posY+siz.getWidth()/4, siz.getWidth()/4, siz.getHeight()/4);
-			sr.end();*/
-			
-		}
-		
-		return isFound;
-	}
+	}	
 	
 	@Override  
 	public void dispose() {
 		batch.dispose();
         font.dispose();
-        biteSound.dispose();
-        mp3Music.dispose();
-        bomSound.dispose();
 	}
 }

@@ -1,6 +1,9 @@
 package com.nesterenya.fannysnake.core;
 
-public class Snake {
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+
+public class Snake{
 	
 	private Head head;
 	private Tail tail;
