@@ -1,13 +1,18 @@
 package com.nesterenya.fannysnake.feeds;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.nesterenya.fannysnake.core.Point;
+import com.nesterenya.fannysnake.core.Size;
 
 public class AppleFeed extends Feed{
 	
-	private final Texture texture;
-
-	public AppleFeed(Texture texture) {
-		this.texture = texture;
+	private final Point position;
+	private final Size size;
+	private final String name = "apple";
+	
+	public AppleFeed(Point position, Size size) {
+		this.position = position;
+		this.size = size;
 	}
 	
 	@Override
@@ -17,9 +22,18 @@ public class AppleFeed extends Feed{
 	}
 
 	@Override
-	public Texture getTexture() {
-		
-		return texture;
+	public Point getPosition() {
+		return position;
+	}
+
+	@Override
+	public Size getSize() {
+		return size;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 }

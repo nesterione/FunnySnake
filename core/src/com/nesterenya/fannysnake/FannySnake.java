@@ -26,6 +26,7 @@ import com.nesterenya.fannysnake.core.Snake;
 import com.nesterenya.fannysnake.feeds.AppleFeed;
 import com.nesterenya.fannysnake.feeds.Feed;
 import com.nesterenya.fannysnake.renderers.DecorationRenderer;
+import com.nesterenya.fannysnake.renderers.FeedRenderer;
 import com.nesterenya.fannysnake.renderers.SnakeRenderer;
 
 public class FannySnake extends ApplicationAdapter {
@@ -51,12 +52,16 @@ public class FannySnake extends ApplicationAdapter {
 	ShapeRenderer sr;
 	
 	SnakeRenderer snakeRenderer;
+	FeedRenderer feedRenderer;
 	SoundsPlayer soundsPlayer;
+	FeedController feedController;
 	
 	@Override
 	public void create () {
 		
 		soundsPlayer = new SoundsPlayer();
+		feedController = new FeedController();
+		
 		
 		mp3Music = Gdx.audio.newMusic(Gdx.files.internal("music/gametheme.mp3"));
 		mp3Music.play();
@@ -103,25 +108,88 @@ public class FannySnake extends ApplicationAdapter {
 		font = new BitmapFont();
 	    font.setColor(Color.RED);
 		
-		feed = new AppleFeed(new Texture("feed01.png"));
+		feed = new AppleFeed(new Point(50, 50), new Size(50, 50));
 		snake = new Snake(new Point(200, 200));
 		
 		snakeRenderer = new SnakeRenderer(batch,snake);
+		feedRenderer = new FeedRenderer(batch);
 	}
 
 
-	int posX=0;
-	int posY=0;
 	
 	
 	int lastKey;
 	
+	private void control() {
+		//Event handling
+				float delta = Gdx.graphics.getDeltaTime() * GameContext.getInstance().speed;
+				
+				//ApplicationType type = Gdx.app.getType();
+				//TODO Сделать чтобы при инициировалось управление при запуске приложения, в том числе скорость итд.
+				if(Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) { 
+					//TODO warn
+					if((snake.getHead().getPosition().getX()-delta) > 25) {
+						if(lastKey != Keys.DPAD_RIGHT) {
+							snake.getHead().moveHeadX(-delta); 
+							lastKey = Keys.DPAD_LEFT;
+						} 
+					} else {
+						soundsPlayer.play(SOUNDS.BOOM);
+						soundsPlayer.play(SOUNDS.OU);
+					}
+				}
+				
+				if(Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
+					
+					if((snake.getHead().getPosition().getX()+delta) < (Gdx.graphics.getWidth()-75)) {
+						if(lastKey != Keys.DPAD_LEFT) {
+							snake.getHead().moveHeadX(delta); ;
+							lastKey = Keys.DPAD_RIGHT;
+						}
+					} else {
+						soundsPlayer.play(SOUNDS.BOOM);
+					}
+				}
+				
+				if(Gdx.input.isKeyPressed(Keys.DPAD_UP)) {
+					if((snake.getHead().getPosition().getY()+delta) <(Gdx.graphics.getHeight()- 110)) {
+						if(lastKey != Keys.DPAD_DOWN) {
+							snake.getHead().moveHeadY(delta); 
+							lastKey = Keys.DPAD_UP;
+						}
+					} else {
+						soundsPlayer.play(SOUNDS.BOOM);
+					}
+				}		
+					
+				if(Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
+					if((snake.getHead().getPosition().getY()-delta) >25) {
+						if(lastKey != Keys.DPAD_UP) {
+							snake.getHead().moveHeadY(-delta); 
+							lastKey = Keys.DPAD_DOWN;
+						} 
+					} else {
+						soundsPlayer.play(SOUNDS.BOOM);
+					}
+				}
+				
+				
+				/*
+		    		float mX = Gdx.input.getAccelerometerY()* GameContext.getInstance().speed;
+		    		float mY = Gdx.input.getAccelerometerX()* GameContext.getInstance().speed;
+		    		snake.getHead().moveHeadX(mX);
+					snake.getHead().moveHeadY(-mY); 
+				*/
+
+				//head.x += (int)Gdx.input.getAccelerometerY()*sp;
+				//head.y += -(int)Gdx.input.getAccelerometerX()*sp;
+				
+	}
+	
 	@Override
 	public void render () {
-
 		//Move tail
 		snake.getTail().moveTail(new Point( snake.getHead().getPosition().getX(), snake.getHead().getPosition().getY() ));
-		
 		
 		//Scene init
 		Gdx.gl.glClearColor(0.8f, 1, 0.3f, 1);
@@ -130,7 +198,7 @@ public class FannySnake extends ApplicationAdapter {
 		
 		stage.draw();
 		
-		if(!isPaused) {
+		//if(!isPaused) {
 		
 		//Score render
 		batch.begin();
@@ -139,73 +207,10 @@ public class FannySnake extends ApplicationAdapter {
     	//pause_btn.draw(batch, 1.0f);
     	batch.end();
     	
-		//Event handling
-		float delta = Gdx.graphics.getDeltaTime() * GameContext.getInstance().speed;
-		
-		if(Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) { 
-			//TODO warn
-			if((snake.getHead().getPosition().getX()-delta) > 25) {
-				if(lastKey != Keys.DPAD_RIGHT) {
-					snake.getHead().moveHeadX(-delta); 
-					lastKey = Keys.DPAD_LEFT;
-				} 
-			} else {
-				soundsPlayer.play(SOUNDS.BOOM);
-				soundsPlayer.play(SOUNDS.OU);
-			}
-		}
-		
-		if(Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
-			
-			if((snake.getHead().getPosition().getX()+delta) < (Gdx.graphics.getWidth()-75)) {
-				if(lastKey != Keys.DPAD_LEFT) {
-					snake.getHead().moveHeadX(delta); ;
-					lastKey = Keys.DPAD_RIGHT;
-				}
-			} else {
-				soundsPlayer.play(SOUNDS.BOOM);
-			}
-		}
-		
-		if(Gdx.input.isKeyPressed(Keys.DPAD_UP)) {
-			if((snake.getHead().getPosition().getY()+delta) <(Gdx.graphics.getHeight()- 110)) {
-				if(lastKey != Keys.DPAD_DOWN) {
-					snake.getHead().moveHeadY(delta); 
-					lastKey = Keys.DPAD_UP;
-				}
-			} else {
-				soundsPlayer.play(SOUNDS.BOOM);
-			}
-		}		
-			
-		if(Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
-			if((snake.getHead().getPosition().getY()-delta) >25) {
-				if(lastKey != Keys.DPAD_UP) {
-					snake.getHead().moveHeadY(-delta); 
-					lastKey = Keys.DPAD_DOWN;
-				} 
-			} else {
-				soundsPlayer.play(SOUNDS.BOOM);
-			}
-		}
+		control();
 		
 		
-		/*
-    	float mX = Gdx.input.getAccelerometerY()* GameContext.getInstance().speed;
-    	float mY = Gdx.input.getAccelerometerX()* GameContext.getInstance().speed;
-    	snake.getHead().moveHeadX(mX);
-		snake.getHead().moveHeadY(-mY); 
-					*/
-
-    	
-		//head.x += (int)Gdx.input.getAccelerometerY()*sp;
-		//head.y += -(int)Gdx.input.getAccelerometerX()*sp;
-		
-		
-		
-		batch.begin();
-		//batch.draw(block,0,0,50, 400);
-		
+		batch.begin();		
 		wallLeft.draw(batch);
 		wallRight.draw(batch);
 		wallTop.draw(batch);
@@ -214,16 +219,11 @@ public class FannySnake extends ApplicationAdapter {
 		
 		//Direction calculation
 		Point headPos = snake.getHead().getPosition();
-		//float xc = headPos.getX();
-		//float yc = headPos.getY();
-		//snake.getHead().setPostion(new Point(xc, yc));
-		
 		snake.defineHeadDerection(headPos, snake.getTail().getLastPoint());
-		
+		//TODO заменить на не статик
+		//TODO сделать траву только одного типа
 		DecorationRenderer.grassRender(batch);
-		
 		snakeRenderer.render();
-		
 		GameContext.getInstance().blickTime +=Gdx.graphics.getDeltaTime();
 		
 		if(snake.getHead().getIsCloseEyes()) {
@@ -240,45 +240,42 @@ public class FannySnake extends ApplicationAdapter {
 		
 		//Render Feed
 		GameContext.getInstance().time +=Gdx.graphics.getDeltaTime();
-		Texture tx = feed.getTexture();
 		
 		if(GameContext.getInstance().time> GameContext.getInstance().nextStep) {
 			GameContext.getInstance().time = 0;
 			Random rand = new Random();
-			posX = rand.nextInt(Gdx.graphics.getWidth()-(int)tx.getWidth());
-			posY = rand.nextInt(Gdx.graphics.getHeight()-(int)tx.getHeight());
+			//TODO OMG
+			Point p = new Point(rand.nextInt(Gdx.graphics.getWidth()),rand.nextInt(Gdx.graphics.getHeight()));
+			int siz = rand.nextInt(70)+20;
+			Size s = new Size(siz,siz);
+			feed = new AppleFeed(p,s);
 		}
 		
-		batch.begin();
-		
-		if(!(posX==0&&posY==0)) {
-			batch.draw(tx, posX, posY);
-		}
-		
-		batch.end();
-		
+		feedRenderer.render(feed);
+	
 		//Feed eating
 		Point hd = snake.getHead().getPosition();
 		Size siz = snake.getHead().getSize();
-		if( ((hd.getX()+siz.getWidth())>posX&&((hd.getX())<posX+siz.getWidth()))&& ((hd.getY()+siz.getHeight())>posY&&((hd.getY())<posY+siz.getHeight()))) {
-			
-			soundsPlayer.play(SOUNDS.BITE);
-			GameContext.getInstance().score++;
-			
-			//Growing snake
-			snake.getTail().increase();
 		
-			//Hide feed
-			posX = 0;
-			posY = 0;
-		}
+		if(feed!=null) {
+			Point fPos = feed.getPosition();
+			if( ((hd.getX()+siz.getWidth())>fPos.getX()&&((hd.getX())<fPos.getX()+siz.getWidth()))&& ((hd.getY()+siz.getHeight())>fPos.getY()&&((hd.getY())<fPos.getY()+siz.getHeight()))) {
+				
+				soundsPlayer.play(SOUNDS.BITE);
+				GameContext.getInstance().score++;
+				
+				//Growing snake
+				snake.getTail().increase();
+			
+				//Hide feed
+				feed = null;
+			}
 		}
 		
 		if(snake.getTail().isPointCrossTail(snake.getHead().getPosition(), snake.getHead().getSize())) {
 			GameContext.getInstance().score = -50;
 			soundsPlayer.play(SOUNDS.OU);
 		}
-		
 	}	
 	
 	@Override  
