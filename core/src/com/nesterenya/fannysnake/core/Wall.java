@@ -1,24 +1,22 @@
 package com.nesterenya.fannysnake.core;
 
 public class Wall {
-	private final Point positionOfLeftDownPoint;
-	private final Size size;
+	private final Vpoint positionOfLeftDownPoint;
+	private final Vsize size;
 	
-	public Wall(Point positionOfLeftDownPoint, Size size) {
+	public Wall(Vpoint positionOfLeftDownPoint, Vsize size) {
 		this.positionOfLeftDownPoint = positionOfLeftDownPoint;
 		this.size = size;
 	}
 
-	public Size getSize() {
+	public Vsize getSize() {
 		return size;
 	}
 
-	public Point getPositionOfLeftDownPoint() {
+	public Vpoint getPositionOfLeftDownPoint() {
 		return positionOfLeftDownPoint;
 	}
 	
 	//TODO все параметры хранить в SIZE - Лучше создать тип данных для конвертации размеров
-	
-	
 	
 }

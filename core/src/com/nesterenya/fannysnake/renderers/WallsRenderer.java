@@ -23,8 +23,8 @@ public class WallsRenderer {
 		
 		wallSprites = new ArrayList<Sprite>();
 		for(Wall wall : walls) {
-			Sprite sprite = new Sprite(block, 0,0, (int)wall.getSize().getWidth(), (int)wall.getSize().getHeight());
-			sprite.setPosition(wall.getPositionOfLeftDownPoint().getX(), wall.getPositionOfLeftDownPoint().getY());
+			Sprite sprite = new Sprite(block, 0,0, wall.getSize().getWidth().intValue(), wall.getSize().getHeight().intValue());
+			sprite.setPosition(wall.getPositionOfLeftDownPoint().getX().intValue(), wall.getPositionOfLeftDownPoint().getY().intValue());
 			wallSprites.add(sprite);
 		}
 	}
