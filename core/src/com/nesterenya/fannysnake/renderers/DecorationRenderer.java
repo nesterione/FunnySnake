@@ -1,49 +1,66 @@
 package com.nesterenya.fannysnake.renderers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nesterenya.fannysnake.core.Point;
+import com.nesterenya.fannysnake.core.Size;
+import com.nesterenya.fannysnake.decorations.Decoration;
+import com.nesterenya.fannysnake.decorations.Grass;
 
 public class DecorationRenderer {
+	private final Texture grassTx;
+	private final List<Decoration> decorations;
 	
-	private DecorationRenderer()	{
-		//Don't use this constructor
-	}
+	private final int MIN_SIZE = 20;
+	private final int MAX_SIZE = 80;
 	
-	private static List<Texture> grasses = new ArrayList<Texture>();
-	private static List<Point> posOfGrasses = new ArrayList<Point>();
+	private SpriteBatch batch;
 	
-	static {
-		// TODO переделать все в одну картинку
-		grasses.add(new Texture("grass01.png"));
-		grasses.add(new Texture("grass02.png"));
-		grasses.add(new Texture("grass03.png"));
-		grasses.add(new Texture("grass01.png"));
-		grasses.add(new Texture("grass02.png"));
-		grasses.add(new Texture("grass03.png"));
-		
+	private Map<String, Texture> decorationTextures;
+	
+	public DecorationRenderer(SpriteBatch batch)	{
+		this.batch = batch;
 		Random rand = new Random();
-		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
-		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
-		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
-		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
-		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
-		posOfGrasses.add(new Point(rand.nextInt( Gdx.graphics.getWidth()), rand.nextInt( Gdx.graphics.getHeight())));
+		grassTx = new Texture("grass01.png");
+			
+		decorationTextures = new HashMap<String, Texture>();
+		decorationTextures.put("grass",grassTx);
+		
+		
+		decorations = new ArrayList<Decoration>();
+		int countOfDecor = 10;
+		for(int i = 0; i<countOfDecor; i++)	{
+			//TODO убрать GDX и заменить на свой экран
+			int x = rand.nextInt( Gdx.graphics.getWidth());
+			//TODO убрать GDX и заменить на свой экран
+			int y = rand.nextInt( Gdx.graphics.getHeight());
+			
+			int siz = rand.nextInt(MAX_SIZE - MIN_SIZE) + MIN_SIZE;
+			
+			Grass dec = new Grass(new Point(x,y), new Size(siz, siz));
+			decorations.add(dec);
+		}
 	}
 	
-	public static void grassRender(SpriteBatch batch) {
+	
+	public void render() {
 		
 		batch.begin();
-		for(int i = 0; i < grasses.size(); i++ ) {
+		for(Decoration decoration : decorations ) {
 			
-			batch.draw(grasses.get(i), posOfGrasses.get(i).getX() , posOfGrasses.get(i).getY());
+			batch.draw(decorationTextures.get(decoration.getName()), 
+					decoration.getPositionOfLeftDownPoint().getX(),
+					decoration.getPositionOfLeftDownPoint().getY(),
+					decoration.getSize().getWidth(),
+					decoration.getSize().getHeight());
 		}
-		
 		
 		batch.end();
 	}

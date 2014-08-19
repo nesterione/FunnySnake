@@ -1,6 +1,5 @@
 package com.nesterenya.fannysnake.feeds;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Size;
 

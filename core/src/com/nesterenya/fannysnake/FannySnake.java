@@ -1,7 +1,5 @@
 package com.nesterenya.fannysnake;
 
-import java.util.Random;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -21,10 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.nesterenya.fannysnake.core.Point;
-import com.nesterenya.fannysnake.core.Size;
 import com.nesterenya.fannysnake.core.Snake;
-import com.nesterenya.fannysnake.feeds.AppleFeed;
-import com.nesterenya.fannysnake.feeds.Feed;
 import com.nesterenya.fannysnake.renderers.DecorationRenderer;
 import com.nesterenya.fannysnake.renderers.FeedRenderer;
 import com.nesterenya.fannysnake.renderers.SnakeRenderer;
@@ -55,6 +50,7 @@ public class FannySnake extends ApplicationAdapter {
 	FeedController feedController;
 	WallsController wallsController;
 	WallsRenderer wallsRenderer;
+	DecorationRenderer decorationRenderer;
 	
 	@Override
 	public void create () {
@@ -105,6 +101,7 @@ public class FannySnake extends ApplicationAdapter {
 		snakeRenderer = new SnakeRenderer(batch,snake);
 		feedRenderer = new FeedRenderer(batch);
 		wallsRenderer = new WallsRenderer(batch, wallsController.getListWalls());
+		decorationRenderer = new DecorationRenderer(batch);
 	}
 
 	int lastKey;
@@ -177,16 +174,12 @@ public class FannySnake extends ApplicationAdapter {
 	
 	@Override
 	public void render () {
-		//Move tail
-		snake.getTail().moveTail(new Point( snake.getHead().getPosition().getX(), snake.getHead().getPosition().getY() ));
-		
-		//Scene init
-		Gdx.gl.glClearColor(0.8f, 1, 0.3f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		
-		stage.draw();
-		
+		//Move tail
+		snake.getTail().moveTail(new Point( snake.getHead().getPosition().getX(), snake.getHead().getPosition().getY() ));
+				
+		//stage.draw();
 		//if(!isPaused) {
 		
 		//Score render
@@ -201,15 +194,14 @@ public class FannySnake extends ApplicationAdapter {
 		
 		//Direction calculation
 		Point headPos = snake.getHead().getPosition();
+		//TODO Переместить код в логику самой змейки
 		snake.defineHeadDerection(headPos, snake.getTail().getLastPoint());
-		//TODO заменить на не статик
-		//TODO сделать траву только одного типа
-		DecorationRenderer.grassRender(batch);
 		
+		decorationRenderer.render();
 		wallsRenderer.render();
 		snakeRenderer.render();
-		GameContext.getInstance().blickTime +=Gdx.graphics.getDeltaTime();
 		
+		GameContext.getInstance().blickTime +=Gdx.graphics.getDeltaTime();
 		if(snake.getHead().getIsCloseEyes()) {
 			if(GameContext.getInstance().blickTime>GameContext.getInstance().durationRate) {
 				snake.getHead().setIsCloseEyes(false);
@@ -225,6 +217,8 @@ public class FannySnake extends ApplicationAdapter {
 		//Render Feed
 		feedController.next(Gdx.graphics.getDeltaTime());
 		feedRenderer.render(feedController.getFeed());
+		
+		//TODO разделить метод на 2 и релализовать контроллер для управления этим
 		if(feedController.eatFeedWhenItPossible(snake.getHead())) {
 			soundsPlayer.play(SOUNDS.BITE);
 			GameContext.getInstance().score++;
