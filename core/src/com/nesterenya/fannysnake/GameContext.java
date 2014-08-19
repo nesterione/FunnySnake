@@ -11,9 +11,6 @@ public class GameContext {
 	}
 	
 	public float speed = 180.0f;
-	//public float speed = 2.0f;
-	public float time = 2;
-	public float nextStep = 2;
 	
 	//TODO 
 	public float timeOfRef = 0.15f;

@@ -33,7 +33,7 @@ public class FannySnake extends ApplicationAdapter {
 	SpriteBatch batch;	
 	TextureRegionDrawable imgBtn;
 	private Snake snake;
-	Feed feed;
+	
 	private BitmapFont font;
 	private ImageButton pause_btn;
 	
@@ -108,16 +108,13 @@ public class FannySnake extends ApplicationAdapter {
 		font = new BitmapFont();
 	    font.setColor(Color.RED);
 		
-		feed = new AppleFeed(new Point(50, 50), new Size(50, 50));
+		
 		snake = new Snake(new Point(200, 200));
 		
 		snakeRenderer = new SnakeRenderer(batch,snake);
 		feedRenderer = new FeedRenderer(batch);
 	}
 
-
-	
-	
 	int lastKey;
 	
 	private void control() {
@@ -239,37 +236,12 @@ public class FannySnake extends ApplicationAdapter {
 		}
 		
 		//Render Feed
-		GameContext.getInstance().time +=Gdx.graphics.getDeltaTime();
-		
-		if(GameContext.getInstance().time> GameContext.getInstance().nextStep) {
-			GameContext.getInstance().time = 0;
-			Random rand = new Random();
-			//TODO OMG
-			Point p = new Point(rand.nextInt(Gdx.graphics.getWidth()),rand.nextInt(Gdx.graphics.getHeight()));
-			int siz = rand.nextInt(70)+20;
-			Size s = new Size(siz,siz);
-			feed = new AppleFeed(p,s);
-		}
-		
-		feedRenderer.render(feed);
-	
-		//Feed eating
-		Point hd = snake.getHead().getPosition();
-		Size siz = snake.getHead().getSize();
-		
-		if(feed!=null) {
-			Point fPos = feed.getPosition();
-			if( ((hd.getX()+siz.getWidth())>fPos.getX()&&((hd.getX())<fPos.getX()+siz.getWidth()))&& ((hd.getY()+siz.getHeight())>fPos.getY()&&((hd.getY())<fPos.getY()+siz.getHeight()))) {
-				
-				soundsPlayer.play(SOUNDS.BITE);
-				GameContext.getInstance().score++;
-				
-				//Growing snake
-				snake.getTail().increase();
-			
-				//Hide feed
-				feed = null;
-			}
+		feedController.next(Gdx.graphics.getDeltaTime());
+		feedRenderer.render(feedController.getFeed());
+		if(feedController.eatFeedWhenItPossible(snake.getHead())) {
+			soundsPlayer.play(SOUNDS.BITE);
+			GameContext.getInstance().score++;
+			snake.getTail().increase();
 		}
 		
 		if(snake.getTail().isPointCrossTail(snake.getHead().getPosition(), snake.getHead().getSize())) {
