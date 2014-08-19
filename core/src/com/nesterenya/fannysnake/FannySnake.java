@@ -28,6 +28,7 @@ import com.nesterenya.fannysnake.feeds.Feed;
 import com.nesterenya.fannysnake.renderers.DecorationRenderer;
 import com.nesterenya.fannysnake.renderers.FeedRenderer;
 import com.nesterenya.fannysnake.renderers.SnakeRenderer;
+import com.nesterenya.fannysnake.renderers.WallsRenderer;
 
 public class FannySnake extends ApplicationAdapter {
 	SpriteBatch batch;	
@@ -40,10 +41,7 @@ public class FannySnake extends ApplicationAdapter {
 	TextureRegion tr;
 	Stage stage;
 	Texture block;
-	Sprite wallLeft;
-	Sprite wallTop;
-	Sprite wallDown;
-	Sprite wallRight;
+	
 	boolean isPaused = false;
 	
 	Music mp3Music;
@@ -55,27 +53,20 @@ public class FannySnake extends ApplicationAdapter {
 	FeedRenderer feedRenderer;
 	SoundsPlayer soundsPlayer;
 	FeedController feedController;
+	WallsController wallsController;
+	WallsRenderer wallsRenderer;
 	
 	@Override
 	public void create () {
 		
 		soundsPlayer = new SoundsPlayer();
 		feedController = new FeedController();
-		
+		wallsController = new WallsController();
 		
 		mp3Music = Gdx.audio.newMusic(Gdx.files.internal("music/gametheme.mp3"));
 		mp3Music.play();
 		sr = new ShapeRenderer();
 		
-		
-		block = new Texture("block.png");
-		block.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
-		wallLeft = new Sprite(block,0,0,25, 440);
-		wallDown = new Sprite(block,0,0,640, 25);
-		wallTop = new Sprite(block,0,0,640, 25);
-		wallTop.setPosition(0, 415);
-		wallRight = new Sprite(block,0,0,25, 440);
-		wallRight.setPosition(615, 0);
 		
 		backgr = new Texture("grassbg.jpg");
 		backgr.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
@@ -113,6 +104,7 @@ public class FannySnake extends ApplicationAdapter {
 		
 		snakeRenderer = new SnakeRenderer(batch,snake);
 		feedRenderer = new FeedRenderer(batch);
+		wallsRenderer = new WallsRenderer(batch, wallsController.getListWalls());
 	}
 
 	int lastKey;
@@ -207,19 +199,14 @@ public class FannySnake extends ApplicationAdapter {
 		control();
 		
 		
-		batch.begin();		
-		wallLeft.draw(batch);
-		wallRight.draw(batch);
-		wallTop.draw(batch);
-		wallDown.draw(batch);
-		batch.end();
-		
 		//Direction calculation
 		Point headPos = snake.getHead().getPosition();
 		snake.defineHeadDerection(headPos, snake.getTail().getLastPoint());
 		//TODO заменить на не статик
 		//TODO сделать траву только одного типа
 		DecorationRenderer.grassRender(batch);
+		
+		wallsRenderer.render();
 		snakeRenderer.render();
 		GameContext.getInstance().blickTime +=Gdx.graphics.getDeltaTime();
 		
