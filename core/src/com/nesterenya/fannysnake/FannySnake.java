@@ -201,18 +201,7 @@ public class FannySnake extends ApplicationAdapter {
 		wallsRenderer.render();
 		snakeRenderer.render();
 		
-		GameContext.getInstance().blickTime +=Gdx.graphics.getDeltaTime();
-		if(snake.getHead().getIsCloseEyes()) {
-			if(GameContext.getInstance().blickTime>GameContext.getInstance().durationRate) {
-				snake.getHead().setIsCloseEyes(false);
-				GameContext.getInstance().blickTime = 0;
-			}
-		} else {
-			if(GameContext.getInstance().blickTime>GameContext.getInstance().blinkRate) {
-				snake.getHead().setIsCloseEyes(true);
-				GameContext.getInstance().blickTime = 0;
-			}
-		}
+		snake.getHead().tryBlinkEyes(Gdx.graphics.getDeltaTime());
 		
 		//Render Feed
 		feedController.next(Gdx.graphics.getDeltaTime());

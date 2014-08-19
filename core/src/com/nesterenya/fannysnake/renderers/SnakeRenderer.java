@@ -44,8 +44,7 @@ public class SnakeRenderer {
 	
 	private void drawHead() {
 		
-		boolean isClosed = head.getIsCloseEyes();
-		if(isClosed) drawSpriteHead(headClosedEyesSp);
+		if(head.IsCloseEyes()) drawSpriteHead(headClosedEyesSp);
 		else drawSpriteHead(headSp);
 	}
 	

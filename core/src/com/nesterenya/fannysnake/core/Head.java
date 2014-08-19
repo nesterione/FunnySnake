@@ -5,14 +5,29 @@ public class Head {
 	private Point position;
 	private float direction;
 	private Size size;
-	private boolean isCloseEyes = false;
+	private boolean isCloseEyes;
 	
-	public boolean getIsCloseEyes() {
+	private float blinkRate = 5f;
+	private float durationRate = 0.3f;
+	private float blinkTime = 0;
+	
+	public boolean IsCloseEyes() {
 		return isCloseEyes;
 	}
 	
-	public void setIsCloseEyes(boolean isCl) {
-		isCloseEyes = isCl;
+	public void tryBlinkEyes(float delta) {
+		blinkTime += delta;
+		if(isCloseEyes) {
+			if(blinkTime>durationRate) {
+				isCloseEyes = false;
+				blinkTime = 0;
+			}
+		} else {
+			if(blinkTime>blinkRate) {
+				isCloseEyes = true;
+				blinkTime = 0;
+			}
+		}
 	}
 	
 	public Head(Point positon, float direction) {
