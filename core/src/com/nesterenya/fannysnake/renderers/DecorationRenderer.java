@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nesterenya.fannysnake.GameContext;
@@ -50,12 +49,11 @@ public class DecorationRenderer {
 		}
 	}
 	
-	
 	public void render() {
 		
 		batch.begin();
 		for(Decoration decoration : decorations ) {
-			
+		
 			batch.draw(decorationTextures.get(decoration.getName()), 
 					decoration.getPositionOfLeftDownPoint().getX(),
 					decoration.getPositionOfLeftDownPoint().getY(),

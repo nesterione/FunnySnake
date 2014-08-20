@@ -1,5 +1,6 @@
 package com.nesterenya.fannysnake;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -29,6 +30,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.nesterenya.fannysnake.control.DesktopControl;
+import com.nesterenya.fannysnake.control.MotionControl;
+import com.nesterenya.fannysnake.control.MotionControlCreator;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Snake;
 import com.nesterenya.fannysnake.renderers.DecorationRenderer;
@@ -67,6 +71,7 @@ public class FannySnake extends ApplicationAdapter {
 	Viewport viewport;
 	Array<String> names;
 	String name;
+	BitmapFont messageAboutVersion;
 	
 	private Texture texture;
 	private OrthographicCamera camera;
@@ -95,8 +100,7 @@ public class FannySnake extends ApplicationAdapter {
 	
 	static public Array<String> getViewportNames () {
 		Array<String> names = new Array<String>();
-		//names.add("StretchViewport");
-		//names.add("FillViewport");
+	
 		names.add("FitViewport");
 		names.add("ExtendViewport: no max");
 		names.add("ExtendViewport: max");
@@ -169,9 +173,12 @@ public class FannySnake extends ApplicationAdapter {
 		
 		//font load 
 		font = new BitmapFont();
-	    font.setColor(Color.RED);
+	    font.setColor(Color.WHITE);
 		
-		
+		messageAboutVersion = new BitmapFont();
+		messageAboutVersion.setColor(Color.BLUE);
+		messageAboutVersion.setScale(2);
+	    
 		snake = new Snake(new Point(200, 200));
 		
 		snakeRenderer = new SnakeRenderer(batch,snake);
@@ -190,17 +197,24 @@ public class FannySnake extends ApplicationAdapter {
 				return false;
 			}
 		});
+		
+		ApplicationType type = Gdx.app.getType();
+		control = MotionControlCreator.create(type);
+		
 	}
 
 	int lastKey;
 	
+	MotionControl control;
+	
+	
 	private void control() {
 		//Event handling
-				float delta = Gdx.graphics.getDeltaTime() * GameContext.getInstance().speed;
 				
-				//ApplicationType type = Gdx.app.getType();
+				
+				//
 				//TODO Сделать чтобы при инициировалось управление при запуске приложения, в том числе скорость итд.
-				if(Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) { 
+		/*	if(Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) { 
 					//TODO warn
 					if((snake.getHead().getPosition().getX()-delta) > 25) {
 						if(lastKey != Keys.DPAD_RIGHT) {
@@ -212,6 +226,8 @@ public class FannySnake extends ApplicationAdapter {
 						soundsPlayer.play(SOUNDS.OU);
 					}
 				}
+				
+				
 				
 				if(Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
 					
@@ -226,7 +242,7 @@ public class FannySnake extends ApplicationAdapter {
 				}
 				
 				if(Gdx.input.isKeyPressed(Keys.DPAD_UP)) {
-					if((snake.getHead().getPosition().getY()+delta) <(GameContext.getInstance().disp.getHeight()- 110)) {
+					if((snake.getHead().getPosition().getY()+delta) <(GameContext.getInstance().disp.getHeight()- 75)) {
 						if(lastKey != Keys.DPAD_DOWN) {
 							snake.getHead().moveHeadY(delta); 
 							lastKey = Keys.DPAD_UP;
@@ -245,7 +261,7 @@ public class FannySnake extends ApplicationAdapter {
 					} else {
 						soundsPlayer.play(SOUNDS.BOOM);
 					}
-				}
+				}*/
 				
 				
 				/*
@@ -276,10 +292,18 @@ public class FannySnake extends ApplicationAdapter {
 		background.draw(batch);
     	font.draw(batch, "score: " + Integer.toString(GameContext.getInstance().score) , 50, GameContext.getInstance().disp.getHeight()-20);
     	//pause_btn.draw(batch, 1.0f);
+    	messageAboutVersion.draw(batch, "Alpha " , 100, 300);
+    	messageAboutVersion.draw(batch, "@igor.nesterenya " , 200, 200);
     	batch.end();
     	
-		control();
-		
+    	control.update(Gdx.graphics.getDeltaTime());
+    	if(wallsController.checkPosiableMoving(snake, control.getOffsetX(), control.getOffsetY())) {
+    		snake.getHead().moveHead(control.getOffsetX(), control.getOffsetY());
+    	} else {
+    		soundsPlayer.play(SOUNDS.BOOM);
+			soundsPlayer.play(SOUNDS.OU);
+    	}
+    	
 		//Direction calculation
 		Point headPos = snake.getHead().getPosition();
 		//TODO Переместить код в логику самой змейки

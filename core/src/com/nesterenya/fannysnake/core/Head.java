@@ -44,6 +44,11 @@ public class Head {
 		this.position = position;
 	}
 	
+	public void moveHead(float deltaX, float deltaY) {
+		moveHeadX(deltaX);
+		moveHeadY(deltaY);
+	}
+	
 	public void moveHeadX(float delta) {
 		position.setX( position.getX() + delta );
 	}
