@@ -77,7 +77,7 @@ public class FannySnake extends ApplicationAdapter {
 	private OrthographicCamera camera;
 	
 	static public Array<Viewport> getViewports (Camera camera) {
-		int minWorldWidth = 640;
+		int minWorldWidth = 800;
 		int minWorldHeight = 480;
 		int maxWorldWidth = 800;
 		int maxWorldHeight = 480;
@@ -113,7 +113,7 @@ public class FannySnake extends ApplicationAdapter {
 	@Override
 	public void create () {
 		
-		GameContext.getInstance().disp = new Rectangle(0, 0, 640, 480);
+		GameContext.getInstance().disp = new Rectangle(0, 0, 800, 480);
 		Pixmap pixmap = new Pixmap(16, 16, Format.RGBA8888);
 		pixmap.setColor(0, 0, 0, 1);
 		pixmap.fill();

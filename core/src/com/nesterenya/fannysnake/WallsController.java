@@ -16,9 +16,9 @@ public class WallsController {
 		
 		//TODO убрать эти неясные размеры
 		Wall left = new Wall(new Point(0,25), new Size(25,430));
-		Wall down = new Wall(new Point(0,0), new Size(640,25));
-		Wall up = new Wall(new Point(0,455), new Size(640,25));
-		Wall right = new Wall(new Point(615,25), new Size(25,430));
+		Wall down = new Wall(new Point(0,0), new Size(840,25));
+		Wall up = new Wall(new Point(0,455), new Size(840,25));
+		Wall right = new Wall(new Point(775,25), new Size(25,430));
 		
 		walls = new ArrayList<Wall>();
 		walls.add(left);
