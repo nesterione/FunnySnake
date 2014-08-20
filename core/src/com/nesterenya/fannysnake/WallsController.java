@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Size;
-import com.nesterenya.fannysnake.core.Vpoint;
-import com.nesterenya.fannysnake.core.Vsize;
 import com.nesterenya.fannysnake.core.Wall;
 
 public class WallsController {
@@ -15,10 +13,10 @@ public class WallsController {
 	
 	public WallsController() {
 		
-		Wall left = new Wall(new Vpoint(0,0), new Vsize(25,440));
-		Wall down = new Wall(new Vpoint(0,0), new Vsize(640,25));
-		Wall up = new Wall(new Vpoint(0,415), new Vsize(640,25));
-		Wall right = new Wall(new Vpoint(615,0), new Vsize(25,440));
+		Wall left = new Wall(new Point(0,0), new Size(25,440));
+		Wall down = new Wall(new Point(0,0), new Size(640,25));
+		Wall up = new Wall(new Point(0,415), new Size(640,25));
+		Wall right = new Wall(new Point(615,0), new Size(25,440));
 		
 		walls = new ArrayList<Wall>();
 		walls.add(left);

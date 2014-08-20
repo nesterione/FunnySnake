@@ -2,7 +2,6 @@ package com.nesterenya.fannysnake;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
@@ -11,27 +10,13 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
-import com.badlogic.gdx.graphics.VertexAttributes.Usage;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g3d.Environment;
-import com.badlogic.gdx.graphics.g3d.Material;
-import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.ModelBatch;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -40,15 +25,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Snake;
-import com.nesterenya.fannysnake.core.Vpixel;
 import com.nesterenya.fannysnake.renderers.DecorationRenderer;
 import com.nesterenya.fannysnake.renderers.FeedRenderer;
 import com.nesterenya.fannysnake.renderers.SnakeRenderer;
@@ -81,22 +63,12 @@ public class FannySnake extends ApplicationAdapter {
 	WallsRenderer wallsRenderer;
 	DecorationRenderer decorationRenderer;
 	
-	
-	//private static final int VIRTUAL_WIDTH = 640;
-    //private static final int VIRTUAL_HEIGHT = 480;
-    //private static final float ASPECT_RATIO = (float)VIRTUAL_WIDTH/(float)VIRTUAL_HEIGHT;
-
-    //private Camera camera;
-    //private Rectangle viewport;
-   // private Viewport viewport;
 	Array<Viewport> viewports;
 	Viewport viewport;
 	Array<String> names;
 	String name;
 	
-	//private SpriteBatch batch;
 	private Texture texture;
-	//private BitmapFont font;
 	private OrthographicCamera camera;
 	
 	static public Array<Viewport> getViewports (Camera camera) {
@@ -105,7 +77,7 @@ public class FannySnake extends ApplicationAdapter {
 		int maxWorldWidth = 800;
 		int maxWorldHeight = 480;
 
-		Array<Viewport> viewports = new Array();
+		Array<Viewport> viewports = new Array<Viewport>();
 		//viewports.add(new StretchViewport(minWorldWidth, minWorldHeight, camera));
 		//viewports.add(new FillViewport(minWorldWidth, minWorldHeight, camera));
 		viewports.add(new FitViewport(minWorldWidth, minWorldHeight, camera));
@@ -122,7 +94,7 @@ public class FannySnake extends ApplicationAdapter {
 	}
 	
 	static public Array<String> getViewportNames () {
-		Array<String> names = new Array();
+		Array<String> names = new Array<String>();
 		//names.add("StretchViewport");
 		//names.add("FillViewport");
 		names.add("FitViewport");
@@ -155,31 +127,9 @@ public class FannySnake extends ApplicationAdapter {
 		names = FannySnake.getViewportNames();
 		name = names.first();
 		
-		//camera = new OrthographicCamera(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
-		//camera = new PerspectiveCamera();
-	    //viewport = new FitViewport(640, 480, camera); //800,640
-		
 		//disp magic
 		//Gdx.graphics.setDisplayMode(640, 480, false);
-		
-		
 		Gdx.graphics.setDisplayMode(1280, 720, false);
-		// int  SCREEN_HEIGHT = Gdx.graphics.getHeight();
-		//int SCREEN_WIDTH = (int) (SCREEN_HEIGHT * (640/480));
-		//Vpixel.setPixelMultiplier(Gdx.graphics.getHeight()/480.0f);
-		//System.out.println(Gdx.graphics.getHeight());
-		//Screen.width/size.x,Screen.height/size.y
-		//int  SCREEN_HEIGHT = Gdx.graphics.getHeight();
-		//int SCREEN_WIDTH = (int) (SCREEN_HEIGHT * (640/480));
-			
-		//Gdx.gl20.glViewport(0, 0, 640, 480);
-		//OrthographicCamera c = new OrthographicCamera();
-		
-		
-		//GameContext.getInstance().disp.getWidth();
-		
-		
-		
 		
 		soundsPlayer = new SoundsPlayer();
 		feedController = new FeedController();
@@ -228,8 +178,6 @@ public class FannySnake extends ApplicationAdapter {
 		feedRenderer = new FeedRenderer(batch);
 		wallsRenderer = new WallsRenderer(batch, wallsController.getListWalls());
 		decorationRenderer = new DecorationRenderer(batch);
-		
-		//this.resize(640, 480);
 		
 		Gdx.input.setInputProcessor(new InputAdapter() {
 			public boolean keyDown (int keycode) {
@@ -319,29 +267,10 @@ public class FannySnake extends ApplicationAdapter {
 
 		//Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		/*camera = new OrthographicCamera();
-		
 
-	
-		camera.update();
-
-        // set viewport
-       Gdx.gl.glViewport((int) viewport.x, (int) viewport.y,
-                          (int) viewport.width, (int) viewport.height);
-       // Gdx.gl20.glViewport(0, 0, 1280, 720);
-        
-        // clear previous frame*/
-
-       // Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
-
-		
 		//Move tail
 		snake.getTail().moveTail(new Point( snake.getHead().getPosition().getX(), snake.getHead().getPosition().getY() ));
 				
-		//stage.draw();
-		//if(!isPaused) {
-		
 		//Score render
 		batch.begin();
 		background.draw(batch);
@@ -350,7 +279,6 @@ public class FannySnake extends ApplicationAdapter {
     	batch.end();
     	
 		control();
-		
 		
 		//Direction calculation
 		Point headPos = snake.getHead().getPosition();

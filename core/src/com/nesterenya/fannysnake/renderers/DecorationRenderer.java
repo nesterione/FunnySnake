@@ -9,6 +9,7 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.nesterenya.fannysnake.GameContext;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Size;
 import com.nesterenya.fannysnake.decorations.Decoration;
@@ -38,9 +39,9 @@ public class DecorationRenderer {
 		int countOfDecor = 10;
 		for(int i = 0; i<countOfDecor; i++)	{
 			//TODO убрать GDX и заменить на свой экран
-			int x = rand.nextInt( Gdx.graphics.getWidth());
+			int x = rand.nextInt((int) GameContext.getInstance().disp.getWidth());
 			//TODO убрать GDX и заменить на свой экран
-			int y = rand.nextInt( Gdx.graphics.getHeight());
+			int y = rand.nextInt((int) GameContext.getInstance().disp.getHeight());
 			
 			int siz = rand.nextInt(MAX_SIZE - MIN_SIZE) + MIN_SIZE;
 			

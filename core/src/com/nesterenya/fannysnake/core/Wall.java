@@ -1,19 +1,19 @@
 package com.nesterenya.fannysnake.core;
 
 public class Wall {
-	private final Vpoint positionOfLeftDownPoint;
-	private final Vsize size;
+	private final Point positionOfLeftDownPoint;
+	private final Size size;
 	
-	public Wall(Vpoint positionOfLeftDownPoint, Vsize size) {
+	public Wall(Point positionOfLeftDownPoint, Size size) {
 		this.positionOfLeftDownPoint = positionOfLeftDownPoint;
 		this.size = size;
 	}
 
-	public Vsize getSize() {
+	public Size getSize() {
 		return size;
 	}
 
-	public Vpoint getPositionOfLeftDownPoint() {
+	public Point getPositionOfLeftDownPoint() {
 		return positionOfLeftDownPoint;
 	}
 	

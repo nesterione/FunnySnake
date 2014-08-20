@@ -33,7 +33,7 @@ public class FeedController {
 		if(currentTime> nextStepTime) {
 			currentTime = 0;
 			//TODO убрать Gdx.graphics и заменить на переменную указываю реальный диапозон
-			Point p = new Point(rand.nextInt(Gdx.graphics.getWidth()),rand.nextInt(Gdx.graphics.getHeight()));
+			Point p = new Point(rand.nextInt((int)GameContext.getInstance().disp.getWidth()),rand.nextInt((int)GameContext.getInstance().disp.getHeight()));
 			int siz = rand.nextInt(maxSize - minSize) + minSize;
 			Size s = new Size(siz,siz);
 			feed = new AppleFeed(p,s);
