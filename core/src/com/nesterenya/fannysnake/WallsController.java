@@ -36,13 +36,14 @@ public class WallsController {
 		
 		Point phead = snake.getHead().getPosition();
 		Point pNext = new Point(phead.getX()+offX, phead.getY()+offY);
+		float rad = snake.getHead().getRadius();
 		
 		for(Wall wall : walls) {
 			Point p1 = wall.getPositionOfLeftDownPoint();
 			Point p2 = new Point(p1.getX()+ wall.getSize().getWidth(), p1.getY()+ wall.getSize().getHeight());
 			
-			boolean isX = (p1.getX() < pNext.getX()) && (pNext.getX() < p2.getX());
-			boolean isY = (p1.getY() < pNext.getY()) && (pNext.getY() < p2.getY());
+			boolean isX = (p1.getX() < (pNext.getX()+rad)) && ((pNext.getX()-rad) < p2.getX());
+			boolean isY = (p1.getY() < (pNext.getY()+rad)) && ((pNext.getY()-rad) < p2.getY());
 			if(isX&&isY) {
 				isPosiable = false;
 				break;

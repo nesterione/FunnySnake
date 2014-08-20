@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
-
+//TODO refactor this class
 public class Tail {
 	 
     private Deque<Point> tailPoints = new ArrayDeque<Point>();
@@ -20,6 +19,10 @@ public class Tail {
 	float del = 2f;
 	
 	public Tail() {
+	}
+	//TODO сделать по другому
+	public float getRadius() {
+		return 25;
 	}
 	
 	/**
@@ -119,7 +122,7 @@ public class Tail {
 		return indexesBigBalls.get(numberOfBall);
 	}
 	
-	//REFAX
+	//TODO REFAX
 	public boolean isPointCrossTail(Point hd, Size siz) {
 		boolean isFound = false;	
 		Point[] points = getPoints();

@@ -15,6 +15,13 @@ public class Head {
 		return isCloseEyes;
 	}
 	
+	
+	private float radius;
+	
+	public float getRadius() {
+		return radius;
+	}
+	
 	public void tryBlinkEyes(float delta) {
 		blinkTime += delta;
 		if(isCloseEyes) {
@@ -34,6 +41,7 @@ public class Head {
 		this.position = positon;
 		this.direction = direction;
 		this.size = new Size(50, 50);
+		this.radius = 25;
 	}
 	
 	public Point getPosition() {
