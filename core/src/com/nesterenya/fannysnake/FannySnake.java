@@ -239,8 +239,6 @@ public class FannySnake extends ApplicationAdapter {
     	}
     	
     	
-    	
-    	
 		//Direction calculation
 		Point headPos = snake.getHead().getPosition();
 		//TODO Переместить код в логику самой змейки

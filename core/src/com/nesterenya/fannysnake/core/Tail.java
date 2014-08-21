@@ -12,6 +12,7 @@ public class Tail {
 	private List<Integer> indexesBigBalls = new ArrayList<Integer>();
 	// Start size of tail 2 balls
 	int addingPoints = 2;
+	int removingPoints = 0;
 	
 	float newLen = 0;
 	float borderLen = 30;
@@ -33,7 +34,11 @@ public class Tail {
 	}
 	
 	public void reduction() {
-		//indexesBigBalls.remove(indexesBigBalls.size()-1);
+		if(indexesBigBalls.size()>2) {
+			removingPoints++;
+		} else {
+			//TODO dead snake show message
+		}
 	}
 	
 	public Point[] getPoints() {	
@@ -41,7 +46,18 @@ public class Tail {
 		return f;
 	}
 	
+	//TODO где-то баг, проявляется на андроиде, пригает растояние между шариками
 	public void moveTail(Point nextPos) {
+		
+		if(removingPoints>0) {
+			Integer pre = indexesBigBalls.get(indexesBigBalls.size()-2);
+			
+			while(tailPoints.size()> pre) {
+				tailPoints.removeFirst();
+			}		
+			indexesBigBalls.remove(indexesBigBalls.size()-1);
+			removingPoints--;
+		}
 		
 		if(tailPoints.size()!=0) {
 			float aa = nextPos.getX() - tailPoints.getLast().getX();

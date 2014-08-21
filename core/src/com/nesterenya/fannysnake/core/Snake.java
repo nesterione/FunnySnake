@@ -52,6 +52,7 @@ public class Snake{
 		if(voiceRecharge>voiceRechargedWhen) {
 			soundsPlayer.play(SOUNDS.BOOM);
 			soundsPlayer.play(SOUNDS.OU);
+			tail.reduction();
 			voiceRecharge = 0;
 		}
 	}
