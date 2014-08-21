@@ -232,12 +232,17 @@ public class FannySnake extends ApplicationAdapter {
     	control.update(Gdx.graphics.getDeltaTime());
     	snake.update(Gdx.graphics.getDeltaTime());
     	
-    	if(wallsController.checkPosiableMoving(snake, control.getOffsetX(), control.getOffsetY())) {
-    		snake.getHead().moveHead(control.getOffsetX(), control.getOffsetY());
+    	if(wallsController.checkPosiableMovingX(snake, control.getOffsetX())) {
+    		snake.getHead().moveHeadX(control.getOffsetX());
     	} else {
     		snake.reactionOnWall(soundsPlayer);
     	}
     	
+    	if(wallsController.checkPosiableMovingY(snake, control.getOffsetY())) {
+    		snake.getHead().moveHeadY(control.getOffsetY());
+    	} else {
+    		snake.reactionOnWall(soundsPlayer);
+    	}
     	
 		//Direction calculation
 		Point headPos = snake.getHead().getPosition();

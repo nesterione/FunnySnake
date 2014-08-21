@@ -31,26 +31,52 @@ public class WallsController {
 		return walls;
 	}
 	
-	public boolean checkPosiableMoving(Snake snake, float offX, float offY) {
+	public boolean checkPosiableMovingX(Snake snake, float offX) {
 		boolean isPosiable = true;
 		
 		Point phead = snake.getHead().getPosition();
-		Point pNext = new Point(phead.getX()+offX, phead.getY()+offY);
+		Point pNext = new Point(phead.getX()+offX, phead.getY());
 		float rad = snake.getHead().getRadius();
 		
 		for(Wall wall : walls) {
 			Point p1 = wall.getPositionOfLeftDownPoint();
 			Point p2 = new Point(p1.getX()+ wall.getSize().getWidth(), p1.getY()+ wall.getSize().getHeight());
 			
-			boolean isX = (p1.getX() < (pNext.getX()+rad)) && ((pNext.getX()-rad) < p2.getX());
-			boolean isY = (p1.getY() < (pNext.getY()+rad)) && ((pNext.getY()-rad) < p2.getY());
-			if(isX&&isY) {
+			boolean noPosiableX = (p1.getX() < (pNext.getX()+rad)) && ((pNext.getX()-rad) < p2.getX());
+			boolean noPosiableY = (p1.getY() < (pNext.getY()+rad)) && ((pNext.getY()-rad) < p2.getY());
+			if(noPosiableX&&noPosiableY) {
 				isPosiable = false;
 				break;
 			}
-			
 		}
 		
+		return isPosiable;
+	}
+	
+	public boolean checkPosiableMovingY(Snake snake, float offY) {
+		boolean isPosiable = true;
+		
+		Point phead = snake.getHead().getPosition();
+		Point pNext = new Point(phead.getX(), phead.getY()+offY);
+		float rad = snake.getHead().getRadius();
+		
+		for(Wall wall : walls) {
+			Point p1 = wall.getPositionOfLeftDownPoint();
+			Point p2 = new Point(p1.getX()+ wall.getSize().getWidth(), p1.getY()+ wall.getSize().getHeight());
+			
+			boolean noPosiableX = (p1.getX() < (pNext.getX()+rad)) && ((pNext.getX()-rad) < p2.getX());
+			boolean noPosiableY = (p1.getY() < (pNext.getY()+rad)) && ((pNext.getY()-rad) < p2.getY());
+			if(noPosiableX&&noPosiableY) {
+				isPosiable = false;
+				break;
+			}
+		}
+		
+		return isPosiable;
+	}
+	
+	public boolean checkPosiableMoving(Snake snake, float offX, float offY) {
+		boolean isPosiable = checkPosiableMovingX(snake, offX)||checkPosiableMovingY(snake, offY);
 		return isPosiable;
 	}
 }
