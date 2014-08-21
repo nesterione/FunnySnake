@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -41,7 +42,7 @@ import com.nesterenya.fannysnake.renderers.FeedRenderer;
 import com.nesterenya.fannysnake.renderers.SnakeRenderer;
 import com.nesterenya.fannysnake.renderers.WallsRenderer;
 
-public class FannySnake extends ApplicationAdapter {
+public class FannySnake implements Screen {
 	SpriteBatch batch;	
 	TextureRegionDrawable imgBtn;
 	private Snake snake;
@@ -111,9 +112,9 @@ public class FannySnake extends ApplicationAdapter {
 		return names;
 	}
 	
-	@Override
-	public void create () {
-		
+	//@Override
+	//public void create () {
+		public FannySnake(){
 		GameContext.getInstance().disp = new Rectangle(0, 0, 800, 480);
 		Pixmap pixmap = new Pixmap(16, 16, Format.RGBA8888);
 		pixmap.setColor(0, 0, 0, 1);
@@ -133,8 +134,8 @@ public class FannySnake extends ApplicationAdapter {
 		name = names.first();
 		
 		//disp magic
-		//Gdx.graphics.setDisplayMode(640, 480, false);
-		Gdx.graphics.setDisplayMode(1280, 720, false);
+		Gdx.graphics.setDisplayMode(640, 480, false);
+		//Gdx.graphics.setDisplayMode(1280, 720, false);
 		
 		soundsPlayer = new SoundsPlayer();
 		feedController = new FeedController();
@@ -210,7 +211,7 @@ public class FannySnake extends ApplicationAdapter {
 	MotionControl control;
 	
 	@Override
-	public void render () {
+	public void render (float delta) {
 		batch.setProjectionMatrix(camera.projection);
 		batch.setTransformMatrix(camera.view);
 		shr.setProjectionMatrix(camera.projection);
@@ -228,9 +229,10 @@ public class FannySnake extends ApplicationAdapter {
     	messageAboutVersion.draw(batch, "Alpha " , 100, 300);
     	messageAboutVersion.draw(batch, "@igor.nesterenya " , 200, 200);
     	batch.end();
-    	
-    	control.update(Gdx.graphics.getDeltaTime());
-    	snake.update(Gdx.graphics.getDeltaTime());
+    	//Gdx.graphics.getDeltaTime()
+    	control.update(delta);
+    	//Gdx.graphics.getDeltaTime()
+    	snake.update(delta);
     	
     	if(wallsController.checkPosiableMovingX(snake, control.getOffsetX())) {
     		snake.getHead().moveHeadX(control.getOffsetX());
@@ -316,5 +318,29 @@ public class FannySnake extends ApplicationAdapter {
 	public void dispose() {
 		batch.dispose();
         font.dispose();
+	}
+
+	@Override
+	public void show() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+		
 	}
 }
