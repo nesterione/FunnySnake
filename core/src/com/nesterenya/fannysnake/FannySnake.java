@@ -213,11 +213,9 @@ public class FannySnake extends ApplicationAdapter {
 	public void render () {
 		batch.setProjectionMatrix(camera.projection);
 		batch.setTransformMatrix(camera.view);
-		
 		shr.setProjectionMatrix(camera.projection);
 		shr.setTransformMatrix(camera.view);
 		
-		//Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		//Move tail
@@ -226,19 +224,18 @@ public class FannySnake extends ApplicationAdapter {
 		//Score render
 		batch.begin();
 		background.draw(batch);
-    	
     	//pause_btn.draw(batch, 1.0f);
     	messageAboutVersion.draw(batch, "Alpha " , 100, 300);
     	messageAboutVersion.draw(batch, "@igor.nesterenya " , 200, 200);
     	batch.end();
     	
     	control.update(Gdx.graphics.getDeltaTime());
+    	snake.update(Gdx.graphics.getDeltaTime());
+    	
     	if(wallsController.checkPosiableMoving(snake, control.getOffsetX(), control.getOffsetY())) {
     		snake.getHead().moveHead(control.getOffsetX(), control.getOffsetY());
     	} else {
-    		soundsPlayer.play(SOUNDS.BOOM);
-			soundsPlayer.play(SOUNDS.OU);
-			snake.getTail().reduction();
+    		snake.reactionOnWall(soundsPlayer);
     	}
     	
     	
@@ -251,7 +248,6 @@ public class FannySnake extends ApplicationAdapter {
 		
 		decorationRenderer.render();
 		wallsRenderer.render();
-		
 		
 		shr.begin(ShapeType.Filled);
 		shr.setColor(0.8f, 0.8f, 0f, 1f);
@@ -305,8 +301,6 @@ public class FannySnake extends ApplicationAdapter {
 			batch.end();
 			viewport.update(screenWidth, screenHeight, true); // Restore viewport.
 		}
-		
-		
 	}	
 	
 	

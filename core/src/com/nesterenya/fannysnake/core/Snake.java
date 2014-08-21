@@ -1,5 +1,8 @@
 package com.nesterenya.fannysnake.core;
 
+import com.nesterenya.fannysnake.SOUNDS;
+import com.nesterenya.fannysnake.SoundsPlayer;
+
 public class Snake{
 	
 	private Head head;
@@ -33,5 +36,23 @@ public class Snake{
 	
 	public Tail getTail() {
 		return tail;
+	}
+	
+	//TODO надо ли этот метод
+	public void update(float delta) {
+		if(voiceRecharge<=voiceRechargedWhen) {
+			voiceRecharge+=delta;
+		}
+	}
+	
+	private float voiceRechargedWhen = 1;
+	private float voiceRecharge = 1.1f;
+	//TODO переместить таймер в другое место
+	public void reactionOnWall(SoundsPlayer soundsPlayer) {
+		if(voiceRecharge>voiceRechargedWhen) {
+			soundsPlayer.play(SOUNDS.BOOM);
+			soundsPlayer.play(SOUNDS.OU);
+			voiceRecharge = 0;
+		}
 	}
 }
