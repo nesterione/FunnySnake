@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -201,27 +202,31 @@ public class FannySnake extends ApplicationAdapter {
 		ApplicationType type = Gdx.app.getType();
 		control = MotionControlCreator.create(type);
 		
+		shr = new ShapeRenderer();
+		
 	}
-
+	ShapeRenderer shr;
 	int lastKey;
-	
 	MotionControl control;
 	
 	@Override
 	public void render () {
 		batch.setProjectionMatrix(camera.projection);
 		batch.setTransformMatrix(camera.view);
-
+		
+		shr.setProjectionMatrix(camera.projection);
+		shr.setTransformMatrix(camera.view);
+		
 		//Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		//Move tail
 		snake.getTail().moveTail(new Point( snake.getHead().getPosition().getX(), snake.getHead().getPosition().getY() ));
-				
+			
 		//Score render
 		batch.begin();
 		background.draw(batch);
-    	font.draw(batch, "score: " + Integer.toString(GameContext.getInstance().score) , 50, GameContext.getInstance().disp.getHeight()-20);
+    	
     	//pause_btn.draw(batch, 1.0f);
     	messageAboutVersion.draw(batch, "Alpha " , 100, 300);
     	messageAboutVersion.draw(batch, "@igor.nesterenya " , 200, 200);
@@ -233,7 +238,11 @@ public class FannySnake extends ApplicationAdapter {
     	} else {
     		soundsPlayer.play(SOUNDS.BOOM);
 			soundsPlayer.play(SOUNDS.OU);
+			snake.getTail().reduction();
     	}
+    	
+    	
+    	
     	
 		//Direction calculation
 		Point headPos = snake.getHead().getPosition();
@@ -242,6 +251,18 @@ public class FannySnake extends ApplicationAdapter {
 		
 		decorationRenderer.render();
 		wallsRenderer.render();
+		
+		
+		shr.begin(ShapeType.Filled);
+		shr.setColor(0.8f, 0.8f, 0f, 1f);
+		shr.rect(25, GameContext.getInstance().disp.getHeight()-22, 100, 20);
+		shr.end();
+		
+		batch.begin();
+		font.draw(batch, "score: " + Integer.toString(GameContext.getInstance().score) , 50, GameContext.getInstance().disp.getHeight()-5);
+		batch.end();
+		
+		
 		snakeRenderer.render();
 		
 		snake.getHead().tryBlinkEyes(Gdx.graphics.getDeltaTime());
@@ -284,6 +305,8 @@ public class FannySnake extends ApplicationAdapter {
 			batch.end();
 			viewport.update(screenWidth, screenHeight, true); // Restore viewport.
 		}
+		
+		
 	}	
 	
 	

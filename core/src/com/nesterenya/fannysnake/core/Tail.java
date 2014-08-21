@@ -32,6 +32,10 @@ public class Tail {
 		addingPoints++;
 	}
 	
+	public void reduction() {
+		//indexesBigBalls.remove(indexesBigBalls.size()-1);
+	}
+	
 	public Point[] getPoints() {	
 		Point[] f = tailPoints.toArray(new Point[tailPoints.size()]);
 		return f;
