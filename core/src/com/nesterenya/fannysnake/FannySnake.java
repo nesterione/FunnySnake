@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
@@ -32,11 +33,14 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.nesterenya.fannysnake.PlayStage.OnHardKeyListener;
 import com.nesterenya.fannysnake.control.DesktopControl;
 import com.nesterenya.fannysnake.control.MotionControl;
 import com.nesterenya.fannysnake.control.MotionControlCreator;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Snake;
+import com.nesterenya.fannysnake.navigation.GameConfig;
+import com.nesterenya.fannysnake.navigation.MainMenuScreen;
 import com.nesterenya.fannysnake.renderers.DecorationRenderer;
 import com.nesterenya.fannysnake.renderers.FeedRenderer;
 import com.nesterenya.fannysnake.renderers.SnakeRenderer;
@@ -51,10 +55,13 @@ public class FannySnake implements Screen {
 	private ImageButton pause_btn;
 	
 	TextureRegion tr;
-	Stage stage;
+	//Stage stage;
+	PlayStage playStage;
 	Texture block;
 	
 	boolean isPaused = false;
+	
+	final private GameConfig game;
 	
 	Music mp3Music;
 	Sprite background;
@@ -114,7 +121,11 @@ public class FannySnake implements Screen {
 	
 	//@Override
 	//public void create () {
-		public FannySnake(){
+		public FannySnake(final GameConfig game){
+			this.game = game;
+			
+			
+			
 		GameContext.getInstance().disp = new Rectangle(0, 0, 800, 480);
 		Pixmap pixmap = new Pixmap(16, 16, Format.RGBA8888);
 		pixmap.setColor(0, 0, 0, 1);
@@ -150,8 +161,12 @@ public class FannySnake implements Screen {
 		backgr.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 		background = new Sprite(backgr,0,0,(int)GameContext.getInstance().disp.getWidth(),(int)GameContext.getInstance().disp.getHeight());
 		
-		stage = new Stage();
-		Gdx.input.setInputProcessor(stage);
+		//stage = new Stage();
+		
+		//TODO BAD
+		playStage = new PlayStage(new ScreenViewport());
+		//Gdx.input.setInputProcessor(stage);
+		Gdx.input.setInputProcessor(playStage);
 		tr = new TextureRegion(new Texture("ui/pause-icon.png"));
 		imgBtn = new TextureRegionDrawable(tr);
 		
@@ -169,8 +184,11 @@ public class FannySnake implements Screen {
 				return false;
 			}
 		});
-	    stage.addActor(pause_btn);
-		//Gdx.input.setInputProcessor(processor);
+	    
+	    //
+	    //stage.addActor(pause_btn);
+	    playStage.addActor(pause_btn);
+	    //Gdx.input.setInputProcessor(processor);
 		batch = new SpriteBatch();
 		
 		//font load 
@@ -204,6 +222,21 @@ public class FannySnake implements Screen {
 		control = MotionControlCreator.create(type);
 		
 		shr = new ShapeRenderer();
+		
+		
+		Gdx.input.setInputProcessor(playStage);
+        Gdx.input.setCatchBackKey(true);
+		playStage.setHardKeyListener(new OnHardKeyListener() {          
+	        @Override
+	        public void onHardKey(int keyCode, int state) {
+	            if(keyCode==Keys.BACK && state==1){
+	            	
+	            	game.setScreen(new MainMenuScreen(game));   
+	            	 dispose();
+	            }       
+	        }
+	    });
+		
 		
 	}
 	ShapeRenderer shr;
@@ -318,6 +351,8 @@ public class FannySnake implements Screen {
 	public void dispose() {
 		batch.dispose();
         font.dispose();
+        soundsPlayer.dispose();
+        mp3Music.dispose();
 	}
 
 	@Override
