@@ -1,6 +1,5 @@
 package com.nesterenya.fannysnake;
 
-import com.badlogic.gdx.math.Rectangle;
 
 public class GameContext {
 	

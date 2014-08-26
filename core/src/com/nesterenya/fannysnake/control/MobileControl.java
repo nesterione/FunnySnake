@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.nesterenya.fannysnake.GameContext;
 
 public class MobileControl  implements MotionControl{
-	private float delta;
 	private float speed;
 	private float offsetX = 0;
 	private float offsetY = 0;
@@ -27,8 +26,8 @@ public class MobileControl  implements MotionControl{
 	@Override
 	public void update(float time) {
 		
-		float mX = Gdx.input.getAccelerometerY()* GameContext.getInstance().speed*time*kafSlowly;
-		float mY = Gdx.input.getAccelerometerX()* GameContext.getInstance().speed*time*kafSlowly;
+		float mX = Gdx.input.getAccelerometerY()* speed*time*kafSlowly;
+		float mY = Gdx.input.getAccelerometerX()* speed*time*kafSlowly;
 		
 		//Attention! Directions of coordinate axis in land position of phone don't coincides
 		offsetX = mX;

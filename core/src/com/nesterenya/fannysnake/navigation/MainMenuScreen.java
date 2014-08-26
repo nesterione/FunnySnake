@@ -5,7 +5,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -18,8 +17,6 @@ import com.nesterenya.fannysnake.PlayStage;
 
 public class MainMenuScreen implements Screen{
 
-	final private GameConfig game;
-	
 	private PlayStage playStage;
 	//private Stage stage;
 	private TextButton play, hiscore, exit;
@@ -28,9 +25,7 @@ public class MainMenuScreen implements Screen{
 	private LabelStyle labelStyle;
 	
 	public MainMenuScreen(final GameConfig game) {
-		
-		this.game = game;
-		
+
 		//stage = new Stage(new ScreenViewport());
 		playStage = new PlayStage(new ScreenViewport());
 		

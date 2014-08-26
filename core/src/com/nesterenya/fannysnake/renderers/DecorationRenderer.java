@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nesterenya.fannysnake.Field;
-import com.nesterenya.fannysnake.GameContext;
 import com.nesterenya.fannysnake.GameRandom;
-import com.nesterenya.fannysnake.GameTools;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Size;
 import com.nesterenya.fannysnake.decorations.Decoration;
@@ -30,10 +27,8 @@ public class DecorationRenderer {
 	
 	private Map<String, Texture> decorationTextures;
 	
-	private final Field gameField;
 	public DecorationRenderer(SpriteBatch batch, Field gameField)	{
 		this.batch = batch;
-		this.gameField = gameField;
 		grassTx = new Texture("grass01.png");
 			
 		decorationTextures = new HashMap<String, Texture>();

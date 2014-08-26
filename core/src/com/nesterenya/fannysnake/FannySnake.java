@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,17 +12,16 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nesterenya.fannysnake.PlayStage.OnHardKeyListener;
 import com.nesterenya.fannysnake.control.MotionControl;
@@ -44,7 +42,7 @@ public class FannySnake implements Screen {
 		Pixmap pixmap = new Pixmap(16, 16, Format.RGBA8888);
 		pixmap.setColor(0, 0, 0, 1);
 		pixmap.fill();
-		texture = new Texture(pixmap);
+		new Texture(pixmap);
 
 		batch = new SpriteBatch();
 
@@ -91,10 +89,6 @@ public class FannySnake implements Screen {
 			}
 		});
 
-		
-
-		
-		//
 		// stage.addActor(pause_btn);
 		playStage.addActor(pause_btn);
 		// Gdx.input.setInputProcessor(processor);
@@ -169,7 +163,6 @@ public class FannySnake implements Screen {
 
 	BitmapFont messageAboutVersion;
 
-	private Texture texture;
 	private OrthographicCamera camera;
 
 	
@@ -252,34 +245,6 @@ public class FannySnake implements Screen {
 				snake.getHead().getSize())) {
 			GameContext.getInstance().score = -50;
 			soundsPlayer.play(SOUNDS.OU);
-		}
-
-		if (viewport instanceof ScalingViewport) {
-			// This shows how to set the viewport to the whole screen and draw
-			// within the black bars.
-			ScalingViewport scalingViewport = (ScalingViewport) viewport;
-			int screenWidth = Gdx.graphics.getWidth();
-			int screenHeight = Gdx.graphics.getHeight();
-			Gdx.gl.glViewport(0, 0, screenWidth, screenHeight);
-			batch.getProjectionMatrix().idt()
-					.setToOrtho2D(0, 0, screenWidth, screenHeight);
-			batch.getTransformMatrix().idt();
-			batch.begin();
-			float leftGutterWidth = scalingViewport.getLeftGutterWidth();
-			if (leftGutterWidth > 0) {
-				batch.draw(texture, 0, 0, leftGutterWidth, screenHeight);
-				batch.draw(texture, scalingViewport.getRightGutterX(), 0,
-						scalingViewport.getRightGutterWidth(), screenHeight);
-			}
-			float bottomGutterHeight = scalingViewport.getBottomGutterHeight();
-			if (bottomGutterHeight > 0) {
-				batch.draw(texture, 0, 0, screenWidth, bottomGutterHeight);
-				batch.draw(texture, 0, scalingViewport.getTopGutterY(),
-						screenWidth, scalingViewport.getTopGutterHeight());
-			}
-			batch.end();
-			viewport.update(screenWidth, screenHeight, true); // Restore
-																// viewport.
 		}
 	}
 

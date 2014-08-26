@@ -11,7 +11,6 @@ import com.nesterenya.fannysnake.core.Wall;
 
 public class WallsRenderer {
 	private final Texture block;
-	private final List<Wall> walls;
 	private final List<Sprite> wallSprites;
 	private final SpriteBatch batch;
 	
@@ -19,8 +18,6 @@ public class WallsRenderer {
 		block = new Texture("block.png");
 		block.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 		this.batch = batch;
-		this.walls = walls;
-		
 		wallSprites = new ArrayList<Sprite>();
 		for(Wall wall : walls) {
 			Sprite sprite = new Sprite(block, 0,0, (int)wall.getSize().getWidth(), (int)wall.getSize().getHeight());

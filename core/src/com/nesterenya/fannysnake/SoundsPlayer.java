@@ -3,7 +3,6 @@ package com.nesterenya.fannysnake;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
