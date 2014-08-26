@@ -28,7 +28,7 @@ import com.nesterenya.fannysnake.control.MotionControl;
 import com.nesterenya.fannysnake.control.MotionControlCreator;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Snake;
-import com.nesterenya.fannysnake.navigation.GameConfig;
+import com.nesterenya.fannysnake.navigation.FunnySnakeGame;
 import com.nesterenya.fannysnake.navigation.MainMenuScreen;
 import com.nesterenya.fannysnake.renderers.DecorationRenderer;
 import com.nesterenya.fannysnake.renderers.FeedRenderer;
@@ -37,10 +37,9 @@ import com.nesterenya.fannysnake.renderers.WallsRenderer;
 import com.nesterenya.fannysnake.screens.GameOverScreen;
 
 public class FannySnake implements Screen {
-	private final GameConfig game;
-	public FannySnake( final GameConfig game) {
+
+	public FannySnake() {
 		GameContext.getInstance().score = 0;
-		this.game = game;
 		Pixmap pixmap = new Pixmap(16, 16, Format.RGBA8888);
 		pixmap.setColor(0, 0, 0, 1);
 		pixmap.fill();
@@ -122,8 +121,7 @@ public class FannySnake implements Screen {
 			@Override
 			public void onHardKey(int keyCode, int state) {
 				if (keyCode == Keys.BACK && state == 1) {
-
-					game.setScreen(new MainMenuScreen(game));
+					FunnySnakeGame.getInstance().setScreen(new MainMenuScreen());
 					dispose();
 				}
 			}
@@ -248,8 +246,7 @@ public class FannySnake implements Screen {
 				snake.getHead().getSize())) {
 			//GameContext.getInstance().score = -50;
 			soundsPlayer.play(SOUNDS.OU);
-			
-			game.setScreen(new GameOverScreen(game, "You bit yourself", GameContext.getInstance().score));
+			FunnySnakeGame.getInstance().setScreen(new GameOverScreen("You bit yourself", GameContext.getInstance().score));
 			dispose();
 			
 		}

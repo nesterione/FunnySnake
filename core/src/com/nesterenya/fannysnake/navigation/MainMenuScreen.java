@@ -19,12 +19,12 @@ public class MainMenuScreen implements Screen{
 
 	private PlayStage playStage;
 	//private Stage stage;
-	private TextButton play, hiscore, exit;
+	private TextButton play, hiscore, exit, levels;
 	
 	private Table table;
 	private LabelStyle labelStyle;
 	
-	public MainMenuScreen(final GameConfig game) {
+	public MainMenuScreen() {
 
 		//stage = new Stage(new ScreenViewport());
 		playStage = new PlayStage(new ScreenViewport());
@@ -33,13 +33,13 @@ public class MainMenuScreen implements Screen{
 		TextureAtlas buttonAtlas =  new TextureAtlas(Gdx.files.internal("images/game/images.pack"));
 		skin.addRegions(buttonAtlas);
 		TextButtonStyle buttonStyle = new TextButtonStyle();
-		buttonStyle.font = game.font;
+		buttonStyle.font = FunnySnakeGame.getInstance().font;
 		buttonStyle.up = skin.getDrawable("button-up");
 		buttonStyle.down = skin.getDrawable("button-down");
 		buttonStyle.checked = skin.getDrawable("button-up");
 		
 		labelStyle = new LabelStyle();
-		labelStyle.font = game.font;
+		labelStyle.font = FunnySnakeGame.getInstance().font;
 		table = new Table();
 		table.setFillParent(true);
 		
@@ -55,8 +55,7 @@ public class MainMenuScreen implements Screen{
             };
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                //TODO Изменить название сцены игры
-            	game.setScreen(new FannySnake(game));
+                FunnySnakeGame.getInstance().setScreen(new FannySnake());
                 dispose();
             };
 		};
@@ -77,11 +76,13 @@ public class MainMenuScreen implements Screen{
 		exit.addListener(exitClickListener);
 		
 		hiscore = new TextButton("Hiscore", buttonStyle);
-		
+		levels = new TextButton("Missons", buttonStyle);
 		
 		table.add(play);
 		table.row();
 		table.add(hiscore);
+		table.row();
+		table.add(levels);
 		table.row();
 		table.add(exit);
 		//stage.addActor(table);

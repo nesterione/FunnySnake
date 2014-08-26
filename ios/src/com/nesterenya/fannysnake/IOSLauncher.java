@@ -5,13 +5,13 @@ import org.robovm.apple.uikit.UIApplication;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
-import com.nesterenya.fannysnake.navigation.GameConfig;
+import com.nesterenya.fannysnake.navigation.FunnySnakeGame;
 
 public class IOSLauncher extends IOSApplication.Delegate {
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-        return new IOSApplication(new GameConfig(), config);
+        return new IOSApplication(FunnySnakeGame.getInstance(), config);
     }
 
     public static void main(String[] argv) {

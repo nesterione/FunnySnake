@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.nesterenya.fannysnake.navigation.GameConfig;
+import com.nesterenya.fannysnake.navigation.FunnySnakeGame;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
@@ -12,6 +12,6 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		
-		initialize(new GameConfig(), config);
+		initialize(FunnySnakeGame.getInstance(), config);
 	}
 }

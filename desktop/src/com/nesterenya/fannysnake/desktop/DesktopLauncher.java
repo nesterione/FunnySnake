@@ -2,21 +2,12 @@ package com.nesterenya.fannysnake.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.nesterenya.fannysnake.navigation.GameConfig;
+import com.nesterenya.fannysnake.navigation.FunnySnakeGame;
 
 public class DesktopLauncher {
-	//private static DesktopLauncher application;
-	
-	public static void main (String[] arg) {
-		//LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		//new LwjglApplication(new FannySnake(), config);
-		
+
+	public static void main (String[] arg) {		
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		
-		/*if (application == null) {
-            application = new DesktopLauncher();
-        }*/
-		
-		new LwjglApplication(new GameConfig(), config);
+		new LwjglApplication(FunnySnakeGame.getInstance(), config);
 	}
 }

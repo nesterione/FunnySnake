@@ -5,20 +5,18 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nesterenya.fannysnake.FannySnake;
 import com.nesterenya.fannysnake.PlayStage;
-import com.nesterenya.fannysnake.navigation.GameConfig;
+import com.nesterenya.fannysnake.navigation.FunnySnakeGame;
 import com.nesterenya.fannysnake.navigation.MainMenuScreen;
 
 public class GameOverScreen implements Screen {
@@ -30,7 +28,7 @@ public class GameOverScreen implements Screen {
 	private Table table;
 	private LabelStyle labelStyle;
 
-	public GameOverScreen(final GameConfig game, String message, int score) {
+	public GameOverScreen(String message, int score) {
 		// stage = new Stage(new ScreenViewport());
 		playStage = new PlayStage(new ScreenViewport());
 
@@ -63,8 +61,7 @@ public class GameOverScreen implements Screen {
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				// TODO Изменить название сцены игры
-				game.setScreen(new FannySnake(game));
+				FunnySnakeGame.getInstance().setScreen(new FannySnake());
 				dispose();
 			};
 		};
@@ -82,7 +79,7 @@ public class GameOverScreen implements Screen {
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				game.setScreen(new MainMenuScreen(game));
+				FunnySnakeGame.getInstance().setScreen(new MainMenuScreen());
 				dispose();
 			};
 		};
