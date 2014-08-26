@@ -36,6 +36,7 @@ import com.nesterenya.fannysnake.control.MotionControl;
 import com.nesterenya.fannysnake.control.MotionControlCreator;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Snake;
+import com.nesterenya.fannysnake.feeds.Feed;
 import com.nesterenya.fannysnake.renderers.DecorationRenderer;
 import com.nesterenya.fannysnake.renderers.FeedRenderer;
 import com.nesterenya.fannysnake.renderers.SnakeRenderer;
@@ -231,9 +232,10 @@ public class FannySnakeScreen implements Screen {
 
 		// TODO разделить метод на 2 и релализовать контроллер для управления
 		// этим
-		if (feedController.eatFeedWhenItPossible(snake.getHead())) {
+		Feed feed = feedController.eatFeed(snake.getHead());
+		if (feed !=null) {
 			soundsPlayer.play(SOUNDS.BITE);
-			GameContext.getInstance().score++;
+			GameContext.getInstance().score += feed.getCost();
 			snake.getTail().increase();
 		}
 

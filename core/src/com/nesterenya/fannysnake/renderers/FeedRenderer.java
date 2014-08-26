@@ -1,5 +1,8 @@
 package com.nesterenya.fannysnake.renderers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nesterenya.fannysnake.feeds.Feed;
@@ -7,11 +10,15 @@ import com.nesterenya.fannysnake.feeds.Feed;
 public class FeedRenderer {
 	
 	private SpriteBatch batch;
-	private Texture appleTx;
+
+	private Map<String, Texture> textures;
 	
 	public FeedRenderer(SpriteBatch batch) {
 		this.batch = batch;
-		this.appleTx  = new Texture("feed01.png");
+		textures = new HashMap<String, Texture>();
+		textures.put("apple", new Texture("feed01.png"));
+		textures.put("pear", new Texture("feed02.png"));
+		
 	}
 	
 	public void render(Feed feed) {
@@ -24,7 +31,7 @@ public class FeedRenderer {
 			float y = feed.getPosition().getY()-middlePointY;
 			
 			//TODO свой batchdraw для рисования относительно центра		
-			batch.draw(appleTx, x,y , feed.getSize().getWidth(),feed.getSize().getHeight());
+			batch.draw(textures.get(feed.getName()), x,y , feed.getSize().getWidth(),feed.getSize().getHeight());
 			batch.end();
 		}
 	}
