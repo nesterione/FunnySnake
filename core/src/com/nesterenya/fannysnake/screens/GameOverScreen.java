@@ -3,6 +3,7 @@ package com.nesterenya.fannysnake.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -14,9 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nesterenya.fannysnake.FannySnake;
+import com.nesterenya.fannysnake.FunnySnakeGame;
 import com.nesterenya.fannysnake.PlayStage;
-import com.nesterenya.fannysnake.navigation.FunnySnakeGame;
 import com.nesterenya.fannysnake.navigation.MainMenuScreen;
 
 public class GameOverScreen implements Screen {
@@ -27,11 +29,16 @@ public class GameOverScreen implements Screen {
 
 	private Table table;
 	private LabelStyle labelStyle;
-
+	private OrthographicCamera camera;
+	private Viewport viewport;
+	
 	public GameOverScreen(String message, int score) {
-		// stage = new Stage(new ScreenViewport());
-		playStage = new PlayStage(new ScreenViewport());
-
+		camera = new OrthographicCamera();
+		camera.position.set(100, 100, 0);
+		camera.update();	
+		viewport = FunnySnakeGame.getViewport(camera);
+		playStage = new PlayStage(viewport);
+		
 		Skin skin = new Skin();
 		TextureAtlas buttonAtlas = new TextureAtlas(
 				Gdx.files.internal("images/game/images.pack"));
@@ -118,6 +125,7 @@ public class GameOverScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
+		viewport.update(width, height); 
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.nesterenya.fannysnake.navigation.FunnySnakeGame;
+import com.nesterenya.fannysnake.FunnySnakeGame;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

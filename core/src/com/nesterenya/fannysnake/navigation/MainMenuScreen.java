@@ -3,6 +3,7 @@ package com.nesterenya.fannysnake.navigation;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -12,7 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nesterenya.fannysnake.FannySnake;
+import com.nesterenya.fannysnake.FunnySnakeGame;
+import com.nesterenya.fannysnake.GameContext;
 import com.nesterenya.fannysnake.PlayStage;
 
 public class MainMenuScreen implements Screen{
@@ -20,14 +24,20 @@ public class MainMenuScreen implements Screen{
 	private PlayStage playStage;
 	//private Stage stage;
 	private TextButton play, hiscore, exit, levels;
-	
+	private Viewport viewport;
 	private Table table;
 	private LabelStyle labelStyle;
+	private OrthographicCamera camera;
 	
 	public MainMenuScreen() {
 
 		//stage = new Stage(new ScreenViewport());
-		playStage = new PlayStage(new ScreenViewport());
+		
+		camera = new OrthographicCamera();
+		camera.position.set(100, 100, 0);
+		camera.update();	
+		viewport = FunnySnakeGame.getViewport(camera);
+		playStage = new PlayStage(viewport);
 		
 		Skin skin = new Skin();
 		TextureAtlas buttonAtlas =  new TextureAtlas(Gdx.files.internal("images/game/images.pack"));
@@ -95,6 +105,9 @@ public class MainMenuScreen implements Screen{
 	
 	@Override
 	public void render(float delta) {
+		//batch.setProjectionMatrix(camera.projection);
+		//batch.setTransformMatrix(camera.view);
+		
 		Gdx.gl20.glClearColor(0, 0.2f, 0, 1);
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
@@ -106,7 +119,9 @@ public class MainMenuScreen implements Screen{
 	}
 
 	@Override
-	public void resize(int width, int height) { }
+	public void resize(int width, int height) { 
+		viewport.update(width, height); 
+	}
 
 	@Override
 	public void show() { }

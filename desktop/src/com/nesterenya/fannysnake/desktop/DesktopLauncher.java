@@ -2,7 +2,7 @@ package com.nesterenya.fannysnake.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.nesterenya.fannysnake.navigation.FunnySnakeGame;
+import com.nesterenya.fannysnake.FunnySnakeGame;
 
 public class DesktopLauncher {
 

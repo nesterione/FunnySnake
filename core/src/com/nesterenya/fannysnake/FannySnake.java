@@ -28,7 +28,6 @@ import com.nesterenya.fannysnake.control.MotionControl;
 import com.nesterenya.fannysnake.control.MotionControlCreator;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Snake;
-import com.nesterenya.fannysnake.navigation.FunnySnakeGame;
 import com.nesterenya.fannysnake.navigation.MainMenuScreen;
 import com.nesterenya.fannysnake.renderers.DecorationRenderer;
 import com.nesterenya.fannysnake.renderers.FeedRenderer;
@@ -40,22 +39,17 @@ public class FannySnake implements Screen {
 
 	public FannySnake() {
 		GameContext.getInstance().score = 0;
-		Pixmap pixmap = new Pixmap(16, 16, Format.RGBA8888);
-		pixmap.setColor(0, 0, 0, 1);
-		pixmap.fill();
-		new Texture(pixmap);
 
 		batch = new SpriteBatch();
 
 		camera = new OrthographicCamera();
 		camera.position.set(100, 100, 0);
-		camera.update();
-
-		viewport = GameTools.getViewport(camera);
+		camera.update();	
+		viewport = FunnySnakeGame.getViewport(camera);
 
 		
 		soundsPlayer = new SoundsPlayer();
-		Field gameField = new Field(25, 25, GameTools.getWorldWidth()-25, GameTools.getWorlsHeight()-25);
+		Field gameField = new Field(25, 25, FunnySnakeGame.getWorldWidth()-25, FunnySnakeGame.getWorlsHeight()-25);
 		feedController = new FeedController(gameField);
 		wallsController = new WallsController();
 
@@ -66,15 +60,15 @@ public class FannySnake implements Screen {
 
 		backgr = new Texture("grassbg.jpg");
 		backgr.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
-		background = new Sprite(backgr, 0, 0, GameTools.getWorldWidth(),
-				GameTools.getWorlsHeight());
+		background = new Sprite(backgr, 0, 0, FunnySnakeGame.getWorldWidth(),
+				FunnySnakeGame.getWorlsHeight());
 
 		playStage = new PlayStage(viewport);
 		// Gdx.input.setInputProcessor(stage);
 		Gdx.input.setInputProcessor(playStage);
 		tr = new TextureRegion(new Texture("ui/pause-icon.png"));
 		imgBtn = new TextureRegionDrawable(tr);
-
+		scoreTx = new Texture("images/game/score-board.png");
 		pause_btn = new ImageButton(imgBtn);
 		pause_btn.setPosition(530, 430);
 		pause_btn.setSize(50, 50);
@@ -97,7 +91,8 @@ public class FannySnake implements Screen {
 
 		// font load
 		font = new BitmapFont();
-		font.setColor(Color.WHITE);
+		font.setColor(Color.BLACK);
+		font.setScale(1.3f,1.3f);
 
 		messageAboutVersion = new BitmapFont();
 		messageAboutVersion.setColor(Color.BLUE);
@@ -113,8 +108,6 @@ public class FannySnake implements Screen {
 		ApplicationType type = Gdx.app.getType();
 		control = MotionControlCreator.create(type);
 
-		shr = new ShapeRenderer();
-
 		Gdx.input.setInputProcessor(playStage);
 		Gdx.input.setCatchBackKey(true);
 		playStage.setHardKeyListener(new OnHardKeyListener() {
@@ -126,10 +119,9 @@ public class FannySnake implements Screen {
 				}
 			}
 		});
-
 	}
 	
-	ShapeRenderer shr;
+	Texture scoreTx;
 	MotionControl control;
 	SpriteBatch batch;
 	TextureRegionDrawable imgBtn;
@@ -172,9 +164,7 @@ public class FannySnake implements Screen {
 	public void render(float delta) {
 		batch.setProjectionMatrix(camera.projection);
 		batch.setTransformMatrix(camera.view);
-		shr.setProjectionMatrix(camera.projection);
-		shr.setTransformMatrix(camera.view);
-
+		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -215,15 +205,14 @@ public class FannySnake implements Screen {
 		decorationRenderer.render();
 		wallsRenderer.render();
 
-		shr.begin(ShapeType.Filled);
-		shr.setColor(0.8f, 0.8f, 0f, 1f);
-		shr.rect(25, GameTools.getWorlsHeight() - 22, 100, 20);
-		shr.end();
-
+		
 		batch.begin();
+		batch.draw(scoreTx,25, FunnySnakeGame.getWorlsHeight() - 25);
+		
+		
 		font.draw(batch,
-				"score: " + Integer.toString(GameContext.getInstance().score),
-				50, GameTools.getWorlsHeight() - 5);
+			Integer.toString(GameContext.getInstance().score),
+				110, FunnySnakeGame.getWorlsHeight()-3);
 		batch.end();
 
 		snakeRenderer.render();
