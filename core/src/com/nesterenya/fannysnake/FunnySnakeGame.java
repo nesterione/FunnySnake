@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.nesterenya.fannysnake.navigation.MainMenuScreen;
+import com.nesterenya.fannysnake.screens.MainMenuScreen;
 
 public class FunnySnakeGame extends Game{
 

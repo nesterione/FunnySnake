@@ -1,4 +1,4 @@
-package com.nesterenya.fannysnake;
+package com.nesterenya.fannysnake.screens;
 
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
@@ -23,21 +23,27 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.nesterenya.fannysnake.FeedController;
+import com.nesterenya.fannysnake.Field;
+import com.nesterenya.fannysnake.FunnySnakeGame;
+import com.nesterenya.fannysnake.GameContext;
+import com.nesterenya.fannysnake.PlayStage;
+import com.nesterenya.fannysnake.SOUNDS;
+import com.nesterenya.fannysnake.SoundsPlayer;
+import com.nesterenya.fannysnake.WallsController;
 import com.nesterenya.fannysnake.PlayStage.OnHardKeyListener;
 import com.nesterenya.fannysnake.control.MotionControl;
 import com.nesterenya.fannysnake.control.MotionControlCreator;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Snake;
-import com.nesterenya.fannysnake.navigation.MainMenuScreen;
 import com.nesterenya.fannysnake.renderers.DecorationRenderer;
 import com.nesterenya.fannysnake.renderers.FeedRenderer;
 import com.nesterenya.fannysnake.renderers.SnakeRenderer;
 import com.nesterenya.fannysnake.renderers.WallsRenderer;
-import com.nesterenya.fannysnake.screens.GameOverScreen;
 
-public class FannySnake implements Screen {
+public class FannySnakeScreen implements Screen {
 
-	public FannySnake() {
+	public FannySnakeScreen() {
 		GameContext.getInstance().score = 0;
 
 		batch = new SpriteBatch();

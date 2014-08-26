@@ -16,10 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.nesterenya.fannysnake.FannySnake;
 import com.nesterenya.fannysnake.FunnySnakeGame;
 import com.nesterenya.fannysnake.PlayStage;
-import com.nesterenya.fannysnake.navigation.MainMenuScreen;
 
 public class GameOverScreen implements Screen {
 
@@ -68,7 +66,7 @@ public class GameOverScreen implements Screen {
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				FunnySnakeGame.getInstance().setScreen(new FannySnake());
+				FunnySnakeGame.getInstance().setScreen(new FannySnakeScreen());
 				dispose();
 			};
 		};

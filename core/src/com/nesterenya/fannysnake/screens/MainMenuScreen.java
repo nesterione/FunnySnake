@@ -1,4 +1,4 @@
-package com.nesterenya.fannysnake.navigation;
+package com.nesterenya.fannysnake.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.nesterenya.fannysnake.FannySnake;
 import com.nesterenya.fannysnake.FunnySnakeGame;
 import com.nesterenya.fannysnake.GameContext;
 import com.nesterenya.fannysnake.PlayStage;
@@ -65,7 +64,7 @@ public class MainMenuScreen implements Screen{
             };
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                FunnySnakeGame.getInstance().setScreen(new FannySnake());
+                FunnySnakeGame.getInstance().setScreen(new FannySnakeScreen());
                 dispose();
             };
 		};
