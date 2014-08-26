@@ -43,6 +43,8 @@ public class MainMenuScreen implements Screen{
 		table = new Table();
 		table.setFillParent(true);
 		
+		
+		
 		play = new TextButton("Play", buttonStyle);
 		
 		ClickListener playClickListener = new ClickListener() {
@@ -53,8 +55,7 @@ public class MainMenuScreen implements Screen{
             };
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                //TODO ������ ����
-            	//TODO вообще бред
+                //TODO Изменить название сцены игры
             	game.setScreen(new FannySnake(game));
                 dispose();
             };
@@ -77,6 +78,7 @@ public class MainMenuScreen implements Screen{
 		
 		hiscore = new TextButton("Hiscore", buttonStyle);
 		
+		
 		table.add(play);
 		table.row();
 		table.add(hiscore);
@@ -92,7 +94,7 @@ public class MainMenuScreen implements Screen{
 	
 	@Override
 	public void render(float delta) {
-		Gdx.gl20.glClearColor(0, 0, 0, 1);
+		Gdx.gl20.glClearColor(0, 0.2f, 0, 1);
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		//stage.act(delta);
@@ -103,38 +105,22 @@ public class MainMenuScreen implements Screen{
 	}
 
 	@Override
-	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void resize(int width, int height) { }
 
 	@Override
-	public void show() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void show() { }
 
 	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void hide() { }
 
 	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void pause() { }
 
 	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void resume() { }
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 		//stage.dispose();
 	    playStage.dispose();
 		//game.dispose();

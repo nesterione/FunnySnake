@@ -34,11 +34,13 @@ import com.nesterenya.fannysnake.renderers.DecorationRenderer;
 import com.nesterenya.fannysnake.renderers.FeedRenderer;
 import com.nesterenya.fannysnake.renderers.SnakeRenderer;
 import com.nesterenya.fannysnake.renderers.WallsRenderer;
+import com.nesterenya.fannysnake.screens.GameOverScreen;
 
 public class FannySnake implements Screen {
-
-	public FannySnake(final GameConfig game) {
-		
+	private final GameConfig game;
+	public FannySnake( final GameConfig game) {
+		GameContext.getInstance().score = 0;
+		this.game = game;
 		Pixmap pixmap = new Pixmap(16, 16, Format.RGBA8888);
 		pixmap.setColor(0, 0, 0, 1);
 		pixmap.fill();
@@ -175,6 +177,7 @@ public class FannySnake implements Screen {
 		shr.setProjectionMatrix(camera.projection);
 		shr.setTransformMatrix(camera.view);
 
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		// Move tail
@@ -243,8 +246,12 @@ public class FannySnake implements Screen {
 
 		if (snake.getTail().isPointCrossTail(snake.getHead().getPosition(),
 				snake.getHead().getSize())) {
-			GameContext.getInstance().score = -50;
+			//GameContext.getInstance().score = -50;
 			soundsPlayer.play(SOUNDS.OU);
+			
+			game.setScreen(new GameOverScreen(game, "You bit yourself", GameContext.getInstance().score));
+			dispose();
+			
 		}
 	}
 
