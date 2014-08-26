@@ -3,11 +3,12 @@ package com.nesterenya.fannysnake;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class PlayStage extends Stage {
 
-    public PlayStage(ScreenViewport screenViewport) {
-        super(screenViewport);
+    public PlayStage(Viewport viewport) {
+        super(viewport);
     }
 
     // Прослушивает события нажатия клавиш пользователем

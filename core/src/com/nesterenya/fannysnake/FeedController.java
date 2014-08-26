@@ -1,8 +1,5 @@
 package com.nesterenya.fannysnake;
 
-import java.util.Random;
-
-import com.badlogic.gdx.Gdx;
 import com.nesterenya.fannysnake.core.Head;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Size;
@@ -10,32 +7,36 @@ import com.nesterenya.fannysnake.feeds.AppleFeed;
 import com.nesterenya.fannysnake.feeds.Feed;
 
 public class FeedController {
-	
-	private float currentTime = 0;
-	private float nextStepTime = 2;
+		
+	private final int MIN_SIZE = 40;
+	private final int MAX_SIZE = 70;
 	private Feed feed;
 	
-	private static Random rand;
-	private final int minSize = 20;
-	private final int maxSize = 80;
+	private float currentTime = 0;
+	private final float NEXT_STEP = 2;
+
+	private final Field gameField;
 	
-	static {
-		rand = new Random();
+	private Size getSizeOfFeed() {
+		int siz = GameRandom.nextInt(MIN_SIZE, MAX_SIZE);
+		Size s = new Size(siz,siz);
+		return s;
 	}
 	
-	public FeedController() {
+	public FeedController(Field gameField) {
+		this.gameField = gameField;
 		this.currentTime = 0;
 		this.feed = new AppleFeed(new Point(50, 50), new Size(50, 50));
 	}
 	
 	public void next(float deltaTime) {
 		currentTime+=deltaTime;
-		if(currentTime> nextStepTime) {
+		if(currentTime> NEXT_STEP) {
 			currentTime = 0;
-			//TODO óáðàòü Gdx.graphics è çàìåíèòü íà ïåðåìåííóþ óêàçûâàþ ðåàëüíûé äèàïîçîí
-			Point p = new Point(rand.nextInt((int)GameContext.getInstance().disp.getWidth()),rand.nextInt((int)GameContext.getInstance().disp.getHeight()));
-			int siz = rand.nextInt(maxSize - minSize) + minSize;
-			Size s = new Size(siz,siz);
+				
+			Size s = getSizeOfFeed();
+			int borderWidth = (int)(s.getWidth()/2);
+			Point p = gameField.getPointFromField(borderWidth);
 			feed = new AppleFeed(p,s);
 		}
 	}
@@ -47,12 +48,19 @@ public class FeedController {
 	// Posible 
 	public boolean eatFeedWhenItPossible(Head head) {
 		boolean isFeedEating = false;
-		Point hd = head.getPosition();
-		Size siz = head.getSize();
 		
 		if(feed!=null) {
+			
+			// Ð•Ð´Ð° ÑÑ‡Ð¸Ñ‚Ð°ÐµÑ‚ÑÑ ÑÐµÐ´ÐµÐ½Ð¾Ð¹, ÐºÐ¾Ð´Ð° Ñ†ÐµÐ½Ñ‚Ð¾Ñ€ Ð³Ð¾Ð»Ð¾Ð²Ñ‹ Ð·Ð¼ÐµÐ¹ÐºÐ¸ Ð¿Ð°Ð¿Ð°Ð´Ð°ÐµÑ‚ Ð² 
+			// ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚ ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¼ Ð·Ð°Ð´Ð°ÐµÑ‚ÑÑ Ñ€Ð°Ð·Ð¼ÐµÑ€ ÐµÐ´Ñ‹
+			Point hd = head.getPosition();
 			Point fPos = feed.getPosition();
-			if( ((hd.getX()+siz.getWidth())>fPos.getX()&&((hd.getX())<fPos.getX()+siz.getWidth()))&& ((hd.getY()+siz.getHeight())>fPos.getY()&&((hd.getY())<fPos.getY()+siz.getHeight()))) {
+			Size fSiz = feed.getSize();
+			float halfSizeX = fSiz.getWidth()/2;
+			float halfSizeY = fSiz.getHeight()/2;
+			boolean isx = (fPos.getX()-halfSizeX)<hd.getX()&&hd.getX()<(fPos.getX()+halfSizeX);
+			boolean isy = (fPos.getY()-halfSizeY)<hd.getY()&&hd.getY()<(fPos.getY()+halfSizeY);
+			if(isx&&isy) {
 				isFeedEating = true;
 				feed = null;
 			}

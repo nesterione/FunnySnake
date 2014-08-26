@@ -13,7 +13,6 @@ public class GameContext {
 	}
 	
 	public float speed = 180.0f;
-	public Rectangle disp;
 	//TODO 
 	public float timeOfRef = 0.15f;
 	public float nextRefTime = 0.15f;

@@ -17,7 +17,14 @@ public class FeedRenderer {
 	public void render(Feed feed) {
 		if(feed!=null) {
 			batch.begin();
-			batch.draw(appleTx, feed.getPosition().getX(), feed.getPosition().getY(), feed.getSize().getWidth(),feed.getSize().getHeight());
+			
+			float middlePointX = feed.getSize().getWidth()/2;
+			float middlePointY = feed.getSize().getHeight()/2;
+			float x = feed.getPosition().getX()-middlePointX;
+			float y = feed.getPosition().getY()-middlePointY;
+			
+			//TODO свой batchdraw для рисования относительно центра		
+			batch.draw(appleTx, x,y , feed.getSize().getWidth(),feed.getSize().getHeight());
 			batch.end();
 		}
 	}
