@@ -15,7 +15,7 @@ public class WallsRenderer {
 	private final SpriteBatch batch;
 	
 	public WallsRenderer(SpriteBatch batch, List<Wall> walls) {
-		block = new Texture("block.png");
+		block = new Texture("wall01.jpg");
 		block.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 		this.batch = batch;
 		wallSprites = new ArrayList<Sprite>();
