@@ -66,6 +66,21 @@ public class MainMenuScreen implements Screen{
             };
 		};
 		play.addListener(playClickListener);
+
+		hiscore = new TextButton("High scores", buttonStyle);
+		ClickListener hiscoreClickListener = new ClickListener() {
+			@Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                //Gdx.input.vibrate(20);
+                return true;
+            };
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                FunnySnakeGame.getInstance().setScreen(new HiscoreScreen());
+                dispose();
+            };
+		};
+		hiscore.addListener(hiscoreClickListener);
 		
 		levels = new TextButton("Missons", buttonStyle);
 		ClickListener levelsClickListener = new ClickListener() {
@@ -96,7 +111,7 @@ public class MainMenuScreen implements Screen{
 		};
 		exit.addListener(exitClickListener);
 		
-		hiscore = new TextButton("Hiscore", buttonStyle);
+		
 		
 		
 		table.add(play);
