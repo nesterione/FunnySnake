@@ -9,29 +9,28 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nesterenya.fannysnake.FunnySnakeGame;
 import com.nesterenya.fannysnake.PlayStage;
 import com.nesterenya.fannysnake.PlayStage.OnHardKeyListener;
 
-public class GameOverScreen implements Screen {
+public class LevelsScreen implements Screen {
 
 	private PlayStage playStage;
-	private TextButton playAgain, openMenu;
+	private TextButton openMenu;
 
 	private Table table;
 	private LabelStyle labelStyle;
 	private OrthographicCamera camera;
 	private Viewport viewport;
 	
-	public GameOverScreen(String message, int score) {
+	public LevelsScreen() {
 		camera = new OrthographicCamera();
 		camera.position.set(100, 100, 0);
 		camera.update();	
@@ -54,26 +53,6 @@ public class GameOverScreen implements Screen {
 		table.setFillParent(true);
 		table.setSkin(new Skin());
 		
-		playAgain = new TextButton("Play Again", buttonStyle);
-
-		ClickListener playClickListener = new ClickListener() {
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				// Gdx.input.vibrate(20);
-				return true;
-			};
-
-			@Override
-			public void touchUp(InputEvent event, float x, float y,
-					int pointer, int button) {
-				FunnySnakeGame.getInstance().setScreen(new FannySnakeScreen());
-				dispose();
-			};
-		};
-
-		playAgain.addListener(playClickListener);
-
 		openMenu = new TextButton("Menu", buttonStyle);
 		ClickListener exitClickListener = new ClickListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
@@ -91,17 +70,13 @@ public class GameOverScreen implements Screen {
 		};
 		openMenu.addListener(exitClickListener);
 		
-		Label gameOverMsg = new Label("Game Over", labelStyle);
-		Label infoMsg = new Label(message, labelStyle);
-		Label scoreMsg = new Label("Score: "+score, labelStyle);
+		Label messageOne = new Label("Levels are in development", labelStyle);
+		Label messageTwo = new Label("Coming Soon!", labelStyle);
 		
-		table.add(gameOverMsg).colspan(2);
+		table.add(messageOne);
 		table.row();
-		table.add(infoMsg).colspan(2);
+		table.add(messageTwo);
 	    table.row();
-	    table.add(scoreMsg).colspan(2);
-	    table.row();
-		table.add(playAgain);
 	    table.add(openMenu);
 	    
 		playStage.addActor(table);
@@ -119,7 +94,7 @@ public class GameOverScreen implements Screen {
 			}
 		});
 	}
-
+	
 	@Override
 	public void render(float delta) {
 		Gdx.gl20.glClearColor(0, 0.2f, 0, 1);
@@ -133,25 +108,20 @@ public class GameOverScreen implements Screen {
 	public void resize(int width, int height) {
 		viewport.update(width, height); 
 	}
+	
+	@Override
+	public void show() { }
 
 	@Override
-	public void show() {
-	}
+	public void hide() { }
 
 	@Override
-	public void hide() {
-	}
+	public void pause() { }
 
 	@Override
-	public void pause() {
-	}
+	public void resume() { }
 
 	@Override
-	public void resume() {
-	}
-
-	@Override
-	public void dispose() {
-	}
-
+	public void dispose() {	}
+	
 }

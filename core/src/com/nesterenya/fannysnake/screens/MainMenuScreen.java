@@ -52,10 +52,7 @@ public class MainMenuScreen implements Screen{
 		table = new Table();
 		table.setFillParent(true);
 		
-		
-		
 		play = new TextButton("Play", buttonStyle);
-		
 		ClickListener playClickListener = new ClickListener() {
 			@Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -69,6 +66,21 @@ public class MainMenuScreen implements Screen{
             };
 		};
 		play.addListener(playClickListener);
+		
+		levels = new TextButton("Missons", buttonStyle);
+		ClickListener levelsClickListener = new ClickListener() {
+			@Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                //Gdx.input.vibrate(20);
+                return true;
+            };
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                FunnySnakeGame.getInstance().setScreen(new LevelsScreen());
+                dispose();
+            };
+		};
+		levels.addListener(levelsClickListener);
 		
 		exit = new TextButton("Exit", buttonStyle);
 		ClickListener exitClickListener = new ClickListener() {
@@ -85,7 +97,7 @@ public class MainMenuScreen implements Screen{
 		exit.addListener(exitClickListener);
 		
 		hiscore = new TextButton("Hiscore", buttonStyle);
-		levels = new TextButton("Missons", buttonStyle);
+		
 		
 		table.add(play);
 		table.row();
