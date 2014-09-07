@@ -311,7 +311,8 @@ public class FannySnakeScreen implements Screen {
 				if (snake.getTail().isPointCrossTail(snake.getHead().getPosition(),
 						snake.getHead().getSize())) {
 					//GameContext.getInstance().score = -50;
-					soundsPlayer.play(SOUNDS.OU);
+					//TODO звук в GameOverScreen при запуске
+					//soundsPlayer.play(SOUNDS.OU);
 					FunnySnakeGame.getInstance().setScreen(new GameOverScreen("You bit yourself", GameContext.getInstance().score));
 					dispose();
 				}
@@ -324,8 +325,8 @@ public class FannySnakeScreen implements Screen {
 	@Override
 	public void dispose() { 
 		//TODO проверить или все диспожу
-		batch.dispose();
-		font.dispose();
+		playStage.dispose();
+		//batch.dispose();
 		soundsPlayer.dispose();
 		mp3Music.dispose();
 	}
