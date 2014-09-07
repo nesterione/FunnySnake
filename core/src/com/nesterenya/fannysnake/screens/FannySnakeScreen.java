@@ -182,7 +182,7 @@ public class FannySnakeScreen implements Screen {
 		resume_btn.setPosition(FunnySnakeGame.getWorldWidth()/2-100, FunnySnakeGame.getWorlsHeight()/2-50);
 		resume_btn.setSize(200, 100);
 		resume_btn.addListener(pauseListener);
-		resume_btn.setVisible(false);
+		resume_btn.setVisible(isPaused);
 	}
 	
 	Texture scoreTx;
@@ -202,7 +202,7 @@ public class FannySnakeScreen implements Screen {
 	PlayStage playStage;
 	Texture block;
 
-	boolean isPaused = false;
+	boolean isPaused = true;
 
 	Music mp3Music;
 	Sprite background;
