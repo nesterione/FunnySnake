@@ -10,11 +10,13 @@ import com.nesterenya.fannysnake.core.Wall;
 
 public class WallsController {
 	
+	public final static float HIT_FINE = 0.95f;
+	
 	private final List<Wall> walls;
 	
 	public WallsController() {
 		
-		//TODO убрать эти неясные размеры
+		//TODO пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		Wall left = new Wall(new Point(0,25), new Size(25,430));
 		Wall down = new Wall(new Point(0,0), new Size(840,25));
 		Wall up = new Wall(new Point(0,455), new Size(840,25));
