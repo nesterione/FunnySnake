@@ -5,7 +5,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -42,13 +41,13 @@ public class LevelsScreen implements Screen {
 				Gdx.files.internal("images/game/images.pack"));
 		skin.addRegions(buttonAtlas);
 		TextButtonStyle buttonStyle = new TextButtonStyle();
-		buttonStyle.font = new BitmapFont();
+		buttonStyle.font = FunnySnakeGame.getInstance().font;
 		buttonStyle.up = skin.getDrawable("button-up");
 		buttonStyle.down = skin.getDrawable("button-down");
 		buttonStyle.checked = skin.getDrawable("button-up");
 
 		labelStyle = new LabelStyle();
-		labelStyle.font = new BitmapFont();
+		labelStyle.font = FunnySnakeGame.getInstance().font;
 		table = new Table();
 		table.setFillParent(true);
 		table.setSkin(new Skin());
@@ -57,7 +56,7 @@ public class LevelsScreen implements Screen {
 		ClickListener exitClickListener = new ClickListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				// Gdx.input.vibrate(20);
+				FunnySnakeGame.getInstance().doMenuClickDown();
 				return true;
 			};
 

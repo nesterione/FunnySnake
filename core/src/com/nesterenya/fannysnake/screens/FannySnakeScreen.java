@@ -129,7 +129,7 @@ public class FannySnakeScreen implements Screen {
 		ClickListener pauseListener = new ClickListener() {
 			@Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //Gdx.input.vibrate(20);
+				FunnySnakeGame.getInstance().doMenuClickDown();
                 return true;
             };
             @Override
@@ -149,7 +149,7 @@ public class FannySnakeScreen implements Screen {
 		ClickListener againListener = new ClickListener() {
 			@Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //Gdx.input.vibrate(20);
+				FunnySnakeGame.getInstance().doMenuClickDown();
                 return true;
             };
             @Override
@@ -166,7 +166,7 @@ public class FannySnakeScreen implements Screen {
 		ClickListener menuListener = new ClickListener() {
 			@Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //Gdx.input.vibrate(20);
+				FunnySnakeGame.getInstance().doMenuClickDown();
                 return true;
             };
             @Override

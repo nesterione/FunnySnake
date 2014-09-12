@@ -1,6 +1,8 @@
 package com.nesterenya.fannysnake;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -13,23 +15,35 @@ public class FunnySnakeGame extends Game{
 	private static final FunnySnakeGame INSTANCE = new FunnySnakeGame();
 	private static final int WORLD_WIDTH = 800;
 	private static final int WORLD_HEIGHT = 480;
+	private Sound menuSound;
+		
+	public void doMenuClickDown() {
+		Gdx.input.vibrate(50);
+		
+		FunnySnakeGame.getInstance().menuSound.play();
+	}
 	
-	private FunnySnakeGame() {	}
+	private FunnySnakeGame() {
+		
+	}
 	
 	public static FunnySnakeGame getInstance() {
 		return INSTANCE;
 	}
 	
-	public BitmapFont font, levels;
+	public BitmapFont font;
    
     @Override
     public void create() {
         font = new BitmapFont();
 	    font.setColor(Color.WHITE);
-        levels = new BitmapFont();
-        font.setColor(Color.WHITE); 
-        levels.setColor(Color.WHITE);
+	    font.setScale(2);
+	    
+       
+        
         this.setScreen(new MainMenuScreen());
+        
+        menuSound = Gdx.audio.newSound(Gdx.files.internal("sounds/menu.wav"));
     }
     
 	public static int getWorldWidth() {
@@ -49,6 +63,8 @@ public class FunnySnakeGame extends Game{
 	public void dispose() {
 		super.dispose();
 		font.dispose();
-		levels.dispose();
+		menuSound.dispose();
 	}
+
+
 }

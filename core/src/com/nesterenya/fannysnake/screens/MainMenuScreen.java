@@ -56,7 +56,7 @@ public class MainMenuScreen implements Screen{
 		ClickListener playClickListener = new ClickListener() {
 			@Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //Gdx.input.vibrate(20);
+				FunnySnakeGame.getInstance().doMenuClickDown();
                 return true;
             };
             @Override
@@ -71,7 +71,7 @@ public class MainMenuScreen implements Screen{
 		ClickListener hiscoreClickListener = new ClickListener() {
 			@Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //Gdx.input.vibrate(20);
+				FunnySnakeGame.getInstance().doMenuClickDown();
                 return true;
             };
             @Override
@@ -86,7 +86,7 @@ public class MainMenuScreen implements Screen{
 		ClickListener levelsClickListener = new ClickListener() {
 			@Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //Gdx.input.vibrate(20);
+				FunnySnakeGame.getInstance().doMenuClickDown();
                 return true;
             };
             @Override
@@ -100,7 +100,7 @@ public class MainMenuScreen implements Screen{
 		exit = new TextButton("Exit", buttonStyle);
 		ClickListener exitClickListener = new ClickListener() {
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //Gdx.input.vibrate(20);
+				FunnySnakeGame.getInstance().doMenuClickDown();
                 return true;
             };
             @Override
@@ -110,8 +110,6 @@ public class MainMenuScreen implements Screen{
             };
 		};
 		exit.addListener(exitClickListener);
-		
-		
 		
 		
 		table.add(play);
