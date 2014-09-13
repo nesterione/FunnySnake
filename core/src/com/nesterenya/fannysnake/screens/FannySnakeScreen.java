@@ -34,6 +34,7 @@ import com.nesterenya.fannysnake.control.MotionControl;
 import com.nesterenya.fannysnake.control.MotionControlCreator;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Snake;
+import com.nesterenya.fannysnake.core.WallChecker;
 import com.nesterenya.fannysnake.feeds.Feed;
 import com.nesterenya.fannysnake.renderers.DecorationRenderer;
 import com.nesterenya.fannysnake.renderers.FeedRenderer;
@@ -111,6 +112,28 @@ public class FannySnakeScreen implements Screen {
 				}
 			}
 		});
+		
+snake.getHead().setWallChecer(new WallChecker() {
+			
+			@Override
+			public int check(float delX, float delY) {
+				int rez = 0;
+				if (!wallsController.checkPosiableMovingX(snake, delX)) {	
+					rez = 1;
+				}
+
+				if (!wallsController.checkPosiableMovingY(snake, delY)) {
+					if(rez==1) {rez = 3;}
+					else {
+					rez = 2;}
+				} 
+				
+				if(rez>0) {
+					hitOnWall();
+				}
+				return rez;
+			}
+		});
 	}
 	
 	private void setButtons(BitmapFont bitFont) {
@@ -183,6 +206,7 @@ public class FannySnakeScreen implements Screen {
 		resume_btn.setSize(200, 100);
 		resume_btn.addListener(pauseListener);
 		resume_btn.setVisible(isPaused);
+		
 	}
 	
 	Texture scoreTx;
@@ -249,7 +273,6 @@ public class FannySnakeScreen implements Screen {
 		decorationRenderer.render();
 		wallsRenderer.render();
 
-		
 		batch.begin();
 		batch.draw(scoreTx,25, FunnySnakeGame.getWorlsHeight() - 25);
 		font.draw(batch,
@@ -260,22 +283,39 @@ public class FannySnakeScreen implements Screen {
 		playStage.act(delta);
 		playStage.draw();
 	}
-
+/*
 	private void moveHeadIfPosiable() {
-		if (wallsController.checkPosiableMovingX(snake, control.getOffsetX())) {
-			snake.getHead().moveHeadX(control.getOffsetX());
-		} else {
-			snake.reactionOnWall(soundsPlayer);
-			GameContext.getInstance().score *= WallsController.HIT_FINE;
+		boolean isHitX = false;
+		boolean isHitY = false;
+		float offsetX = control.getOffsetX();
+		float offsetY = control.getOffsetY();
+		
+		if (!wallsController.checkPosiableMovingX(snake, offsetX)) {	
+			offsetX = 0;
+			isHitX = true;
 		}
 
-		if (wallsController.checkPosiableMovingY(snake, control.getOffsetY())) {
-			snake.getHead().moveHeadY(control.getOffsetY());
-			
-		} else {
-			snake.reactionOnWall(soundsPlayer);
-			GameContext.getInstance().score *= WallsController.HIT_FINE;
+		if (!wallsController.checkPosiableMovingY(snake, offsetY)) {
+			offsetY = 0;
+			isHitY = true;
+		} 
+		
+		Point p = null;
+		try {
+			int idx = snake.getTail().getIndexOfBall(0);
+			int c_idx = snake.getTail().getPoints().length - idx;
+			p = snake.getTail().getPoints()[c_idx];
+		} catch(Exception ex) {p = snake.getHead().getPosition();}; 
+		
+		snake.getHead().moveHead(offsetX, offsetY, p);
+		if(isHitX||isHitY) {
+			hitOnWall();
 		}
+	}*/
+	
+	private void hitOnWall() {
+		snake.reactionOnWall(soundsPlayer);
+		GameContext.getInstance().score *= WallsController.HIT_FINE;
 	}
 	
 	private void logicStep(float delta) {
@@ -287,12 +327,16 @@ public class FannySnakeScreen implements Screen {
 		control.update(delta);
 		snake.update(delta);
 		
-		moveHeadIfPosiable();
-		
-		// Direction calculation
-		Point headPos = snake.getHead().getPosition();
-		// TODO Переместить код в логику самой змейки
-		snake.defineHeadDerection(headPos, snake.getTail().getLastPoint());
+		float offsetX = control.getOffsetX();
+		float offsetY = control.getOffsetY();
+		Point p = null;
+		try {
+			int idx = snake.getTail().getIndexOfBall(0);
+			int c_idx = snake.getTail().getPoints().length - idx;
+			p = snake.getTail().getPoints()[c_idx];
+		} catch(Exception ex) {p = snake.getHead().getPosition();}; 
+		snake.getHead().moveHead(offsetX, offsetY, p);
+		//moveHeadIfPosiable();
 		
 		snake.getHead().tryBlinkEyes(Gdx.graphics.getDeltaTime());
 

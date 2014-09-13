@@ -21,7 +21,7 @@ public class Tail {
 	
 	public Tail() {
 	}
-	//TODO сделать по другому
+	//TODO пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	public float getRadius() {
 		return 25;
 	}
@@ -43,10 +43,11 @@ public class Tail {
 	
 	public Point[] getPoints() {	
 		Point[] f = tailPoints.toArray(new Point[tailPoints.size()]);
+		
 		return f;
 	}
 	
-	//TODO где-то баг, проявляется на андроиде, пригает растояние между шариками
+	//TODO пїЅпїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	public void moveTail(Point nextPos) {
 		
 		if(removingPoints>0) {
@@ -122,8 +123,8 @@ public class Tail {
 	}
 	
 	public Point getLastPoint() {
-		//TODO если пустая будет ошибка
-		//TODO оптимизировать
+		//TODO пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+		//TODO пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		if(tailPoints.size()>=2) {
 			Point p = tailPoints.pollLast();
 			Point preLast = tailPoints.getLast();
@@ -139,6 +140,7 @@ public class Tail {
 	}
 	
 	public int getIndexOfBall(int numberOfBall) {
+		if(indexesBigBalls.size()==0) return 0;
 		return indexesBigBalls.get(numberOfBall);
 	}
 	
