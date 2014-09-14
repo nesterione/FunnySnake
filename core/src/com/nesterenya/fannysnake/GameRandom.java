@@ -14,6 +14,11 @@ public class GameRandom {
 		random = new Random();
 	}
 	
+	public static float nextFloat(float begin, float end) {
+		 
+		return (begin + (random.nextFloat()*Math.abs(end-begin)));
+	}
+	
 	public static int nextInt(int end) {
 		return random.nextInt(end);
 	}

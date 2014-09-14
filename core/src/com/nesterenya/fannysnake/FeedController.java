@@ -1,5 +1,8 @@
 package com.nesterenya.fannysnake;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.nesterenya.fannysnake.core.Head;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Size;
@@ -11,11 +14,18 @@ public class FeedController {
 
 	private final int MIN_SIZE = 40;
 	private final int MAX_SIZE = 70;
-	private Feed feed;
-
-	private float currentTime = 0;
-	private final float NEXT_STEP = 2;
-
+	
+	private Feed[] feeds = new Feed[] {
+		new AppleFeed(new Point(50, 50), new Size(50, 50)),
+		new AppleFeed(new Point(300, 400), new Size(50, 50))
+	};
+	
+	private final static float MIN_TIME = 2.0f;
+	private final static float MAX_TIME = 5.0f;
+	
+	private float[] timeLive = new float[] {2, 3};
+	private float[] currentTime = new float[] {0,0};
+	
 	private final Field gameField;
 
 	private Size getSizeOfFeed() {
@@ -26,9 +36,6 @@ public class FeedController {
 
 	public FeedController(Field gameField) {
 		this.gameField = gameField;
-		this.currentTime = 0;
-		this.feed = new AppleFeed(new Point(50, 50), new Size(50, 50));
-
 	}
 
 	enum types {
@@ -49,45 +56,51 @@ public class FeedController {
 	}
 
 	public void next(float deltaTime) {
-		currentTime+=deltaTime;
-		if(currentTime> NEXT_STEP) {
-			currentTime = 0;
-				
-			Size s = getSizeOfFeed();
-			int borderWidth = (int)(s.getWidth()/2);
-			Point p = gameField.getPointFromField(borderWidth);
-			
-			feed = createNextFeed(p,s);
+		for (int i = 0; i < currentTime.length; i++) {
+			currentTime[i] += deltaTime;
+			//System.out.println(timeLive[i]);
+		}
+		
+		for(int numberFeed =0; numberFeed< currentTime.length; numberFeed++) {
+			if(currentTime[numberFeed] > timeLive[numberFeed]) {
+				currentTime[numberFeed] = 0;
+				Size s = getSizeOfFeed();
+				int borderWidth = (int)(s.getWidth()/2);
+				Point p = gameField.getPointFromField(borderWidth);
+				feeds[numberFeed] = createNextFeed(p,s); 
+				timeLive[numberFeed] = GameRandom.nextFloat(MIN_TIME, MAX_TIME);
+			}
 		}
 	}
 
-	public Feed getFeed() {
-		return feed;
+	public Feed[] getFeeds() {
+		return feeds;
 	}
 
 	// Posible
 	public Feed eatFeed(Head head) {
 		Feed eatedFeed = null;
+		
+		for(int i =0;i< feeds.length;i++) {
+			if (feeds[i] != null) {
 
-		if (feed != null) {
-
-			// Еда считается седеной, кода центор головы змейки пападает в
-			// квадрат которым задается размер еды
-			Point hd = head.getPosition();
-			Point fPos = feed.getPosition();
-			Size fSiz = feed.getSize();
-			float halfSizeX = fSiz.getWidth() / 2;
-			float halfSizeY = fSiz.getHeight() / 2;
-			boolean isx = (fPos.getX() - halfSizeX) < hd.getX()
-					&& hd.getX() < (fPos.getX() + halfSizeX);
-			boolean isy = (fPos.getY() - halfSizeY) < hd.getY()
-					&& hd.getY() < (fPos.getY() + halfSizeY);
-			if (isx && isy) {
-				eatedFeed = feed;
-				feed = null;
+				// Еда считается седеной, кода центор головы змейки пападает в
+				// квадрат которым задается размер еды
+				Point hd = head.getPosition();
+				Point fPos = feeds[i].getPosition();
+				Size fSiz = feeds[i].getSize();
+				float halfSizeX = fSiz.getWidth() / 2;
+				float halfSizeY = fSiz.getHeight() / 2;
+				boolean isx = (fPos.getX() - halfSizeX) < hd.getX()
+						&& hd.getX() < (fPos.getX() + halfSizeX);
+				boolean isy = (fPos.getY() - halfSizeY) < hd.getY()
+						&& hd.getY() < (fPos.getY() + halfSizeY);
+				if (isx && isy) {
+					eatedFeed = feeds[i];
+					feeds[i] = null;
+				}
 			}
 		}
-
 		return eatedFeed;
 	}
 

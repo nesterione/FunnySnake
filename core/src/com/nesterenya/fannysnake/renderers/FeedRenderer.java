@@ -21,18 +21,20 @@ public class FeedRenderer {
 		
 	}
 	
-	public void render(Feed feed) {
-		if(feed!=null) {
-			batch.begin();
-			
-			float middlePointX = feed.getSize().getWidth()/2;
-			float middlePointY = feed.getSize().getHeight()/2;
-			float x = feed.getPosition().getX()-middlePointX;
-			float y = feed.getPosition().getY()-middlePointY;
-			
-			//TODO свой batchdraw для рисования относительно центра		
-			batch.draw(textures.get(feed.getName()), x,y , feed.getSize().getWidth(),feed.getSize().getHeight());
-			batch.end();
+	public void render(Feed[] feeds) {
+		for(Feed feed : feeds) {
+			if(feed!=null) {
+				batch.begin();
+				
+				float middlePointX = feed.getSize().getWidth()/2;
+				float middlePointY = feed.getSize().getHeight()/2;
+				float x = feed.getPosition().getX()-middlePointX;
+				float y = feed.getPosition().getY()-middlePointY;
+				
+				//TODO свой batchdraw для рисования относительно центра		
+				batch.draw(textures.get(feed.getName()), x,y , feed.getSize().getWidth(),feed.getSize().getHeight());
+				batch.end();
+			}
 		}
 	}
 }

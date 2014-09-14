@@ -200,7 +200,7 @@ snake.getHead().setWallChecer(new WallChecker() {
 		};
 		menu_btn.addListener(menuListener);
 		
-		resume_btn = new TextButton("Resume", st);
+		resume_btn = new TextButton("Start", st);
 		//TODO исправить опечатку
 		resume_btn.setPosition(FunnySnakeGame.getWorldWidth()/2-100, FunnySnakeGame.getWorlsHeight()/2-50);
 		resume_btn.setSize(200, 100);
@@ -269,7 +269,7 @@ snake.getHead().setWallChecer(new WallChecker() {
 		}
 		
 		snakeRenderer.render();
-		feedRenderer.render(feedController.getFeed());
+		feedRenderer.render(feedController.getFeeds());
 		decorationRenderer.render();
 		wallsRenderer.render();
 
