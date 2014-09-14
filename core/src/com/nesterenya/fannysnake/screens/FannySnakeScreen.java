@@ -16,6 +16,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -88,6 +90,8 @@ public class FannySnakeScreen implements Screen {
 		playStage.addActor(again_btn);
 		playStage.addActor(menu_btn);
 		playStage.addActor(resume_btn);
+		playStage.addActor(startLabel);
+		playStage.addActor(startLabel2);
 		
 		batch = new SpriteBatch();
 
@@ -161,6 +165,8 @@ snake.getHead().setWallChecer(new WallChecker() {
                 String newText = isPaused?"Play":"Pause";
                 pause_btn.setText(newText);
                 resume_btn.setVisible(isPaused);
+                startLabel.setVisible(isPaused);
+                startLabel2.setVisible(isPaused);
             };
 		};
 		
@@ -207,8 +213,20 @@ snake.getHead().setWallChecer(new WallChecker() {
 		resume_btn.addListener(pauseListener);
 		resume_btn.setVisible(isPaused);
 		
+		//keep device in horizontal position 
+		LabelStyle style = new LabelStyle(FunnySnakeGame.getInstance().font, new Color(0xE6B85CFF));
+		//style.fontColor = new Color(0x3c0b0bff);
+		startLabel = new Label("Keep device in horizontal position ", style);
+		startLabel.setPosition(180, 300);
+		startLabel.setVisible(isPaused);
+		
+		startLabel2 = new Label("Use accelerometer for snake control", style);
+		startLabel2.setPosition(160, 100);
+		startLabel2.setVisible(isPaused);
 	}
 	
+	Label startLabel;
+	Label startLabel2;
 	Texture scoreTx;
 	MotionControl control;
 	SpriteBatch batch;
@@ -283,36 +301,7 @@ snake.getHead().setWallChecer(new WallChecker() {
 		playStage.act(delta);
 		playStage.draw();
 	}
-/*
-	private void moveHeadIfPosiable() {
-		boolean isHitX = false;
-		boolean isHitY = false;
-		float offsetX = control.getOffsetX();
-		float offsetY = control.getOffsetY();
-		
-		if (!wallsController.checkPosiableMovingX(snake, offsetX)) {	
-			offsetX = 0;
-			isHitX = true;
-		}
 
-		if (!wallsController.checkPosiableMovingY(snake, offsetY)) {
-			offsetY = 0;
-			isHitY = true;
-		} 
-		
-		Point p = null;
-		try {
-			int idx = snake.getTail().getIndexOfBall(0);
-			int c_idx = snake.getTail().getPoints().length - idx;
-			p = snake.getTail().getPoints()[c_idx];
-		} catch(Exception ex) {p = snake.getHead().getPosition();}; 
-		
-		snake.getHead().moveHead(offsetX, offsetY, p);
-		if(isHitX||isHitY) {
-			hitOnWall();
-		}
-	}*/
-	
 	private void hitOnWall() {
 		snake.reactionOnWall(soundsPlayer);
 		GameContext.getInstance().score *= WallsController.HIT_FINE;

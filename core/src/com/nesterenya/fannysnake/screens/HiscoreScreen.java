@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nesterenya.fannysnake.FunnySnakeGame;
 import com.nesterenya.fannysnake.PlayStage;
 import com.nesterenya.fannysnake.PlayStage.OnHardKeyListener;
+import com.nesterenya.fannysnake.Storage;
 
 public class HiscoreScreen implements Screen {
 
@@ -69,16 +70,13 @@ public class HiscoreScreen implements Screen {
 		};
 		openMenu.addListener(exitClickListener);
 		
-		Label[] labels = new Label[10];
-		labels[0] = new Label("1. 23453", labelStyle);
-		labels[1] = new Label("2. 32464", labelStyle);
-		labels[2] = new Label("3. 45643646", labelStyle);
-		labels[3] = new Label("4. 345", labelStyle);
-		labels[4] = new Label("5. 456", labelStyle);
-		labels[5] = new Label("6. 456", labelStyle);
-		labels[6] = new Label("7. 456", labelStyle);
-		labels[7] = new Label("8. 456", labelStyle);
-	
+		Storage storage = new Storage();
+		int[] scores = storage.readScores();
+		Label[] labels = new Label[scores.length];
+		for(int i =0; i< scores.length; i++) {
+			labels[i] = new Label((i+1)+". "+scores[i], labelStyle);
+		}
+
 		table.add(new Label("Your high scores:", labelStyle));
 		table.row();
 		table.row();

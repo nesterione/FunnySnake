@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nesterenya.fannysnake.FunnySnakeGame;
 import com.nesterenya.fannysnake.PlayStage;
 import com.nesterenya.fannysnake.PlayStage.OnHardKeyListener;
+import com.nesterenya.fannysnake.Storage;
 
 public class GameOverScreen implements Screen {
 
@@ -30,6 +31,10 @@ public class GameOverScreen implements Screen {
 	private Viewport viewport;
 	
 	public GameOverScreen(String message, int score) {
+		
+		Storage storage = new Storage();
+		storage.addHighScore(score);
+		
 		camera = new OrthographicCamera();
 		camera.position.set(100, 100, 0);
 		camera.update();	

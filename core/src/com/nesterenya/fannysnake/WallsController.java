@@ -10,7 +10,7 @@ import com.nesterenya.fannysnake.core.Wall;
 
 public class WallsController {
 	
-	public final static float HIT_FINE = 0.95f;
+	public final static float HIT_FINE = 0.97f;
 	
 	private final List<Wall> walls;
 	
