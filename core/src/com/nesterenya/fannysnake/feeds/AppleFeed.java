@@ -16,7 +16,7 @@ public class AppleFeed extends Feed{
 	
 	@Override
 	public int getCost() {
-		return 100;
+		return 50;
 	}
 
 	@Override

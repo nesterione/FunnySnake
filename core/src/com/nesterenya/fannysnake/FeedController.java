@@ -7,7 +7,10 @@ import com.nesterenya.fannysnake.core.Head;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Size;
 import com.nesterenya.fannysnake.feeds.AppleFeed;
+import com.nesterenya.fannysnake.feeds.CoinFeed;
+import com.nesterenya.fannysnake.feeds.DiamondFeed;
 import com.nesterenya.fannysnake.feeds.Feed;
+import com.nesterenya.fannysnake.feeds.OrangeFeed;
 import com.nesterenya.fannysnake.feeds.PearFeed;
 
 public class FeedController {
@@ -39,7 +42,7 @@ public class FeedController {
 	}
 
 	enum types {
-		APPLE, PEAR
+		APPLE, PEAR, ORANGE, COIN, DIAMOND
 	};
 
 	public Feed createNextFeed(Point position, Size size) {
@@ -50,6 +53,12 @@ public class FeedController {
 			return new AppleFeed(position, size);
 		case PEAR:
 			return new PearFeed(position, size);
+		case ORANGE:
+			return new OrangeFeed(position, size);
+		case COIN:
+			return new CoinFeed(position, size);
+		case DIAMOND: 
+			return new DiamondFeed(position, size);
 		default: 
 			return new AppleFeed(position, size);
 		}

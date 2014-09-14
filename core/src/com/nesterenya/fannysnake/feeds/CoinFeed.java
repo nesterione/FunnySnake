@@ -3,25 +3,19 @@ package com.nesterenya.fannysnake.feeds;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Size;
 
-public class PearFeed extends Feed {
-
+public class CoinFeed extends Feed {
 	private final Point position;
 	private final Size size;
-	private final String name = "pear";
+	private final String name = "coin";
 	
-	public PearFeed(Point position, Size size) {
+	public CoinFeed(Point position, Size size) {
 		this.position = position;
 		this.size = size;
 	}
 	
 	@Override
 	public int getCost() {
-		return 75;
-	}
-
-	@Override
-	public String getName() {
-		return name;
+		return 300;
 	}
 
 	@Override
@@ -32,6 +26,11 @@ public class PearFeed extends Feed {
 	@Override
 	public Size getSize() {
 		return size;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 }

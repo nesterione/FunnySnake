@@ -18,6 +18,9 @@ public class FeedRenderer {
 		textures = new HashMap<String, Texture>();
 		textures.put("apple", new Texture("feed01.png"));
 		textures.put("pear", new Texture("feed02.png"));
+		textures.put("orange", new Texture("orange.png"));
+		textures.put("coin", new Texture("coin.png"));
+		textures.put("diamond", new Texture("diamond.png"));
 		
 	}
 	
