@@ -61,8 +61,12 @@ public class FannySnakeScreen implements Screen {
 		wallsController = new WallsController();
 
 		mp3Music = Gdx.audio
-				.newMusic(Gdx.files.internal("music/gametheme.mp3"));
-		mp3Music.play();
+				.newMusic(Gdx.files.internal("music/theme.mp3"));
+		mp3Music.setVolume(0.3f);
+		
+		mp3Music.setLooping(true);
+		
+		
 		sr = new ShapeRenderer();
 
 		backgr = new Texture("grassbg.jpg");
@@ -167,6 +171,12 @@ snake.getHead().setWallChecer(new WallChecker() {
                 resume_btn.setVisible(isPaused);
                 startLabel.setVisible(isPaused);
                 startLabel2.setVisible(isPaused);
+                
+                if(isPaused) {
+        			mp3Music.pause();
+        		} else {
+        			mp3Music.play();
+        		}
             };
 		};
 		
@@ -223,6 +233,13 @@ snake.getHead().setWallChecer(new WallChecker() {
 		startLabel2 = new Label("Use accelerometer for snake control", style);
 		startLabel2.setPosition(160, 100);
 		startLabel2.setVisible(isPaused);
+		
+		if(isPaused) {
+			mp3Music.pause();
+		} else {
+			mp3Music.play();
+		}
+		
 	}
 	
 	Label startLabel;

@@ -15,7 +15,7 @@ public class Tail {
 	int removingPoints = 0;
 	
 	float newLen = 0;
-	float borderLen = 30;
+	float borderLen = 34;
 	
 	float del = 2f;
 	

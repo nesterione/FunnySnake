@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.nesterenya.fannysnake.FunnySnakeGame;
 import com.nesterenya.fannysnake.feeds.Feed;
 
 public class FeedRenderer {
@@ -16,12 +17,19 @@ public class FeedRenderer {
 	public FeedRenderer(SpriteBatch batch) {
 		this.batch = batch;
 		textures = new HashMap<String, Texture>();
-		textures.put("apple", new Texture("feed01.png"));
-		textures.put("pear", new Texture("feed02.png"));
-		textures.put("orange", new Texture("orange.png"));
-		textures.put("coin", new Texture("coin.png"));
-		textures.put("diamond", new Texture("diamond.png"));
-		
+		if(FunnySnakeGame.isAnastasia) {
+			textures.put("apple", new Texture("f1.png"));
+			textures.put("pear", new Texture("f2.png"));
+			textures.put("orange", new Texture("f3.png"));
+			textures.put("coin", new Texture("f4.png"));
+			textures.put("diamond", new Texture("f5.png"));
+		} else {
+			textures.put("apple", new Texture("feed01.png"));
+			textures.put("pear", new Texture("feed02.png"));
+			textures.put("orange", new Texture("orange.png"));
+			textures.put("coin", new Texture("coin.png"));
+			textures.put("diamond", new Texture("diamond.png"));
+		}
 	}
 	
 	public void render(Feed[] feeds) {

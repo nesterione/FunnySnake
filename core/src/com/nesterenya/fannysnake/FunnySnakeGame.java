@@ -12,6 +12,7 @@ import com.nesterenya.fannysnake.screens.MainMenuScreen;
 
 public class FunnySnakeGame extends Game{
 
+	public static boolean isAnastasia = false;
 	private static final FunnySnakeGame INSTANCE = new FunnySnakeGame();
 	private static final int WORLD_WIDTH = 800;
 	private static final int WORLD_HEIGHT = 480;
@@ -43,7 +44,7 @@ public class FunnySnakeGame extends Game{
         
         this.setScreen(new MainMenuScreen());
         
-        menuSound = Gdx.audio.newSound(Gdx.files.internal("sounds/menu.wav"));
+        menuSound = Gdx.audio.newSound(Gdx.files.internal("sounds/piv.wav"));
     }
     
 	public static int getWorldWidth() {

@@ -8,6 +8,7 @@ import java.util.Map;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nesterenya.fannysnake.Field;
+import com.nesterenya.fannysnake.FunnySnakeGame;
 import com.nesterenya.fannysnake.GameRandom;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Size;
@@ -29,7 +30,12 @@ public class DecorationRenderer {
 	
 	public DecorationRenderer(SpriteBatch batch, Field gameField)	{
 		this.batch = batch;
-		grassTx = new Texture("grass01.png");
+		if(FunnySnakeGame.isAnastasia) {
+			grassTx = new Texture("flower.png");
+		} else {
+			grassTx = new Texture("grass01.png");
+		}
+		
 			
 		decorationTextures = new HashMap<String, Texture>();
 		decorationTextures.put("grass",grassTx);

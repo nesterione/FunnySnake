@@ -16,7 +16,7 @@ public class SoundsPlayer implements Disposable {
 		soundsMap = new HashMap<SOUNDS, Sound>();
 		soundsMap.put(SOUNDS.BITE, Gdx.audio.newSound(Gdx.files.internal("sounds/slime3r.wav")));
 		soundsMap.put(SOUNDS.BOOM, Gdx.audio.newSound(Gdx.files.internal("sounds/bom.wav")));
-		soundsMap.put(SOUNDS.OU, Gdx.audio.newSound(Gdx.files.internal("sounds/pain.mp3")));
+		soundsMap.put(SOUNDS.OU, Gdx.audio.newSound(Gdx.files.internal("sounds/ou.wav")));
 	}
 	
 	/*public void playOneTime(SOUNDS sou) {

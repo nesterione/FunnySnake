@@ -4,14 +4,22 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nesterenya.fannysnake.FunnySnakeGame;
@@ -27,11 +35,37 @@ public class MainMenuScreen implements Screen{
 	private Table table;
 	private LabelStyle labelStyle;
 	private OrthographicCamera camera;
+	private ImageButton nastiaButton;
+	private int counterNastia = 0;
 	
 	public MainMenuScreen() {
 
-		//stage = new Stage(new ScreenViewport());
+		Texture smileTx = new Texture("smile.png");
+		TextureRegion region = new TextureRegion(smileTx);
+		TextureRegionDrawable smile = new TextureRegionDrawable(region);
+		ButtonStyle bStyle = new ButtonStyle(smile, smile, smile);
+		ImageButtonStyle style = new ImageButtonStyle(bStyle);
+		counterNastia = 0;
+		nastiaButton = new ImageButton(style);
+		nastiaButton.setPosition(600, 300);
+		nastiaButton.setSize(76, 76);
+		nastiaButton.addListener(new ClickListener() {
+			@Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				FunnySnakeGame.getInstance().doMenuClickDown();
+                return true;
+            };
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            	counterNastia++;
+            	if(counterNastia>2) {
+            		FunnySnakeGame.getInstance().setScreen(new PassScreen());
+                	dispose();
+            	}
+            };
+		});
 		
+		//stage = new Stage(new ScreenViewport());
 		camera = new OrthographicCamera();
 		camera.position.set(100, 100, 0);
 		camera.update();	
@@ -122,6 +156,8 @@ public class MainMenuScreen implements Screen{
 		//stage.addActor(table);
 		playStage.addActor(table);
 
+		playStage.addActor(nastiaButton);
+		
 		//Gdx.input.setInputProcessor(stage);
 		Gdx.input.setInputProcessor(playStage);
 		Gdx.input.setCatchBackKey(true);
