@@ -1,5 +1,7 @@
 package com.nesterenya.fannysnake.screens;
 
+import java.awt.Font;
+
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -97,6 +99,10 @@ public class FannySnakeScreen implements Screen {
 		playStage.addActor(startLabel);
 		playStage.addActor(startLabel2);
 		
+		if(FunnySnakeGame.isAnastasia) {
+			playStage.addActor(anastasiaLabel);
+		}
+		
 		batch = new SpriteBatch();
 
 		snake = new Snake(new Point(200, 200));
@@ -171,6 +177,9 @@ snake.getHead().setWallChecer(new WallChecker() {
                 resume_btn.setVisible(isPaused);
                 startLabel.setVisible(isPaused);
                 startLabel2.setVisible(isPaused);
+                if(FunnySnakeGame.isAnastasia) {
+                	anastasiaLabel.setVisible(isPaused);
+                }
                 
                 if(isPaused) {
         			mp3Music.pause();
@@ -224,7 +233,7 @@ snake.getHead().setWallChecer(new WallChecker() {
 		resume_btn.setVisible(isPaused);
 		
 		//keep device in horizontal position 
-		LabelStyle style = new LabelStyle(FunnySnakeGame.getInstance().font, new Color(0xE6B85CFF));
+		LabelStyle style = new LabelStyle(FunnySnakeGame.getInstance().font, new Color(0x20c0ddff));
 		//style.fontColor = new Color(0x3c0b0bff);
 		startLabel = new Label("Keep device in horizontal position ", style);
 		startLabel.setPosition(180, 300);
@@ -234,6 +243,16 @@ snake.getHead().setWallChecer(new WallChecker() {
 		startLabel2.setPosition(160, 100);
 		startLabel2.setVisible(isPaused);
 		
+		LabelStyle style2 = new LabelStyle(style);
+		style2.fontColor = new Color(0xd60a3aff);
+		
+		
+		if(FunnySnakeGame.isAnastasia) {
+			anastasiaLabel = new Label("- It is version for Anastasia;) -", style2);
+			anastasiaLabel.setPosition(200, 400);
+			anastasiaLabel.setVisible(isPaused);
+		}
+		
 		if(isPaused) {
 			mp3Music.pause();
 		} else {
@@ -242,6 +261,7 @@ snake.getHead().setWallChecer(new WallChecker() {
 		
 	}
 	
+	Label anastasiaLabel;
 	Label startLabel;
 	Label startLabel2;
 	Texture scoreTx;

@@ -21,7 +21,7 @@ import com.nesterenya.fannysnake.PlayStage.OnHardKeyListener;
 
 public class PassScreen implements Screen{
 	private PlayStage playStage;
-	private TextButton openMenu;
+	
 	
 	private TextButton oneButton;
 	private TextButton twoButton;
@@ -72,7 +72,7 @@ public class PassScreen implements Screen{
 		table.setFillParent(true);
 		table.setSkin(new Skin());
 		
-		openMenu = new TextButton("Menu", buttonStyle);
+		 
 		
 		oneButton = new TextButton("1", buttonStyle);
 		twoButton = new TextButton("2", buttonStyle);
@@ -138,36 +138,19 @@ public class PassScreen implements Screen{
 		threeButton.addListener(threeClickListener);
 		fourButton.addListener(fourClickListener);
 		
-		ClickListener exitClickListener = new ClickListener() {
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				FunnySnakeGame.getInstance().doMenuClickDown();
-				return true;
-			};
-
-			@Override
-			public void touchUp(InputEvent event, float x, float y,
-					int pointer, int button) {
-				FunnySnakeGame.getInstance().setScreen(new MainMenuScreen());
-				dispose();
-			};
-		};
-		openMenu.addListener(exitClickListener);
+		 
+		 
 		
 		Label messageOne = new Label("Enter password!", labelStyle);
-		
 		
 		table.add(messageOne);
 		table.row();
 		table.add(oneButton);
-		table.row();
 		table.add(twoButton);
 		table.row();
 		table.add(threeButton);
-		table.row();
 		table.add(fourButton);
-		table.row();
-		table.add(openMenu);
+		
 	    
 		playStage.addActor(table);
 
@@ -187,7 +170,7 @@ public class PassScreen implements Screen{
 	
 	@Override
 	public void render(float delta) {
-		Gdx.gl20.glClearColor(0, 0.2f, 0, 1);
+		Gdx.gl20.glClearColor(0.1f, 0.4f, 0, 1);
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		playStage.act(delta);

@@ -168,7 +168,7 @@ public class MainMenuScreen implements Screen{
 		//batch.setProjectionMatrix(camera.projection);
 		//batch.setTransformMatrix(camera.view);
 		
-		Gdx.gl20.glClearColor(0, 0.2f, 0, 1);
+		Gdx.gl20.glClearColor(0.1f, 0.4f, 0, 1);
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		//stage.act(delta);
