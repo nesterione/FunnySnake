@@ -16,7 +16,4 @@ public class Wall {
 	public Point getPositionOfLeftDownPoint() {
 		return positionOfLeftDownPoint;
 	}
-	
-	//TODO все параметры хранить в SIZE - Лучше создать тип данных для конвертации размеров
-	
 }

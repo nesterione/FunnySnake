@@ -66,6 +66,4 @@ public class FunnySnakeGame extends Game{
 		font.dispose();
 		menuSound.dispose();
 	}
-
-
 }

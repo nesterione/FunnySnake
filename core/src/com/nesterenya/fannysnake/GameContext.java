@@ -19,6 +19,4 @@ public class GameContext {
 	public float disBetweenBalls = 30;
 	
 	public int score = 0;
-
-	
 }

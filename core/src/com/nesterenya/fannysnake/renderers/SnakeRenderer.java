@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nesterenya.fannysnake.FunnySnakeGame;
 import com.nesterenya.fannysnake.core.Head;
+import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Snake;
 import com.nesterenya.fannysnake.core.Tail;
 
@@ -79,9 +80,14 @@ public class SnakeRenderer {
 	private void drawTail() {
 		float rad = tail.getRadius();
 		for(int i = 0;i < tail.getSize()-2;i++) {
-			int idx = tail.getIndexOfBall(i);
-			int c_idx = tail.getPoints().length - idx;
-			batch.draw(getTexture(), tail.getPoints()[c_idx].getX()-rad, tail.getPoints()[c_idx].getY()-rad);
+			//int idx = tail.getIndexOfBall(i);
+			//int c_idx = tail.getPoints().length - idx;
+			//batch.draw(getTexture(), tail.getPoints()[c_idx].getX()-rad, tail.getPoints()[c_idx].getY()-rad);
+			Point p = tail.getTailPointFromHead(i);
+			//int idx = tail.getIndexOfBall(i);
+			//int c_idx = tail.getPoints().length - idx;
+			batch.draw(getTexture(), p.getX() - rad, p.getY() -rad);
+		
 		}
 		
 		drawEndOfTail();
@@ -95,21 +101,19 @@ public class SnakeRenderer {
 		
 		if(tail.getSize()>=2) {
 			int ii = tail.getSize()-2;
-			int idx = tail.getIndexOfBall(ii);
-			int c_idx = tail.getPoints().length - idx;
+			Point p1 = tail.getTailPointFromHead(ii);
 			batch.draw(getTexture(), 
-					tail.getPoints()[c_idx].getX()-preLastR, 
-					tail.getPoints()[c_idx].getY()-preLastR,
+					p1.getX()-preLastR, 
+					p1.getY()-preLastR,
 					preLastR*2.0f,preLastR*2.0f);
 				ii++;
-				idx = tail.getIndexOfBall(ii);
-				c_idx = tail.getPoints().length - idx;
-				batch.draw(getTexture(), 
-						tail.getPoints()[c_idx].getX()-lastR, 
-						tail.getPoints()[c_idx].getY()-lastR,
-						lastR*2.0f,lastR*2.0f);
 				
-				}
+			Point p2 = tail.getTailPointFromHead(ii);
+			batch.draw(getTexture(), 
+					p2.getX()-lastR, 
+					p2.getY()-lastR,
+					lastR*2.0f,lastR*2.0f);	
+			}
 		
 		//TODO 
 		active = 0;

@@ -1,8 +1,5 @@
 package com.nesterenya.fannysnake;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.nesterenya.fannysnake.core.Head;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Size;

@@ -25,7 +25,7 @@ public class MobileControl  implements MotionControl{
 
 	@Override
 	public void update(float time) {
-		
+
 		float mX = Gdx.input.getAccelerometerY()* speed*time*kafSlowly;
 		float mY = Gdx.input.getAccelerometerX()* speed*time*kafSlowly;
 		

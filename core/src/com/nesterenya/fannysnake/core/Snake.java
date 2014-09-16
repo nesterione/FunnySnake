@@ -8,9 +8,6 @@ public class Snake{
 	private Head head;
 	private Tail tail;
 	
-		
-	
-	
 	public Snake(Point initHeadPosition) {
 		head = new Head(initHeadPosition, 0);
 		tail = new Tail();

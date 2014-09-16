@@ -3,12 +3,34 @@ package com.nesterenya.fannysnake.core;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
+
+import com.nesterenya.fannysnake.DoubleList;
 
 //TODO refactor this class
 public class Tail {
 	 
-    private Deque<Point> tailPoints = new ArrayDeque<Point>();
+		DoubleList<Point> tailPoints = new DoubleList<Point>();
+		//List<Point> tailPoints = new ArrayList<Point>(256);
+		
+		public void removeFirst() {
+			tailPoints.removeFirst();
+		}
+		
+		public Point getLast() {
+			return tailPoints.getLast();
+		}
+		
+		public void addLast(Point p) {
+			tailPoints.addLast(p);
+		}
+		
+		public Point get(int i) {
+			return tailPoints.get(i);
+		}    
+    
+    
 	private List<Integer> indexesBigBalls = new ArrayList<Integer>();
 	// Start size of tail 2 balls
 	int addingPoints = 2;
@@ -20,8 +42,9 @@ public class Tail {
 	float del = 2f;
 	
 	public Tail() {
+		
 	}
-	//TODO ������� �� �������
+	
 	public float getRadius() {
 		return 25;
 	}
@@ -41,62 +64,70 @@ public class Tail {
 		}
 	}
 	
-	public Point[] getPoints() {	
-		Point[] f = tailPoints.toArray(new Point[tailPoints.size()]);
-		
-		return f;
+	
+	
+	public Point getTailPointFromHead(int number) {
+		int idx = getIndexOfBall(number);
+		int c_idx =tailPoints.size() - idx;
+		Point p = get(c_idx); 
+		return p;
 	}
 	
-	//TODO ���-�� ���, ����������� �� ��������, ������� ��������� ����� ��������
+	private void removeBigPoint() {
+		Integer pre = indexesBigBalls.get(indexesBigBalls.size()-2);
+		
+		while(tailPoints.size()> pre) {
+			removeFirst();
+		}		
+		
+		indexesBigBalls.remove(indexesBigBalls.size()-1);
+		removingPoints--;
+	}
+	
+	private void addBigPoint(Point nextPos) {
+		if(tailPoints.size()==0) {
+			addLast(nextPos);
+		} else {
+						
+			Point last = getLast();
+			addLast(nextPos);
+			
+			float a = last.getX() - nextPos.getX();
+			float b = last.getY() - nextPos.getY();
+			float c = (float)Math.sqrt(a*a+b*b);
+			
+			newLen+= c;
+				
+			addLast(nextPos);
+			
+			if(newLen>borderLen) {
+				newLen = 0;
+				indexesBigBalls.add(tailPoints.size()-1);
+				addingPoints--;
+			}
+		}
+	}
+	
 	public void moveTail(Point nextPos) {
 		
-		if(removingPoints>0) {
-			Integer pre = indexesBigBalls.get(indexesBigBalls.size()-2);
-			
-			while(tailPoints.size()> pre) {
-				tailPoints.removeFirst();
-			}		
-			indexesBigBalls.remove(indexesBigBalls.size()-1);
-			removingPoints--;
-		}
-		
+		//Пропустить если смещение слишком маленькое
 		if(tailPoints.size()!=0) {
-			float aa = nextPos.getX() - tailPoints.getLast().getX();
-			float bb = nextPos.getY() - tailPoints.getLast().getY();
-			
-			if((Math.abs(aa)<del)&&(Math.abs(bb)<del)) {
-				return;
-			}
+			float aa = nextPos.getX() - getLast().getX();
+			float bb = nextPos.getY() - getLast().getY();
+			float dist = (float)Math.sqrt(aa*aa + bb*bb);
+			if(dist<del) return;
 		}
 		
+		if(removingPoints>0) {
+			removeBigPoint();
+		}
+
 		if(addingPoints>0) {
-			
-			if(tailPoints.size()==0) {
-				tailPoints.addLast(nextPos);
-			} else {
-							
-				Point last = tailPoints.getLast();
-				tailPoints.addLast(nextPos);
-				
-				float a = last.getX() - nextPos.getX();
-				float b = last.getY() - nextPos.getY();
-				float c = (float)Math.sqrt(a*a+b*b);
-				
-				newLen+= c;
-					
-				tailPoints.addLast(nextPos);
-				
-				if(newLen>borderLen) {
-					newLen = 0;
-					indexesBigBalls.add(tailPoints.size()-1);
-					addingPoints--;
-				}
-			}
-			
+			addBigPoint(nextPos);
 		} else {
 			if(tailPoints.size()!=0) {
 				
-				Point p1 = tailPoints.getLast();
+				Point p1 = getLast();
 				Point p2 = nextPos;
 				float a = p1.getX() - p2.getX();
 				float b = p1.getY() - p2.getY();
@@ -110,31 +141,16 @@ public class Tail {
 				
 				for(int i = 0; i < border; i++ ) {
 					
-					Point pp = tailPoints.getLast();
+					Point pp = getLast();
 					Point newP = new Point(pp.getX() + stepX, pp.getY() + stepY);
 					
-					tailPoints.removeFirst();
-					tailPoints.addLast(newP);
+					removeFirst();
+					addLast(newP);
 				}
-				
-				
 			}
 		}
 	}
-	
-	public Point getLastPoint() {
-		//TODO ���� ������ ����� ������
-		//TODO ��������������
-		if(tailPoints.size()>=2) {
-			Point p = tailPoints.pollLast();
-			Point preLast = tailPoints.getLast();
-			tailPoints.addLast(p);
-			return preLast;
-		} else {
-			return tailPoints.getLast();
-		}	
-	}
-	
+		
 	public int getSize() {
 		return indexesBigBalls.size();
 	}
@@ -147,21 +163,22 @@ public class Tail {
 	//TODO REFAX
 	public boolean isPointCrossTail(Point hd, Size siz) {
 		boolean isFound = false;	
-		Point[] points = getPoints();
+		//Point[] points = getPoints();
 	
 		for(int i = 2; i < getSize()-1&&!isFound; i++) {
 			
-			int idx = getIndexOfBall(i);
-			int c_idx = getPoints().length - idx;
+			//int idx = getIndexOfBall(i);
+			//int c_idx = getPoints().length - idx;
+			Point p = getTailPointFromHead(i);
 			
-			float posX = points[c_idx].getX();
-			float posY = points[c_idx].getY();
+			float posX = p.getX();
+			float posY = p.getY();
 			if( ((hd.getX()+siz.getWidth()/4)>posX&&((hd.getX())<posX+siz.getWidth()/4))&& ((hd.getY()+siz.getHeight()/4)>posY&&((hd.getY())<posY+siz.getHeight()/4))) {
 				isFound=true;
 				
 			}
 		}
-		
 		return isFound;
 	}
+	
 }

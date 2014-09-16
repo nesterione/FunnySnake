@@ -1,7 +1,5 @@
 package com.nesterenya.fannysnake.screens;
 
-import java.awt.Font;
-
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -150,6 +148,8 @@ snake.getHead().setWallChecer(new WallChecker() {
 		});
 	}
 	
+	
+	
 	private void setButtons(BitmapFont bitFont) {
 		
 		TextButtonStyle st = new TextButtonStyle(imgBtn, imgBtn, imgBtn, bitFont);
@@ -296,16 +296,16 @@ snake.getHead().setWallChecer(new WallChecker() {
 	WallsRenderer wallsRenderer;
 	DecorationRenderer decorationRenderer;
 
-	// Array<Viewport> viewports;
 	Viewport viewport;
 
 	private OrthographicCamera camera;
-
-	
-	//TODO блочить движение змейки, определять на какой угол осуществляется поворот, и запрещать сделать большой поворот
-	
+			
 	@Override
 	public void render(float delta) {
+		
+		
+		
+		
 		batch.setProjectionMatrix(camera.projection);
 		batch.setTransformMatrix(camera.view);
 		
@@ -323,6 +323,8 @@ snake.getHead().setWallChecer(new WallChecker() {
 			logicStep(delta);
 		}
 		
+		
+		
 		snakeRenderer.render();
 		feedRenderer.render(feedController.getFeeds());
 		decorationRenderer.render();
@@ -333,6 +335,7 @@ snake.getHead().setWallChecer(new WallChecker() {
 		font.draw(batch,
 			Integer.toString(GameContext.getInstance().score),
 				110, FunnySnakeGame.getWorlsHeight()-3);
+
 		batch.end();
 		
 		playStage.act(delta);
@@ -357,9 +360,7 @@ snake.getHead().setWallChecer(new WallChecker() {
 		float offsetY = control.getOffsetY();
 		Point p = null;
 		try {
-			int idx = snake.getTail().getIndexOfBall(0);
-			int c_idx = snake.getTail().getPoints().length - idx;
-			p = snake.getTail().getPoints()[c_idx];
+			p = snake.getTail().getTailPointFromHead(0);
 		} catch(Exception ex) {p = snake.getHead().getPosition();}; 
 		snake.getHead().moveHead(offsetX, offsetY, p);
 		//moveHeadIfPosiable();

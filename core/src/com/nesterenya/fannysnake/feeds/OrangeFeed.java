@@ -33,6 +33,4 @@ public class OrangeFeed extends Feed{
 	public String getName() {
 		return name;
 	}
-
-
 }
