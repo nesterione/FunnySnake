@@ -46,6 +46,7 @@ import com.nesterenya.fannysnake.renderers.WallsRenderer;
 public class FannySnakeScreen implements Screen {
 
 	public FannySnakeScreen() {
+		FunnySnakeGame.getInstance().getHandler().showAds(true);
 		GameContext.getInstance().score = 0;
 
 		batch = new SpriteBatch();
@@ -183,8 +184,10 @@ snake.getHead().setWallChecer(new WallChecker() {
                 
                 if(isPaused) {
         			mp3Music.pause();
+        			FunnySnakeGame.getInstance().getHandler().showAds(true);
         		} else {
         			mp3Music.play();
+        			FunnySnakeGame.getInstance().getHandler().showAds(false);
         		}
             };
 		};

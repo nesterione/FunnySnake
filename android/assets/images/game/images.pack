@@ -7,15 +7,15 @@ repeat: none
 button-down
   rotate: false
   xy: 2, 2
-  size: 270, 123
-  orig: 270, 123
+  size: 270, 90
+  orig: 270, 90
   offset: 0, 0
   index: -1
 button-up
   rotate: false
   xy: 274, 2
-  size: 270, 123
-  orig: 270, 123
+  size: 270, 90
+  orig: 270, 90
   offset: 0, 0
   index: -1
 level-down

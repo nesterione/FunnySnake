@@ -53,7 +53,7 @@ public class Storage {
 		return num;
 	}
 	
-	private final static int COUNT_SCORES = 8;
+	private final static int COUNT_SCORES = 6;
 	public int[] readScores() {
 		int[] scores = new int[COUNT_SCORES];
 		

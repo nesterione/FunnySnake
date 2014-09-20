@@ -31,7 +31,7 @@ public class GameOverScreen implements Screen {
 	private Viewport viewport;
 	
 	public GameOverScreen(String message, int score) {
-		
+		FunnySnakeGame.getInstance().getHandler().showAds(true);
 		Storage storage = new Storage();
 		storage.addHighScore(score);
 		

@@ -30,6 +30,7 @@ public class LevelsScreen implements Screen {
 	private Viewport viewport;
 	
 	public LevelsScreen() {
+		FunnySnakeGame.getInstance().getHandler().showAds(true);
 		camera = new OrthographicCamera();
 		camera.position.set(100, 100, 0);
 		camera.update();	

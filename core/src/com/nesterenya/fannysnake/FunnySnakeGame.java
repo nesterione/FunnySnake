@@ -8,10 +8,21 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.nesterenya.fannysnake.manage.IActivityRequestHandler;
 import com.nesterenya.fannysnake.screens.MainMenuScreen;
 
 public class FunnySnakeGame extends Game{
 
+	private IActivityRequestHandler myRequestHandler;
+
+    public IActivityRequestHandler getHandler() {
+    	return myRequestHandler;
+    }
+    
+    public void init(IActivityRequestHandler handler) {
+    	myRequestHandler = handler;
+    }
+	
 	public static boolean isAnastasia = false;
 	private static final FunnySnakeGame INSTANCE = new FunnySnakeGame();
 	private static final int WORLD_WIDTH = 800;
@@ -24,9 +35,7 @@ public class FunnySnakeGame extends Game{
 		FunnySnakeGame.getInstance().menuSound.play();
 	}
 	
-	private FunnySnakeGame() {
-		
-	}
+	
 	
 	public static FunnySnakeGame getInstance() {
 		return INSTANCE;

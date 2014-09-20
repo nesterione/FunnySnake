@@ -2,5 +2,5 @@
 <resources>
 
     <string name="app_name">Fanny Snake</string>
-
+	<string name="admob_publisher_id">ca-app-pub-9121550858126906/6966848875</string>
 </resources>

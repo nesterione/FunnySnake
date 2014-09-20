@@ -50,6 +50,7 @@ public class PassScreen implements Screen{
 	}
 	
 	public PassScreen() {
+		FunnySnakeGame.getInstance().getHandler().showAds(false);
 		camera = new OrthographicCamera();
 		camera.position.set(100, 100, 0);
 		camera.update();	

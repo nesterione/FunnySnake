@@ -2,6 +2,7 @@ package com.nesterenya.fannysnake.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -40,6 +41,8 @@ public class MainMenuScreen implements Screen{
 	
 	public MainMenuScreen() {
 
+		FunnySnakeGame.getInstance().getHandler().showAds(false);
+		
 		Texture smileTx = new Texture("smile.png");
 		TextureRegion region = new TextureRegion(smileTx);
 		TextureRegionDrawable smile = new TextureRegionDrawable(region);
@@ -145,7 +148,8 @@ public class MainMenuScreen implements Screen{
 		};
 		exit.addListener(exitClickListener);
 		
-		
+		table.add();
+		table.row();
 		table.add(play);
 		table.row();
 		table.add(hiscore);
@@ -153,6 +157,14 @@ public class MainMenuScreen implements Screen{
 		table.add(levels);
 		table.row();
 		table.add(exit);
+		table.row();
+		
+		//TODO убрать пустую кнопку
+		//table.add(new TextButton("", buttonStyle));
+		
+		//table.setCenterPosition(0	, 40);
+		
+		
 		//stage.addActor(table);
 		playStage.addActor(table);
 
@@ -161,10 +173,15 @@ public class MainMenuScreen implements Screen{
 		//Gdx.input.setInputProcessor(stage);
 		Gdx.input.setInputProcessor(playStage);
 		Gdx.input.setCatchBackKey(true);
+		
+		FunnySnakeGame.getInstance().getHandler().showAds(true);
+		
+		
 	}
 	
 	@Override
 	public void render(float delta) {
+		
 		//batch.setProjectionMatrix(camera.projection);
 		//batch.setTransformMatrix(camera.view);
 		
