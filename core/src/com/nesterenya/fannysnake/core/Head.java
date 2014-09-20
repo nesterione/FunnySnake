@@ -69,7 +69,7 @@ public class Head {
 	public void moveHead(float deltaX, float deltaY, Point tail) {
 		Point nPos = new Point(position.getX() + deltaX, position.getY() + deltaY);
 		Point hPos = position;
-		float r1 = calcDistance( hPos, tail);
+		/*float r1 = calcDistance( hPos, tail);
 		float r2 = calcDistance( nPos, tail);
 		
 		if(r2 < r1) {
@@ -78,7 +78,7 @@ public class Head {
 			} else {
 				nPos = new Point(hPos.getX() + deltaY, hPos.getY() + deltaY*0.3f);
 			}
-		}
+		}*/
 		
 		int ch = checker.check(deltaX, deltaY);
 		if(ch==1) {
