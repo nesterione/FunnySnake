@@ -63,9 +63,7 @@ public class Tail {
 			//TODO dead snake show message
 		}
 	}
-	
-	
-	
+		
 	public Point getTailPointFromHead(int number) {
 		int idx = getIndexOfBall(number);
 		int c_idx =tailPoints.size() - idx;
