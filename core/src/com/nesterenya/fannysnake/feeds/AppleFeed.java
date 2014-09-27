@@ -34,4 +34,9 @@ public class AppleFeed extends Feed{
 		return name;
 	}
 
+	@Override
+	public int grow() {
+		return 1;
+	}
+
 }

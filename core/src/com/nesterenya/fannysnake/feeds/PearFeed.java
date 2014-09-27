@@ -34,4 +34,8 @@ public class PearFeed extends Feed {
 		return size;
 	}
 
+	@Override
+	public int grow() {
+		return 0;
+	}
 }

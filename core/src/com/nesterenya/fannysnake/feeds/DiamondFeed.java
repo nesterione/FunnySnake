@@ -32,4 +32,9 @@ public class DiamondFeed extends Feed{
 	public String getName() {
 		return name;
 	}
+	
+	@Override
+	public int grow() {
+		return 0;
+	}
 }

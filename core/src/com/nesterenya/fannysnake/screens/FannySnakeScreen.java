@@ -38,6 +38,7 @@ import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Snake;
 import com.nesterenya.fannysnake.core.WallChecker;
 import com.nesterenya.fannysnake.feeds.Feed;
+import com.nesterenya.fannysnake.feeds.StoneFeed;
 import com.nesterenya.fannysnake.renderers.DecorationRenderer;
 import com.nesterenya.fannysnake.renderers.FeedRenderer;
 import com.nesterenya.fannysnake.renderers.SnakeRenderer;
@@ -326,11 +327,10 @@ snake.getHead().setWallChecer(new WallChecker() {
 			logicStep(delta);
 		}
 		
-		
-		
-		snakeRenderer.render();
-		feedRenderer.render(feedController.getFeeds());
 		decorationRenderer.render();
+		snakeRenderer.render();
+		
+		feedRenderer.render(feedController.getFeeds());
 		wallsRenderer.render();
 
 		batch.begin();
@@ -347,7 +347,11 @@ snake.getHead().setWallChecer(new WallChecker() {
 
 	private void hitOnWall() {
 		snake.reactionOnWall(soundsPlayer);
-		GameContext.getInstance().score *= WallsController.HIT_FINE;
+		if(GameContext.getInstance().score>=0){
+			GameContext.getInstance().score *= WallsController.HIT_FINE;
+		} else {
+			GameContext.getInstance().score *=1+(1- WallsController.HIT_FINE);
+		}
 	}
 	
 	private void logicStep(float delta) {
@@ -374,22 +378,27 @@ snake.getHead().setWallChecer(new WallChecker() {
 		feedController.next(Gdx.graphics.getDeltaTime());
 		
 		// TODO разделить метод на 2 и релализовать контроллер для управления
-				// этим
-				Feed feed = feedController.eatFeed(snake.getHead());
-				if (feed !=null) {
-					soundsPlayer.play(SOUNDS.BITE);
-					GameContext.getInstance().score += feed.getCost();
-					snake.getTail().increase();
-				}
-
-				if (snake.getTail().isPointCrossTail(snake.getHead().getPosition(),
-						snake.getHead().getSize())) {
-					//GameContext.getInstance().score = -50;
-					//TODO звук в GameOverScreen при запуске
-					//soundsPlayer.play(SOUNDS.OU);
-					FunnySnakeGame.getInstance().setScreen(new GameOverScreen("You bit yourself", GameContext.getInstance().score));
-					dispose();
-				}
+		// этим
+		Feed feed = feedController.eatFeed(snake.getHead());
+		if (feed !=null) {
+			soundsPlayer.play(SOUNDS.BITE);
+			GameContext.getInstance().score += feed.getCost();
+			snake.getTail().grow(feed.grow());
+			
+			if(feed instanceof StoneFeed) {
+				soundsPlayer.play(SOUNDS.OU);
+			}
+			//snake.getTail().increase();
+		}
+		
+		if (snake.getTail().isPointCrossTail(snake.getHead().getPosition(),
+			snake.getHead().getSize())) {
+			//GameContext.getInstance().score = -50;
+			//TODO звук в GameOverScreen при запуске
+			//soundsPlayer.play(SOUNDS.OU);
+			FunnySnakeGame.getInstance().setScreen(new GameOverScreen("You bit yourself", GameContext.getInstance().score));
+			dispose();
+		}
 	}
 	
 	public void resize(int width, int height) { 

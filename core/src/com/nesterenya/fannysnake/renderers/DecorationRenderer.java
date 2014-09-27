@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nesterenya.fannysnake.Field;
 import com.nesterenya.fannysnake.FunnySnakeGame;
 import com.nesterenya.fannysnake.GameRandom;
+import com.nesterenya.fannysnake.core.Head;
 import com.nesterenya.fannysnake.core.Point;
 import com.nesterenya.fannysnake.core.Size;
 import com.nesterenya.fannysnake.decorations.Decoration;
@@ -22,11 +23,11 @@ public class DecorationRenderer {
 	private final int MIN_SIZE = 40;
 	private final int MAX_SIZE = 80;
 	
-
-	
 	private SpriteBatch batch;
 	
 	private Map<String, Texture> decorationTextures;
+	
+	
 	
 	public DecorationRenderer(SpriteBatch batch, Field gameField)	{
 		this.batch = batch;

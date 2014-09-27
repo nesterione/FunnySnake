@@ -119,7 +119,7 @@ public class MainMenuScreen implements Screen{
 		};
 		hiscore.addListener(hiscoreClickListener);
 		
-		levels = new TextButton("Missons", buttonStyle);
+		levels = new TextButton("Missions", buttonStyle);
 		ClickListener levelsClickListener = new ClickListener() {
 			@Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

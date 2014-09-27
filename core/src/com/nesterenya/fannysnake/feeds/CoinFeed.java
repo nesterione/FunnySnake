@@ -33,4 +33,8 @@ public class CoinFeed extends Feed {
 		return name;
 	}
 
+	@Override
+	public int grow() {
+		return 0;
+	}
 }

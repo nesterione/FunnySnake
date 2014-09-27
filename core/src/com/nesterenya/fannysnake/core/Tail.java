@@ -49,20 +49,29 @@ public class Tail {
 		return 25;
 	}
 	
+	public void grow(int c) {
+		if(c>0) {
+			addingPoints+=c;
+		}
+		if(c < 0) {
+			if((indexesBigBalls.size()+c)>=2) {
+				removingPoints-=c;
+			} else {
+				//TODO dead snake show message
+			}
+		}
+	}
+	
 	/**
 	 * Add ball to tail
 	 */
-	public void increase() {
+	/*public void increase() {
 		addingPoints++;
 	}
-	
-	public void reduction() {
-		if(indexesBigBalls.size()>2) {
-			removingPoints++;
-		} else {
-			//TODO dead snake show message
-		}
-	}
+	*/
+	/*public void reduction() {
+		
+	}*/
 		
 	public Point getTailPointFromHead(int number) {
 		int idx = getIndexOfBall(number);

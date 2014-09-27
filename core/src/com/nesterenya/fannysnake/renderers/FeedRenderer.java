@@ -17,19 +17,24 @@ public class FeedRenderer {
 	public FeedRenderer(SpriteBatch batch) {
 		this.batch = batch;
 		textures = new HashMap<String, Texture>();
+		
 		if(FunnySnakeGame.isAnastasia) {
 			textures.put("apple", new Texture("f1.png"));
 			textures.put("pear", new Texture("f2.png"));
 			textures.put("orange", new Texture("f3.png"));
 			textures.put("coin", new Texture("f4.png"));
 			textures.put("diamond", new Texture("f5.png"));
+			textures.put("stone", new Texture("stone.png"));
 		} else {
 			textures.put("apple", new Texture("feed01.png"));
 			textures.put("pear", new Texture("feed02.png"));
 			textures.put("orange", new Texture("orange.png"));
 			textures.put("coin", new Texture("coin.png"));
 			textures.put("diamond", new Texture("diamond.png"));
+			textures.put("stone", new Texture("stone.png"));
 		}
+
+		
 	}
 	
 	public void render(Feed[] feeds) {
